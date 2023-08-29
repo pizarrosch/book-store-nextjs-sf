@@ -1,0 +1,52 @@
+$font-family: 'Montserrat', sans-serif;
+
+@mixin font($font-size, $font-weight) {
+  font-size: $font-size;
+  font-weight: $font-weight;
+}
+
+.root {
+  display: flex;
+  gap: 200px;
+
+  .nav {
+    @include font(10px, 700);
+    text-transform: uppercase;
+    display: flex;
+    gap: 40px;
+
+    li {
+      list-style-type: none;
+
+      :hover {
+        color: #4C3DB2;
+      }
+    }
+  }
+
+  .accountActionsMenu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 62px;
+
+    img {
+      cursor: pointer;
+    }
+
+    .itemsNumber {
+      display: none;
+      position: absolute;
+      background-color: #FF353A;
+      border-radius: 50%;
+      width: 13px;
+      height: 13px;
+      @include font(10px, 500);
+      color: white;
+      text-align: center;
+      right: -4px;
+      bottom: -4px;
+    }
+  }
+}
+

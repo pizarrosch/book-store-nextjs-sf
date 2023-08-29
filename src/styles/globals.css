@@ -1,0 +1,9 @@
+html,
+body {
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    width: 1440px;
+    margin: 0 auto;
+    position: relative;
+    scroll-behavior: smooth;
+}

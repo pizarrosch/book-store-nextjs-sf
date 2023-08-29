@@ -1,0 +1,60 @@
+.banner {
+  position: relative;
+  width: 1122px;
+  height: 702px;
+
+  .image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    background-repeat: no-repeat;
+  }
+}
+
+.bookChangeBox,
+.topBooksBox {
+  position: absolute;
+  width: 149px;
+  height: 204px;
+  background-color: #9E98DC;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 0 20px 20px 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
+  text-transform: uppercase;
+  right: 70px;
+  top: 200px;
+  cursor: pointer;
+}
+
+.topBooksBox {
+  width: 137px;
+  height: 273px;
+  background-color: #FF8FE6;
+  right: 0;
+  top: 490px;
+  padding: 0 47px 20px 21px;
+}
+
+.dotsContainer {
+  display: flex;
+  gap: 10px;
+  margin-top: 17px;
+
+  .dot {
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    background-color: #EFEEF6;
+    cursor: pointer;
+  }
+
+  .violet {
+    background-color: #9E98DC;
+  }
+}

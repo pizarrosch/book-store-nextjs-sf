@@ -1,0 +1,40 @@
+.mainContainer {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  background-color: white;
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  width: 1120px;
+  margin-left: 159px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  justify-self: center;
+  gap: 70px;
+
+  .header_content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-self: center;
+    width: 1120px;
+  }
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+    h2 {
+      display: inline-block;
+    }
+}
+
+
+
