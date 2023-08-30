@@ -1,0 +1,89 @@
+.booksContainer {
+  display: flex;
+  position: relative;
+  gap: 75px;
+  flex-wrap: wrap;
+  width: 923px;
+  margin-top: 160px;
+  margin-left: -50px;
+  justify-content: center;
+
+  .book {
+    display: flex;
+    gap: 36px;
+
+    .bookCover {
+      width: 212px;
+      height: 287px;
+    }
+
+    .book_bookInformation {
+      display: flex;
+      flex-direction: column;
+      width: 176px;
+      justify-content: center;
+      margin-bottom: 50px;
+
+      .bookDescription, .author {
+        text-transform: capitalize;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 10px;
+        font-weight: 400;
+      }
+
+      .bookDescription {
+        display: -webkit-box;
+        margin-bottom: 16px;
+        margin-top: 16px;
+        -webkit-line-clamp: 3;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .author {
+        margin-bottom: 4px;
+      }
+
+      .title {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0 0 5px 0;
+      }
+
+      .price {
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+    }
+
+    .ratingsWrapper {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+
+      .rating {
+        display: flex;
+        gap: 1px;
+      }
+
+      span {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 10px;
+        font-weight: 400;
+      }
+    }
+  }
+  .button {
+    width: 176px;
+    height: 45px;
+    border: 1px #4C3DB2 solid;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #4C3DB2;
+    background-color: transparent;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,26 @@
+.root {
+  display: flex;
+  justify-content: center;
+  background-color: #EFEEF6;
+  width: 416px;
+  margin-top: 105px;
+  margin-bottom: 90px;
+  align-self: flex-start;
+  padding: 45px 0 58px 0;
+  box-sizing: border-box;
+  font-size: 12px;
+  font-weight: 500;
+
+  .categoriesList > li {
+    list-style: none;
+    margin-bottom: 23px;
+    cursor: pointer;
+  }
+
+  .categoriesList > .chosenCategory {
+    font-size: 16px;
+    font-weight: 700;
+    list-style: disc;
+  }
+}
+
