@@ -22,7 +22,7 @@ export default function Slider() {
     }
 
     return (
-        <>
+        <div className={s.root}>
             <div className={s.banner}>
                 <Image src={banner} alt='banner' className={s.image}/>
                 <Image src={banner2} alt='banner2' className={s.image}/>
@@ -49,6 +49,6 @@ export default function Slider() {
                     }
                 )}
             </div>
-        </>
+        </div>
     )
 }
