@@ -1,9 +1,10 @@
 import s from './Books.module.scss';
-import {useEffect, useState} from "react";
+import {Dispatch, SetStateAction, useContext, useEffect, useState} from "react";
 import noCoverBook from '../../../public/assets/no-cover.jpg';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
 import Image from "next/image";
+import {addedBookCtx} from "@/pages";
 
 const API_KEY: string = 'AIzaSyDNqOURIAkd6F9DFzmyw2L688i7-_tIlSo';
 
@@ -28,7 +29,7 @@ type volumeInfo = {
     description: string,
 }
 
-type bookData = {
+export type bookData = {
     id: number,
     volumeInfo: volumeInfo,
     saleInfo: TSaleInfo
@@ -38,10 +39,13 @@ type TBookCategory = {
     category: string
 }
 
+const addedBooks: bookData[] = [];
+
 function Books({category}: TBookCategory) {
 
     const [books, setBooks] = useState<Array<bookData>>([]);
     const [initialIndex, setInitialIndex] = useState(6);
+    const [cart, setCart] = useState<Array<bookData>>([]);
 
     function fetchBooks() {
         fetch(`https://www.googleapis.com/books/v1/volumes?q="subject:${category}"&key=${API_KEY}&printType=books&startIndex=${initialIndex}&maxResults=6&langRestrict=en`)
@@ -57,6 +61,11 @@ function Books({category}: TBookCategory) {
     useEffect(() => {
         fetchBooks();
     }, [category]);
+
+    function onBuyClick() {
+       setCart(books.filter((book, id) => book.id === id));
+        cart && localStorage.setItem('addedBooks', JSON.stringify(cart));
+    }
 
 
     return (
@@ -90,7 +99,7 @@ function Books({category}: TBookCategory) {
                         <p className={s.bookDescription}>{book.volumeInfo.description || 'No description available'}</p>
                         <span
                             className={s.price}>{book.saleInfo.listPrice ? '$' + book.saleInfo.listPrice.amount : 'out of stock'}</span>
-                        <button className={s.button}>Buy now</button>
+                        <button className={s.button} onClick={onBuyClick}>Buy now</button>
                     </div>
                 </div>
             ))}

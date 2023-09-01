@@ -17,7 +17,7 @@ function MainContent() {
     return (
         <div className={s.root}>
             <Sidebar chooseCategory={chooseCategory} isChosen={isChosen}/>
-            <Books category={category}/>
+            <Books category={category} />
         </div>
 
     )
