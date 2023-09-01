@@ -7,18 +7,31 @@ export default function Profile() {
     return (
         <Layout>
             <div className={s.root}>
-                <div>
+                <div className={s.userDataContainer}>
                     <div>
-                        <h2>Profile</h2>
+                        <h2 style={{textTransform: 'uppercase'}}>Profile</h2>
                         <Image src={profileImage} alt='profileImage' width={235} height={235}/>
                     </div>
-                    <div>
-                        <span>Your name</span>
-                        <h2>Zaur Shomakhov</h2>
-                        <span>Your email</span>
-                        <h2>bayernsch89@work.com</h2>
+                    <div className={s.contactData}>
+                        <div>
+                            <span className={s.infoSuperscript}>Your name</span>
+                            <h2 className={s.name}>Zaur Shomakhov</h2>
+                            <span className={s.infoSuperscript}>Your email</span>
+                            <h2 className={s.email}>bayernsch89@work.com</h2>
+                        </div>
+                        <div>
+                            <button className={s.editButton}>Edit profile</button>
+                        </div>
                     </div>
-                    <button>Edit profile</button>
+                </div>
+                <div className={s.description}>
+                    <span className={s.infoSuperscript}>About me</span>
+                    <p className={s.paragraph}>
+                        Charles Dickens was an English writer and social critic. During his lifetime, his works enjoyed
+                        unprecedented popularity. He is now considered a literary genius because he created some of the
+                        world's best-known fictional characters and is regarded as the greatest novelist of the
+                        Victorian era. His novels and short stories enjoy lasting popularity.
+                    </p>
                 </div>
             </div>
         </Layout>
