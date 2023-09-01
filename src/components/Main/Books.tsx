@@ -41,16 +41,16 @@ type TBookCategory = {
 function Books({category}: TBookCategory) {
 
     const [books, setBooks] = useState<Array<bookData>>([]);
-    const [maxResults, setMaxResults] = useState(6);
+    const [initialIndex, setInitialIndex] = useState(6);
 
     function fetchBooks() {
-        fetch(`https://www.googleapis.com/books/v1/volumes?q="subject:${category}"&key=${API_KEY}&printType=books&startIndex=0&maxResults=${maxResults}&langRestrict=en`)
+        fetch(`https://www.googleapis.com/books/v1/volumes?q="subject:${category}"&key=${API_KEY}&printType=books&startIndex=${initialIndex}&maxResults=6&langRestrict=en`)
             .then(response => response.json())
             .then(data => setBooks(data.items));
     }
 
     function loadMoreBooks() {
-        setMaxResults(prev => prev + 6)
+        setInitialIndex(prev => prev + 6)
         fetchBooks();
     }
 
@@ -58,9 +58,10 @@ function Books({category}: TBookCategory) {
         fetchBooks();
     }, [category]);
 
+
     return (
         <div className={s.booksContainer}>
-            {books.map(book => (
+            { books && books.map(book => (
                     <div className={s.book} data-index={book.id}>
                     <Image src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : noCoverBook}
                            alt="book-cover" className={s.bookCover} width={212} height={287}/>
