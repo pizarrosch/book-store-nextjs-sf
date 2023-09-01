@@ -25,7 +25,9 @@ export default function Navigation() {
             </nav>
             <div className={s.accountActionsMenu}>
                 <Image src={user} alt={'user'}/>
-                <Image src={shopBag} alt={'bag'}/>
+                <Link href={'/cart'}>
+                    <Image src={shopBag} alt={'bag'}/>
+                </Link>
                 <div className={s.itemsNumber}>1</div>
             </div>
         </div>
