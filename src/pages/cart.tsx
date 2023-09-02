@@ -1,6 +1,8 @@
 import Layout from "@/components/layout";
 import {useSelector} from 'react-redux';
 import {bookData} from "@/components/Main/Books";
+import Image from "next/image";
+import s from '../styles/cart.module.scss';
 
 export default function Cart() {
 
@@ -18,7 +20,12 @@ export default function Cart() {
                     <span>Delivery</span>
                 </div>
                 {books.map((book: bookData) => (
-                        <div>Book title: {book.volumeInfo.title}</div>
+                    <div className={s.booksContainer}>
+                        <div>
+                            <Image src={book.volumeInfo.imageLinks.thumbnail} alt='book-cover' width={103} height={145}/>
+                            <div></div>
+                        </div>
+                    </div>
                     ))}
                 <div>
                     <span>TOTAL PRICE: $22.35</span>
