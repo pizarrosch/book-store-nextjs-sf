@@ -4,7 +4,8 @@ import noCoverBook from '../../../public/assets/no-cover.jpg';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
 import Image from "next/image";
-import {addedBookCtx} from "@/pages";
+import {addBook, bookSlice} from "@/reducer";
+import {Provider, useDispatch} from "react-redux";
 
 const API_KEY: string = 'AIzaSyDNqOURIAkd6F9DFzmyw2L688i7-_tIlSo';
 
@@ -39,9 +40,9 @@ type TBookCategory = {
     category: string
 }
 
-const addedBooks: bookData[] = [];
-
 function Books({category}: TBookCategory) {
+
+    const dispatch = useDispatch();
 
     const [books, setBooks] = useState<Array<bookData>>([]);
     const [initialIndex, setInitialIndex] = useState(6);
@@ -62,49 +63,53 @@ function Books({category}: TBookCategory) {
         fetchBooks();
     }, [category]);
 
-    function onBuyClick() {
-       setCart(books.filter((book, id) => book.id === id));
-        cart && localStorage.setItem('addedBooks', JSON.stringify(cart));
+    function onBuyClick(e: MouseEvent) {
+        const target = e.currentTarget as HTMLButtonElement;
+        books.filter((item, id) => {
+            if (target.dataset.id === item.id) {
+                dispatch(addBook(item))
+            }
+        })
     }
 
 
     return (
-        <div className={s.booksContainer}>
-            { books && books.map(book => (
+            <div className={s.booksContainer}>
+                {books && books.map(book => (
                     <div className={s.book} data-index={book.id}>
-                    <Image src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : noCoverBook}
-                           alt="book-cover" className={s.bookCover} width={212} height={287}/>
-                    <div className={s.book_bookInformation}>
-                        <span className={s.author}>{book.volumeInfo.authors}</span>
-                        <h2 className={s.title}>{book.volumeInfo.title}</h2>
-                        <div className={s.ratingsWrapper}>
-                            <div className={s.rating}>
-                                <Image src={book.volumeInfo.averageRating > 0 ? filledStar : unfilledStar} alt="rating"
-                                       width="12" height="12"/>
-                                <Image src={book.volumeInfo.averageRating > 1 ? filledStar : unfilledStar} alt="rating"
-                                       width="12" height="12"/>
-                                <Image src={book.volumeInfo.averageRating > 2 ? filledStar : unfilledStar} alt="rating"
-                                       width="12" height="12"/>
-                                <Image src={book.volumeInfo.averageRating > 3 ? filledStar : unfilledStar} alt="rating"
-                                       width="12" height="12"/>
-                                <Image src={book.volumeInfo.averageRating > 4 ? filledStar : unfilledStar} alt="rating"
-                                       width="12" height="12"/>
-                            </div>
-                            <span>{
-                                book.volumeInfo.ratingsCount ?
-                                    `${book.volumeInfo.ratingsCount} ${book.volumeInfo.ratingsCount === 1 ? 'review' : 'reviews'}` :
-                                    'N/A'}
+                        <Image src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : noCoverBook}
+                               alt="book-cover" className={s.bookCover} width={212} height={287}/>
+                        <div className={s.book_bookInformation}>
+                            <span className={s.author}>{book.volumeInfo.authors}</span>
+                            <h2 className={s.title}>{book.volumeInfo.title}</h2>
+                            <div className={s.ratingsWrapper}>
+                                <div className={s.rating}>
+                                    <Image src={book.volumeInfo.averageRating > 0 ? filledStar : unfilledStar} alt="rating"
+                                           width="12" height="12"/>
+                                    <Image src={book.volumeInfo.averageRating > 1 ? filledStar : unfilledStar} alt="rating"
+                                           width="12" height="12"/>
+                                    <Image src={book.volumeInfo.averageRating > 2 ? filledStar : unfilledStar} alt="rating"
+                                           width="12" height="12"/>
+                                    <Image src={book.volumeInfo.averageRating > 3 ? filledStar : unfilledStar} alt="rating"
+                                           width="12" height="12"/>
+                                    <Image src={book.volumeInfo.averageRating > 4 ? filledStar : unfilledStar} alt="rating"
+                                           width="12" height="12"/>
+                                </div>
+                                <span>{
+                                    book.volumeInfo.ratingsCount ?
+                                        `${book.volumeInfo.ratingsCount} ${book.volumeInfo.ratingsCount === 1 ? 'review' : 'reviews'}` :
+                                        'N/A'}
                             </span>
+                            </div>
+                            <p className={s.bookDescription}>{book.volumeInfo.description || 'No description available'}</p>
+                            <span
+                                className={s.price}>{book.saleInfo.listPrice ? '$' + book.saleInfo.listPrice.amount : 'out of stock'}</span>
+                            <button className={s.button} onClick={onBuyClick} data-id={book.id}>Buy now</button>
                         </div>
-                        <p className={s.bookDescription}>{book.volumeInfo.description || 'No description available'}</p>
-                        <span
-                            className={s.price}>{book.saleInfo.listPrice ? '$' + book.saleInfo.listPrice.amount : 'out of stock'}</span>
-                        <button className={s.button} onClick={onBuyClick}>Buy now</button>
                     </div>
-                </div>
-            ))}
-            <button className={s.button} onClick={loadMoreBooks}>LOAD MORE</button>
-        </div>
+                ))}
+                <button className={s.button} onClick={loadMoreBooks}>LOAD MORE</button>
+            </div>
     )
 }
 

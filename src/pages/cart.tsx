@@ -1,6 +1,12 @@
 import Layout from "@/components/layout";
+import {useSelector} from 'react-redux';
+import {bookData} from "@/components/Main/Books";
 
 export default function Cart() {
+
+    // @ts-ignore
+    const books = useSelector((state) => state.books)
+
     return (
         <Layout>
             <div>
@@ -11,6 +17,9 @@ export default function Cart() {
                     <span>Price</span>
                     <span>Delivery</span>
                 </div>
+                {books.map((book: bookData) => (
+                        <div>Book title: {book.volumeInfo.title}</div>
+                    ))}
                 <div>
                     <span>TOTAL PRICE: $22.35</span>
                     <button>CHECKOUT</button>

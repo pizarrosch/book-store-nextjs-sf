@@ -1,15 +1,24 @@
 import {configureStore, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {bookData} from "@/components/Main/Books";
+import {HYDRATE} from "next-redux-wrapper";
 import {act} from "react-dom/test-utils";
 
-const bookSlice = createSlice({
+export const bookSlice = createSlice({
     name: 'books',
     initialState: [] as bookData[],
     reducers: {
-        addBook: (state, action: PayloadAction<bookData>) => {
+        addBook: (state: bookData[], action: PayloadAction<bookData>) => {
             state.push(action.payload);
+        }
+    },
+    extraReducers: {
+        [HYDRATE]: (state, action) => {
+            return {
+                ...state,
+                ...action.payload.name
+            }
         }
     }
 })
 export const {addBook} = bookSlice.actions;
-export const store = configureStore({reducer: {books: bookSlice.reducer}});
+export default bookSlice.reducer;
