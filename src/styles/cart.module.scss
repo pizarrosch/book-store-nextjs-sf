@@ -1,4 +1,82 @@
+@mixin font($size, $weight) {
+  font-size: $size;
+  font-weight: $weight;
+}
+
+.itemsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin-top: 40px;
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+  .itemAmountCounter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 176px;
+    height: 45px;
+    border: 1px solid #EEEDF5;
+
+     .minus {
+       width: 30px;
+     }
+  }
+}
+
 .booksContainer {
   display: flex;
   gap: 50px;
+  width: 400px;
+
+  .coverImage {
+    box-shadow: rgba(0, 0, 0, 0.25) 0 25px 50px -12px;
+  }
+
+  .bookInformation {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+
+    .title {
+      @include font(16px, 700);
+      color: #1C2A39;
+    }
+
+    .author, .ratingAmount {
+      @include font(10px, 400);
+      color: #5C6A79;
+    }
+  }
+
+  .ratingsContainer {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+    .rating {
+      display: flex;
+      gap: 1px;
+    }
+
+    span {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+    }
+  }
 }
+
+.subscript {
+  display: flex;
+  justify-content: space-between;
+  @include font(10px, 700);
+  text-transform: uppercase;
+}
+
