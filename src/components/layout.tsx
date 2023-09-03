@@ -4,7 +4,11 @@ import Navigation from "@/components/Navigation/Navigation";
 import {PropsWithChildren} from "react";
 import s from './layout.module.scss';
 
-export default function Layout({children}: PropsWithChildren) {
+type Props = {
+    handleShowLogin: () => void
+} & PropsWithChildren
+
+export default function Layout({children, handleShowLogin}: Props) {
     return (
         <>
             <Head>
@@ -21,7 +25,7 @@ export default function Layout({children}: PropsWithChildren) {
                             <Link href='/'>
                                 <h2>Bookshop</h2>
                             </Link>
-                        <Navigation />
+                        <Navigation handleShowLogin={handleShowLogin}/>
                 </header>
                 <main className={s.mainContainer}>{children}</main>
         </>

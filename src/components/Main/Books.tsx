@@ -4,7 +4,7 @@ import noCoverBook from '../../../public/assets/no-cover.jpg';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
 import Image from "next/image";
-import {addBook, bookSlice} from "@/reducer";
+import {addBook, addPrice, bookSlice} from "@/reducer";
 import {Provider, useDispatch} from "react-redux";
 
 const API_KEY: string = 'AIzaSyDNqOURIAkd6F9DFzmyw2L688i7-_tIlSo';
@@ -13,7 +13,7 @@ type imageAddress = {
     thumbnail: string
 }
 
-type TListPrice = {
+export type TListPrice = {
     amount: number
 }
 
@@ -67,7 +67,8 @@ function Books({category}: TBookCategory) {
         const target = e.currentTarget as HTMLButtonElement;
         books.filter((item, id) => {
             if (target.dataset.id === item.id) {
-                dispatch(addBook(item))
+                dispatch(addBook(item));
+                dispatch(addPrice(Number(item.saleInfo.listPrice.amount)));
             }
         })
     }

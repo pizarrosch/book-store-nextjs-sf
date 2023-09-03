@@ -8,17 +8,28 @@ export const bookSlice = createSlice({
     initialState: [] as bookData[],
     reducers: {
         addBook: (state: bookData[], action: PayloadAction<bookData>) => {
-            state.push(action.payload);
-        }
+            state.push(action.payload)
+        },
     },
-    extraReducers: {
-        [HYDRATE]: (state, action) => {
-            return {
-                ...state,
-                ...action.payload.name
-            }
+    // extraReducers: {
+    //     [HYDRATE]: (state, action) => {
+    //         return {
+    //             ...state,
+    //             ...action.payload.name
+    //         }
+    //     }
+    // }
+})
+
+export const priceSlice = createSlice({
+    name: 'price',
+    initialState: 0,
+    reducers: {
+        addPrice: (state: number, action: PayloadAction<number>) => {
+            return state + action.payload;
         }
     }
 })
 export const {addBook} = bookSlice.actions;
+export const {addPrice} = priceSlice.actions;
 export default bookSlice.reducer;

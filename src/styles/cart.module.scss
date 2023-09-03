@@ -8,24 +8,39 @@
   flex-direction: column;
   gap: 50px;
   margin-top: 40px;
+  margin-left: 159px;
 
     .item {
       display: flex;
-      justify-content: space-between;
+      gap: 50px;
       align-items: center;
     }
 
   .itemAmountCounter {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     width: 176px;
     height: 45px;
     border: 1px solid #EEEDF5;
 
+    .itemsAmount {
+      @include font(16px, 700);
+    }
+
      .minus {
-       width: 30px;
+       width: 20px;
+       height: 3px;
      }
+
+    .minus {
+      width: 21px;
+      height: 24px;
+    }
+  }
+
+  .itemPrice {
+    margin-left: 250px;
   }
 }
 
@@ -75,8 +90,13 @@
 
 .subscript {
   display: flex;
-  justify-content: space-between;
+  gap: 430px;
   @include font(10px, 700);
   text-transform: uppercase;
+
+    .subscript_subitems {
+      display: flex;
+      gap: 300px;
+    }
 }
 

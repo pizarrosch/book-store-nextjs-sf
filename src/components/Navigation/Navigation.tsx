@@ -4,7 +4,11 @@ import Image from "next/image";
 import user from "../../../public/assets/user.svg";
 import shopBag from "../../../public/assets/shop-bag.svg";
 
-export default function Navigation() {
+type TShowLogin = {
+    handleShowLogin: () => void
+}
+
+export default function Navigation({handleShowLogin}: TShowLogin) {
     return (
         <div className={s.root}>
             <nav>
@@ -13,7 +17,7 @@ export default function Navigation() {
                         <Link href="/">Books</Link>
                     </li>
                     <li>
-                        <Link href="/description">Audiobooks</Link>
+                        <Link href="/">Audiobooks</Link>
                     </li>
                     <li>
                         <Link href="/">Stationery & gifts</Link>
@@ -24,7 +28,7 @@ export default function Navigation() {
                 </ul>
             </nav>
             <div className={s.accountActionsMenu}>
-                <Image src={user} alt={'user'}/>
+                <Image src={user} alt={'user'} onClick={handleShowLogin}/>
                 <Link href={'/cart'}>
                     <Image src={shopBag} alt={'bag'}/>
                 </Link>
