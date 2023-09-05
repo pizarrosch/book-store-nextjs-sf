@@ -1,34 +1,52 @@
 import s from './Login.module.scss';
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
+import {useDispatch} from "react-redux";
 
 function Login() {
 
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isValid, setIsValid] = useState(true);
+    const [emailIsValid, setEmailIsValid] = useState(true);
+    const [passwordIsValid, setPasswordIsValid] = useState(true);
     const router = useRouter();
 
+    const inputRef = useRef<HTMLInputElement>(null);
+    const passRef = useRef<HTMLInputElement>(null);
 
-    function handleInputChange(e: InputEvent) {
-        const target = e.target as HTMLInputElement;
-        setPassword(target.value);
-        if (password.length + 1 < 6 ) {
-            setIsValid(false)
-        } if (password.length > 6) {
-            setIsValid(true);
-        }
-        console.log(
-            password.length
-        )
+    const dispatch = useDispatch();
+
+     function logIn(inputRef: string) {
+        fetch('/api/auth/')
+           .then(response => response.json())
+           .then(data => console.log(data))
+
+        router.push('/profile')
     }
-    function validatePassword() {
-        if (password.length < 6 ) {
-            setIsValid(false)
-        } if (password.length > 6) {
-            setIsValid(true);
+
+
+    function handleInputChange() {
+            setEmail(inputRef.current!.value);
+            setPassword(passRef.current!.value);
+        if (password.length < 6 || !email.includes('@')) {
+            setEmailIsValid(false);
+            setPasswordIsValid(false);
+        } else if (password.length >= 6 || email.includes('@')) {
+            setEmailIsValid(true);
+            setPasswordIsValid(true);
         }
-        router.push('/profile');
-        console.log('I am clicked!')
+    }
+
+    function validate() {
+        if (password.length < 6 || !email.includes('@')) {
+            setEmailIsValid(false);
+            setPasswordIsValid(false);
+            return;
+        } else if (password.length >= 6 || email.includes('@')) {
+            setEmailIsValid(true);
+            setPasswordIsValid(true);
+            router.push('/profile');
+        }
     }
 
     return (
@@ -37,15 +55,16 @@ function Login() {
             <form className={s.formContainer}>
                 <div className={s.loginContainer}>
                     <label htmlFor='login' className={s.label}>Email</label>
-                    <input type='email' id='login' className={s.input}/>
+                    <input type='email' id='login' className={s.input} ref={inputRef} onInput={handleInputChange}/>
                 </div>
+                { !emailIsValid ? <span className={s.errorText}>Your email must contain @</span> : ''}
                 <div className={s.passwordContainer}>
                     <label htmlFor='password' className={s.label}>Password</label>
-                    <input type='password' id='password' className={isValid ? s.input : s.invalid} onInput={handleInputChange}/>
+                    <input type='password' id='password' className={passwordIsValid ? s.input : s.invalid} ref={passRef} onInput={handleInputChange}/>
                 </div>
-                { !isValid && <span className={s.errorText}>Your password must be at least 6 characters long</span>}
+                { !passwordIsValid ? <span className={s.errorText}>Your password must be at least 6 characters long</span> : ''}
             </form>
-            <button className={s.loginButton} onClick={validatePassword} disabled={!isValid}>Log in</button>
+            <button className={s.loginButton} onClick={logIn} disabled={!passwordIsValid || !emailIsValid}>Log in</button>
         </div>
     )
 }

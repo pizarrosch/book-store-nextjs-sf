@@ -2,7 +2,7 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app';
 import {Provider} from "react-redux";
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import {addBook, bookSlice, priceSlice} from "@/reducer";
+import {addBook, bookSlice, categorySlice, counterSlice, priceSlice, userSlice} from "@/reducer";
 import {
     persistReducer,
     persistStore,
@@ -19,7 +19,10 @@ import thunk from "redux-thunk";
 
 const reducer = combineReducers({
     books: bookSlice.reducer,
-    price: priceSlice.reducer
+    price: priceSlice.reducer,
+    counter: counterSlice.reducer,
+    category: categorySlice.reducer,
+    userCredentials: userSlice.reducer
 })
 
 const persistConfig = {

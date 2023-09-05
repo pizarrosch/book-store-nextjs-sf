@@ -1,22 +1,26 @@
 import Sidebar from "@/components/Main/Sidebar";
 import s from './Main.module.scss';
 import Books from "@/components/Main/Books";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {changeCategory} from "@/reducer";
 
 function MainContent() {
-    const [category, setCategory] = useState('Architecture');
+    const category = useSelector(state => state.category);
     const [isChosen, setIsChosen] = useState(false);
+    const dispatch = useDispatch();
 
     function chooseCategory(e: MouseEvent) {
         const target = e.target as HTMLLIElement;
-        setCategory(target.innerHTML);
-
-        return target.className ==='chosenCategory' ? target.className === null : target.className === 'chosenCategory'
+        dispatch(changeCategory(target.innerHTML))
+        if (target.innerHTML === category) {
+            target.classList.add('Sidebar_chosenCategory__P4evR')
+        }
     }
 
     return (
         <div className={s.root}>
-            <Sidebar chooseCategory={chooseCategory} isChosen={isChosen}/>
+            <Sidebar chooseCategory={chooseCategory} />
             <Books category={category} />
         </div>
 

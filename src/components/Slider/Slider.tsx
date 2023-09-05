@@ -14,11 +14,7 @@ export default function Slider() {
 
     function handleClick(e: MouseEvent) {
         const target = e.target as HTMLDivElement;
-        dotsArray.map((dot, index) => {
-            if(Number(target.dataset.index) === index) {
-                setClicked(true);
-            }
-        })
+        target.classList.toggle('Slider_violet__7EJyA')
     }
 
     return (
@@ -41,7 +37,7 @@ export default function Slider() {
                         dotsArray.push('Hello');
                         return (
                             <div
-                                className={clicked ? s.violet : s.dot}
+                                className={s.dot}
                                 data-index={index}
                                 onClick={handleClick}
                             ></div>

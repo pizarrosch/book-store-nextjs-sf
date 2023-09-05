@@ -4,8 +4,9 @@ import noCoverBook from '../../../public/assets/no-cover.jpg';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
 import Image from "next/image";
-import {addBook, addPrice, bookSlice} from "@/reducer";
-import {Provider, useDispatch} from "react-redux";
+import {addBook, addPrice, bookSlice, initialBookCountSlice} from "@/reducer";
+import {Provider, useDispatch, useSelector} from "react-redux";
+import {addBooks} from "@/reducer";
 
 const API_KEY: string = 'AIzaSyDNqOURIAkd6F9DFzmyw2L688i7-_tIlSo';
 
@@ -45,17 +46,17 @@ function Books({category}: TBookCategory) {
     const dispatch = useDispatch();
 
     const [books, setBooks] = useState<Array<bookData>>([]);
-    const [initialIndex, setInitialIndex] = useState(6);
-    const [cart, setCart] = useState<Array<bookData>>([]);
+    const [maxResults, setMaxResults] = useState(6);
 
     function fetchBooks() {
-        fetch(`https://www.googleapis.com/books/v1/volumes?q="subject:${category}"&key=${API_KEY}&printType=books&startIndex=${initialIndex}&maxResults=6&langRestrict=en`)
+        fetch(`https://www.googleapis.com/books/v1/volumes?q="subject:${category}"&key=${API_KEY}&printType=books&startIndex=0&maxResults=${maxResults}&langRestrict=en`)
             .then(response => response.json())
             .then(data => setBooks(data.items));
     }
 
     function loadMoreBooks() {
-        setInitialIndex(prev => prev + 6)
+       setMaxResults(prev => prev + 6)
+       // setBooks(books)
         fetchBooks();
     }
 
@@ -68,7 +69,7 @@ function Books({category}: TBookCategory) {
         books.filter((item, id) => {
             if (target.dataset.id === item.id) {
                 dispatch(addBook(item));
-                dispatch(addPrice(Number(item.saleInfo.listPrice.amount)));
+                dispatch(addPrice(item.saleInfo.listPrice.amount));
             }
         })
     }

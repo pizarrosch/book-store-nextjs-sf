@@ -3,13 +3,9 @@ import cx from 'classnames';
 
 type TCategory = {
     chooseCategory: () => void;
-} & TIsChosen
-
-type TIsChosen = {
-    isChosen: boolean;
 }
 
-function Sidebar({chooseCategory, isChosen}: TCategory) {
+function Sidebar({chooseCategory}: TCategory) {
     return (
         <div className={s.root}>
             <ul className={s.categoriesList} onClick={chooseCategory}>
