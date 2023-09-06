@@ -2,13 +2,15 @@ import s from './Login.module.scss';
 import {useEffect, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 import {useDispatch} from "react-redux";
+import {setName, setEmail} from "@/reducer";
 
 function Login() {
 
-    const [email, setEmail] = useState('');
+    const [email, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailIsValid, setEmailIsValid] = useState(true);
     const [passwordIsValid, setPasswordIsValid] = useState(true);
+    const [areCredentialsCorrect, setAreCredentialsCorrect] = useState(true);
     const router = useRouter();
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -16,18 +18,30 @@ function Login() {
 
     const dispatch = useDispatch();
 
-     function logIn(inputRef: string) {
-        fetch('/api/auth/')
+     function logIn() {
+        fetch('/api/auth')
            .then(response => response.json())
-           .then(data => console.log(data))
-
-        router.push('/profile')
+           .then(data => {
+               dispatch(setEmail(data.email));
+               dispatch(setName(data.name));
+               if (inputRef.current!.value === data.email && passRef.current!.value === data.password) {
+                   router.push('/profile');
+               } else {
+                   setAreCredentialsCorrect(false);
+               }
+           })
     }
 
 
+    function focus() {
+         setAreCredentialsCorrect(true);
+         setEmailIsValid(true);
+         setPasswordIsValid(true);
+    }
+
     function handleInputChange() {
-            setEmail(inputRef.current!.value);
-            setPassword(passRef.current!.value);
+            // setEmail(inputRef.current!.value);
+            // setPassword(passRef.current!.value);
         if (password.length < 6 || !email.includes('@')) {
             setEmailIsValid(false);
             setPasswordIsValid(false);
@@ -52,7 +66,7 @@ function Login() {
     return (
         <div className={s.root}>
             <h2 className={s.title}>Log in</h2>
-            <form className={s.formContainer}>
+            <form className={s.formContainer} onFocus={focus}>
                 <div className={s.loginContainer}>
                     <label htmlFor='login' className={s.label}>Email</label>
                     <input type='email' id='login' className={s.input} ref={inputRef} onInput={handleInputChange}/>
@@ -63,6 +77,7 @@ function Login() {
                     <input type='password' id='password' className={passwordIsValid ? s.input : s.invalid} ref={passRef} onInput={handleInputChange}/>
                 </div>
                 { !passwordIsValid ? <span className={s.errorText}>Your password must be at least 6 characters long</span> : ''}
+                { !areCredentialsCorrect ? <span className={s.errorText}>Email or password are wrong</span> : ''}
             </form>
             <button className={s.loginButton} onClick={logIn} disabled={!passwordIsValid || !emailIsValid}>Log in</button>
         </div>

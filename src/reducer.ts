@@ -51,12 +51,12 @@ export const categorySlice = createSlice({
 
 type TUserCredentials = {
     email: string,
-    password: string
+    name: string
 }
 
 const userCredentials = {
     email: '',
-    password: ''
+    name: ''
 }
 
 export const userSlice = createSlice({
@@ -66,8 +66,8 @@ export const userSlice = createSlice({
         setEmail: (state: TUserCredentials, action: PayloadAction<string>) => {
             state.email = action.payload;
         },
-        setPassword: (state: TUserCredentials, action: PayloadAction<string>) => {
-             state.password = action.payload;
+        setName: (state: TUserCredentials, action: PayloadAction<string>) => {
+             state.name = action.payload;
         }
     }})
 
@@ -76,4 +76,4 @@ export const {addBook} = bookSlice.actions;
 export const {addPrice, subtractPrice} = priceSlice.actions;
 export const {increase, decrease} = counterSlice.actions;
 export const {changeCategory} = categorySlice.actions;
-export const {setEmail, setPassword} = userSlice.actions;
+export const {setEmail, setName} = userSlice.actions;

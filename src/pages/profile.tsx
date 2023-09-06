@@ -2,8 +2,15 @@ import profileImage from '../../public/assets/profile-image.png';
 import Layout from "@/components/layout";
 import Image from "next/image";
 import s from '../styles/profile.module.scss';
+import {useState} from "react";
+import {useSelector} from "react-redux";
 
 export default function Profile() {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+
+    const userData: any = useSelector(state => state.userCredentials);
+
     return (
         <Layout>
             <div className={s.root}>
@@ -15,9 +22,9 @@ export default function Profile() {
                     <div className={s.contactData}>
                         <div>
                             <span className={s.infoSuperscript}>Your name</span>
-                            <h2 className={s.name}>Zaur Shomakhov</h2>
+                            <h2 className={s.name}>{userData.name}</h2>
                             <span className={s.infoSuperscript}>Your email</span>
-                            <h2 className={s.email}>bayernsch89@work.com</h2>
+                            <h2 className={s.email}>{userData.email}</h2>
                         </div>
                         <div>
                             <button className={s.editButton}>Edit profile</button>
