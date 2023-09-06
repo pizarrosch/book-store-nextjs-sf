@@ -37,16 +37,20 @@ export type bookData = {
     saleInfo: TSaleInfo
 }
 
-type TBookCategory = {
-    category: string
+type TMaxResults = {
+    maxResults: number,
+    setMaxResults: Dispatch<SetStateAction<number>>
 }
 
-function Books({category}: TBookCategory) {
+type TBookCategory = {
+    category: string
+} & TMaxResults
+
+function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
     const dispatch = useDispatch();
 
     const [books, setBooks] = useState<Array<bookData>>([]);
-    const [maxResults, setMaxResults] = useState(6);
 
     function fetchBooks() {
         fetch(`https://www.googleapis.com/books/v1/volumes?q="subject:${category}"&key=${API_KEY}&printType=books&startIndex=0&maxResults=${maxResults}&langRestrict=en`)
@@ -57,17 +61,17 @@ function Books({category}: TBookCategory) {
     function loadMoreBooks() {
        setMaxResults(prev => prev + 6)
        // setBooks(books)
-        fetchBooks();
     }
 
     useEffect(() => {
         fetchBooks();
-    }, [category]);
+    }, [category, maxResults]);
 
     function onBuyClick(e: MouseEvent) {
         const target = e.currentTarget as HTMLButtonElement;
         books.filter((item, id) => {
             if (target.dataset.id === item.id) {
+                target.innerHTML = 'In the cart'
                 dispatch(addBook(item));
                 dispatch(addPrice(item.saleInfo.listPrice.amount));
             }
