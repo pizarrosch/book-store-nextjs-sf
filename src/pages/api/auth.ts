@@ -1,5 +1,16 @@
 import {NextApiRequest, NextApiResponse} from "next";
 
+export type TUserCredentials = {
+    error: boolean,
+    name: string,
+    email: string,
+    password: string
+}
+
+export type TUserData = {
+    userCredentials: TUserCredentials;
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'GET') {
         res.status(405).send({error: true, message: 'Please just GET'});

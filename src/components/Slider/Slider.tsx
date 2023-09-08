@@ -1,28 +1,35 @@
 import banner from '../../../public/assets/banner.png';
-import banner2 from '../../../public/assets/banner_2-transformed 1.png';
-import banner3 from '../../../public/assets/banner 3.png';
+import banner2 from '../../../public/assets/banner_2-transformed.png';
+import banner3 from '../../../public/assets/banner_3.png';
 import arrow from '../../../public/assets/arrow.svg';
-import Image from "next/image";
+import Image, {StaticImageData} from "next/image";
 import s from './Slider.module.scss';
-import {useState} from "react";
+import React, {useState} from "react";
 
-const imagesArray = [banner, banner2, banner3];
-const dotsArray: string[] = [];
+const imagesArray: StaticImageData[] = [banner, banner2, banner3];
+const dotsArray: number[] = [1, 2, 3];
 
 export default function Slider() {
     const [clicked, setClicked] = useState(false);
 
-    function handleClick(e: MouseEvent) {
+    function handleClick(e: React.MouseEvent) {
         const target = e.target as HTMLDivElement;
-        target.classList.toggle('Slider_violet__7EJyA')
+        const dots = document.getElementsByClassName('Slider_violet__7EJyA');
+        const slider: HTMLImageElement = document.querySelector('.Slider_image__YpRSC') as HTMLImageElement;
+
+        for (let i = 0; i < dots.length; i++) {
+            dots[i].classList.add('Slider_dot__OcXzJ');
+            dots[i].classList.remove('Slider_violet__7EJyA');
+            target.classList.add('Slider_violet__7EJyA');
+            slider.srcset = `${imagesArray[Number(target.dataset.index) - 1].src}`;
+            slider.alt = imagesArray[Number(target.dataset.index) - 1].src
+        }
     }
 
     return (
         <div className={s.root}>
             <div className={s.banner}>
                 <Image src={banner} alt='banner' className={s.image}/>
-                <Image src={banner2} alt='banner2' className={s.image}/>
-                <Image src={banner3} alt='banner3' className={s.image}/>
             </div>
             <div className={s.bookChangeBox}>
                 <span>Change old book on new</span>
@@ -33,12 +40,11 @@ export default function Slider() {
                 <Image src={arrow} alt='arrow' width="55" height="12"/>
             </div>
             <div className={s.dotsContainer}>
-                {imagesArray.map((dot, index) => {
-                        dotsArray.push('Hello');
+                {dotsArray.map((dot: number, index) => {
                         return (
                             <div
-                                className={s.dot}
-                                data-index={index}
+                                className={dot === 1 ? s.violet : s.dot}
+                                data-index={dot}
                                 onClick={handleClick}
                             ></div>
                         )

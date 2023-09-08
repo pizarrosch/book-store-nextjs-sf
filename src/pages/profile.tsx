@@ -4,12 +4,13 @@ import Image from "next/image";
 import s from '../styles/profile.module.scss';
 import {useState} from "react";
 import {useSelector} from "react-redux";
+import {TUserData} from "@/pages/api/auth";
 
 export default function Profile() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
 
-    const userData: any = useSelector(state => state.userCredentials);
+    const userData: any = useSelector((state: TUserData) => state.userCredentials);
 
     return (
         <Layout>

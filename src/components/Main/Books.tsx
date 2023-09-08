@@ -1,12 +1,11 @@
 import s from './Books.module.scss';
-import {Dispatch, SetStateAction, useContext, useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import noCoverBook from '../../../public/assets/no-cover.jpg';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
 import Image from "next/image";
-import {addBook, addPrice, bookSlice, initialBookCountSlice} from "@/reducer";
-import {Provider, useDispatch, useSelector} from "react-redux";
-import {addBooks} from "@/reducer";
+import {addBook, addPrice} from "@/reducer";
+import {useDispatch} from "react-redux";
 
 const API_KEY: string = 'AIzaSyDNqOURIAkd6F9DFzmyw2L688i7-_tIlSo';
 
@@ -67,10 +66,10 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
         fetchBooks();
     }, [category, maxResults]);
 
-    function onBuyClick(e: MouseEvent) {
+    function onBuyClick(e: React.MouseEvent) {
         const target = e.currentTarget as HTMLButtonElement;
         books.filter((item, id) => {
-            if (target.dataset.id === item.id) {
+            if (target.dataset.id === (item.id).toString()) {
                 target.innerHTML = 'In the cart'
                 dispatch(addBook(item));
                 dispatch(addPrice(item.saleInfo.listPrice.amount));
