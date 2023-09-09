@@ -29,26 +29,23 @@ export type TCartItem = {
     id: string
 }
 
-const initialState: TCartItem = {
-    number: 1,
-    id: 'ZB_HDwAAQBAJ'
-}
-
 export const cartSlice = createSlice({
     name: 'cart',
-    initialState: [initialState] as TCartItem[],
+    initialState: [] as TCartItem[],
     reducers: {
-        increase: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
+        addCartItem: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
             state.push({
-                number: action.payload.number + 1,
+                number: action.payload.number,
                 id: action.payload.id
             })
         },
+        increase: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
+            let itemIndex = state.find((item: TCartItem) => item.id === action.payload.id);
+            itemIndex!.number += 1
+        },
         decrease: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
-            state.push({
-                number: action.payload.number - 1,
-                id: action.payload.id
-            })
+            let itemIndex = state.find((item: TCartItem) => item.id === action.payload.id);
+            itemIndex!.number -= 1
         },
     }
 })
@@ -89,6 +86,6 @@ export const userSlice = createSlice({
 
 export const {addBook} = bookSlice.actions;
 export const {addPrice, subtractPrice} = priceSlice.actions;
-export const {increase, decrease} = cartSlice.actions;
+export const {addCartItem, increase, decrease} = cartSlice.actions;
 export const {changeCategory} = categorySlice.actions;
 export const {setEmail, setName} = userSlice.actions;

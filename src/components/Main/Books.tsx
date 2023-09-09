@@ -4,7 +4,7 @@ import noCoverBook from '../../../public/assets/no-cover.jpg';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
 import Image from "next/image";
-import {addBook, addPrice} from "@/reducer";
+import {addBook, addPrice, addCartItem} from "@/reducer";
 import {useDispatch} from "react-redux";
 
 const API_KEY: string = 'AIzaSyDNqOURIAkd6F9DFzmyw2L688i7-_tIlSo';
@@ -78,6 +78,10 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
                 }
                 target.innerHTML = 'In the cart'
                 dispatch(addBook(item));
+                dispatch(addCartItem({
+                    number: 1,
+                    id: item.id
+                }))
                 dispatch(addPrice(item.saleInfo.listPrice.amount));
             }
         })

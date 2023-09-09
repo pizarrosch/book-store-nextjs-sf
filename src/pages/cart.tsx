@@ -7,7 +7,7 @@ import filledStar from "../../public/assets/star-filled.svg";
 import unfilledStar from "../../public/assets/Star.svg";
 import minus from '../../public/assets/minus.svg';
 import plus from '../../public/assets/plus.svg';
-import {increase, decrease, addPrice, subtractPrice, TCartItem} from "@/reducer";
+import {increase, decrease, addPrice, subtractPrice, TCartItem, cartSlice} from "@/reducer";
 import React, {useEffect, useState} from "react";
 import {act} from "react-dom/test-utils";
 
@@ -25,54 +25,16 @@ export default function Cart() {
     console.log(amountNumber)
 
     function increaseCount(id: number) {
-            dispatch(increase({
-                number: amount,
-                id: id
-            }))
-
-        // for (let i = 0; i < counter.length; i++) {
-        //     books.filter((book: bookData, id: number) => {
-        //         if (Number(target.dataset.id) === i) {
-        //             dispatch(increase(1))
-        //             dispatch(subtractPrice(book.saleInfo.listPrice && book.saleInfo.listPrice.amount));
-        //             counter[i].innerHTML = String(count);
-        //         }
-        //     })
-        //
-        // }
-
-    // const target = e.currentTarget as HTMLDivElement;
-    // const keyValue = target.getAttribute('key');
-    //     console.log(target)
-    //
-    // books.map((book: bookData, index: number) => {
-    //     if (book.id === target.dataset.id) {
-    //         setActive(true);
-    //        setAmount({
-    //            id: keyValue,
-    //            number: amount.number + 1
-    //        })
-    //         // setAmount(prev => prev + 1)
-    //
-    //     } else {
-    //         setActive(false);
-    //         setAmount({
-    //             id: keyValue,
-    //             number: amount.number
-    //         })
-    //     }
-    // })
-
-
-        // books.filter((book: bookData, id: number) => {
-        //     if (Number(target.dataset.id) === id) {
-        //         console.log('Yes we are')
-        //          dispatch(increase(1))
-        //          dispatch(addPrice(book.saleInfo.listPrice && book.saleInfo.listPrice.amount))
-        //     } else if (target.dataset.id !== book.id) {
-        //         console.log('No we do not')
-        //     }
-        // })
+        cart.filter(cartItem => {
+            books.filter(bookItem => {
+                if (bookItem.id === cartItem.id) {
+                    dispatch(increase({
+                        number: cartItem.number,
+                        id: bookItem.id
+                    }))
+                }
+            })
+        })
     }
 
     function removeBookFromList() {
@@ -88,14 +50,6 @@ export default function Cart() {
             number: amount,
             id: books.map((book: bookData) => book.id)
         }))
-        // const target = e.target as HTMLImageElement;
-        //
-        // books.filter((book: bookData, id: number) => {
-        //     if (Number(target.dataset.id) === counter[id].id) {
-        //         dispatch(decrease(1))
-        //         dispatch(subtractPrice(book.saleInfo.listPrice && book.saleInfo.listPrice.amount))
-        //     }
-        // })
     }
 
     useEffect(() => {
@@ -156,9 +110,22 @@ export default function Cart() {
                                 </div>
                                 <div className={s.itemSubitems} >
                                     <div className={s.itemAmountCounter} data-id={cartItem.id} key={id}>
-                                        <Image src={minus} alt='' className={s.minus}  onClick={decreaseCount} />
+                                        <Image src={minus} alt='' className={s.minus}  onClick={() => {
+                                            if (cartItem.number === 0) return;
+                                            dispatch(decrease({
+                                                number: cartItem.number,
+                                                id: book.id
+                                            }));
+                                            dispatch(subtractPrice(book.saleInfo.listPrice.amount))
+                                        }} />
                                         <span className={s.itemsAmount}>{cartItem.number}</span>
-                                        <Image src={plus} alt='' className={s.plus} onClick={(e) => {increaseCount(id)}} />
+                                        <Image src={plus} alt='' className={s.plus} onClick={() => {
+                                            dispatch(increase({
+                                                number: cartItem.number,
+                                                id: book.id
+                                            }));
+                                            dispatch(addPrice(book.saleInfo.listPrice.amount))
+                                        }} />
                                     </div>
                                     <div className={s.itemPrice}>{book.saleInfo.listPrice ? `$${(book.saleInfo.listPrice.amount * cartItem.number).toFixed(2)}` : 'out of stock'}</div>
                                     <div>Shipping: delivery</div>
