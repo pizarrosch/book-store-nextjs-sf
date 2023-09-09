@@ -1,29 +1,36 @@
 import s from './Sidebar.module.scss';
 import cx from 'classnames';
+import {useDispatch, useSelector} from "react-redux";
+import {changeCategory} from "@/reducer";
+
+export const CATEGORIES = [
+    'Architecture', 'Art & fashion', 'Biography', 'Business', 'Drama', 'Fiction', 'Food & Drink',
+    'Health & Wellbeing', 'History & Politics', 'Humor', 'Poetry', 'Psychology', 'Science', 'Technology',
+    'Travel & Maps'
+]
 
 type TCategory = {
     chooseCategory: () => void;
 }
 
 function Sidebar({chooseCategory}: TCategory) {
+    const dispatch = useDispatch();
+    const chosenCategory = useSelector(state => state.category)
+
     return (
         <div className={s.root}>
             <ul className={s.categoriesList} onClick={chooseCategory}>
-                <li className={s.chosenCategory}>Architecture</li>
-                <li>Art & fashion</li>
-                <li>Biography</li>
-                <li>Business</li>
-                <li>Drama</li>
-                <li>Fiction</li>
-                <li>Food & Drink</li>
-                <li>Health & Wellbeing</li>
-                <li>History & Politics</li>
-                <li>Humor</li>
-                <li>Poetry</li>
-                <li>Psychology</li>
-                <li>Science</li>
-                <li>Technology</li>
-                <li>Travel & Maps</li>
+                {
+                    CATEGORIES.map((category, index) => (
+                        <li className={chosenCategory.id === index ? s.chosenCategory : ''} key={index} onClick={() => dispatch(changeCategory(
+                            {
+                                id: index,
+                                title: category,
+                                chosen: true
+                            }
+                        ))} data-id={index}>{category}</li>
+                    ))
+                }
             </ul>
         </div>
     )

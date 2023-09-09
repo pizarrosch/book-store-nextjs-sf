@@ -80,7 +80,7 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
                 dispatch(addBook(item));
                 dispatch(addCartItem({
                     number: 1,
-                    id: item.id
+                    id: String(item.id)
                 }))
                 dispatch(addPrice(item.saleInfo.listPrice.amount));
             }

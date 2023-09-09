@@ -19,7 +19,7 @@ export const priceSlice = createSlice({
             return state + action.payload;
         },
         subtractPrice: (state: number, action: PayloadAction<number>) => {
-            return state - action.payload;
+            return Math.abs(state - action.payload);
         }
     }
 })
@@ -39,6 +39,10 @@ export const cartSlice = createSlice({
                 id: action.payload.id
             })
         },
+        removeCartItem: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
+            let itemIndex = state.findIndex((item: TCartItem) => item.id === action.payload.id);
+            state.splice(itemIndex, 1);
+        },
         increase: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
             let itemIndex = state.find((item: TCartItem) => item.id === action.payload.id);
             itemIndex!.number += 1
@@ -50,12 +54,22 @@ export const cartSlice = createSlice({
     }
 })
 
+export type TCategory = {
+    id: number,
+    title: string,
+    chosen: boolean
+}
+
 export const categorySlice = createSlice({
     name: 'category',
-    initialState: 'Architecture',
+    initialState: {} as TCategory,
     reducers: {
-        changeCategory: (state: string, action: PayloadAction<string>) => {
-            return action.payload;
+        changeCategory: (state: TCategory, action: PayloadAction<TCategory>) => {
+           return {
+                id: action.payload.id,
+                title: action.payload.title,
+                chosen: true
+            };
         }
     }
 })
@@ -86,6 +100,6 @@ export const userSlice = createSlice({
 
 export const {addBook} = bookSlice.actions;
 export const {addPrice, subtractPrice} = priceSlice.actions;
-export const {addCartItem, increase, decrease} = cartSlice.actions;
+export const {addCartItem, removeCartItem, increase, decrease} = cartSlice.actions;
 export const {changeCategory} = categorySlice.actions;
 export const {setEmail, setName} = userSlice.actions;

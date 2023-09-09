@@ -7,7 +7,7 @@ import filledStar from "../../public/assets/star-filled.svg";
 import unfilledStar from "../../public/assets/Star.svg";
 import minus from '../../public/assets/minus.svg';
 import plus from '../../public/assets/plus.svg';
-import {increase, decrease, addPrice, subtractPrice, TCartItem, cartSlice} from "@/reducer";
+import {increase, decrease, addPrice, subtractPrice, TCartItem, removeCartItem} from "@/reducer";
 import React, {useEffect, useState} from "react";
 import {act} from "react-dom/test-utils";
 
@@ -19,42 +19,7 @@ export default function Cart() {
     const books = useSelector((state) => state.books);
     const totalPrice = useSelector(state => state.price);
     const cart = useSelector((state) => state.cart);
-    const amountNumber = cart.map(cartItem => cartItem.number);
     const dispatch = useDispatch();
-
-    console.log(amountNumber)
-
-    function increaseCount(id: number) {
-        cart.filter(cartItem => {
-            books.filter(bookItem => {
-                if (bookItem.id === cartItem.id) {
-                    dispatch(increase({
-                        number: cartItem.number,
-                        id: bookItem.id
-                    }))
-                }
-            })
-        })
-    }
-
-    function removeBookFromList() {
-        books.filter((book: bookData, id: number) => {
-            if (cart === 0) {
-                console.log('No book in the cart anymore')
-            }
-        })
-    }
-
-    function decreaseCount(e: React.MouseEvent) {
-        dispatch(decrease({
-            number: amount,
-            id: books.map((book: bookData) => book.id)
-        }))
-    }
-
-    useEffect(() => {
-        removeBookFromList();
-    }, [cart]);
 
     return (
         <Layout>
@@ -70,7 +35,7 @@ export default function Cart() {
                 </div>
                 <div className={s.itemsContainer}>
                     {cart.map((cartItem: TCartItem, id: number) => {
-                        const book = books.find((book: bookData) => book.id === cartItem.id);
+                        const book = books.find((book: bookData) => String(book.id) === cartItem.id);
 
                         if (!book) return 'Not found'
 
@@ -111,7 +76,11 @@ export default function Cart() {
                                 <div className={s.itemSubitems} >
                                     <div className={s.itemAmountCounter} data-id={cartItem.id} key={id}>
                                         <Image src={minus} alt='' className={s.minus}  onClick={() => {
-                                            if (cartItem.number === 0) return;
+                                            if (cartItem.number <= 1) {
+                                                dispatch(removeCartItem(cartItem));
+                                                dispatch(subtractPrice(book.saleInfo.listPrice.amount))
+                                                return;
+                                            }
                                             dispatch(decrease({
                                                 number: cartItem.number,
                                                 id: book.id
