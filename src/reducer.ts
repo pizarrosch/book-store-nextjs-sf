@@ -1,7 +1,5 @@
-import {configureStore, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {bookData} from "@/components/Main/Books";
-import {HYDRATE} from "next-redux-wrapper";
-import {act} from "react-dom/test-utils";
 
 export const bookSlice = createSlice({
     name: 'books',
@@ -26,15 +24,31 @@ export const priceSlice = createSlice({
     }
 })
 
-export const counterSlice = createSlice({
-    name: 'counter',
-    initialState: 1,
+export type TCartItem = {
+    number: number,
+    id: string
+}
+
+const initialState: TCartItem = {
+    number: 1,
+    id: 'ZB_HDwAAQBAJ'
+}
+
+export const cartSlice = createSlice({
+    name: 'cart',
+    initialState: [initialState] as TCartItem[],
     reducers: {
-        increase: (state: number, action: PayloadAction<number>) => {
-            return state + action.payload;
+        increase: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
+            state.push({
+                number: action.payload.number + 1,
+                id: action.payload.id
+            })
         },
-        decrease: (state: number, action: PayloadAction<number>) => {
-            return state - action.payload;
+        decrease: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
+            state.push({
+                number: action.payload.number - 1,
+                id: action.payload.id
+            })
         },
     }
 })
@@ -67,13 +81,14 @@ export const userSlice = createSlice({
             state.email = action.payload;
         },
         setName: (state: TUserCredentials, action: PayloadAction<string>) => {
-             state.name = action.payload;
+            state.name = action.payload;
         }
-    }})
+    }
+})
 
 
 export const {addBook} = bookSlice.actions;
 export const {addPrice, subtractPrice} = priceSlice.actions;
-export const {increase, decrease} = counterSlice.actions;
+export const {increase, decrease} = cartSlice.actions;
 export const {changeCategory} = categorySlice.actions;
 export const {setEmail, setName} = userSlice.actions;
