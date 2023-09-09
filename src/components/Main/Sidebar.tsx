@@ -2,6 +2,7 @@ import s from './Sidebar.module.scss';
 import cx from 'classnames';
 import {useDispatch, useSelector} from "react-redux";
 import {changeCategory} from "@/reducer";
+import {useEffect} from "react";
 
 export const CATEGORIES = [
     'Architecture', 'Art & fashion', 'Biography', 'Business', 'Drama', 'Fiction', 'Food & Drink',
@@ -26,7 +27,6 @@ function Sidebar({chooseCategory}: TCategory) {
                             {
                                 id: index,
                                 title: category,
-                                chosen: true
                             }
                         ))} data-id={index}>{category}</li>
                     ))

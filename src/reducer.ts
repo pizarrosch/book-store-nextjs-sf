@@ -57,7 +57,6 @@ export const cartSlice = createSlice({
 export type TCategory = {
     id: number,
     title: string,
-    chosen: boolean
 }
 
 export const categorySlice = createSlice({
@@ -68,7 +67,6 @@ export const categorySlice = createSlice({
            return {
                 id: action.payload.id,
                 title: action.payload.title,
-                chosen: true
             };
         }
     }

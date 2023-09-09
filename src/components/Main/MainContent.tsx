@@ -12,7 +12,14 @@ function MainContent() {
     const [maxResults, setMaxResults] = useState(6);
     const dispatch = useDispatch();
 
-    const chosenCategory = useSelector((state) => state.category)
+    const chosenCategory = useSelector((state) => state.category);
+
+    useEffect(() => {
+        dispatch(changeCategory({
+            id: 0,
+            title: CATEGORIES[0]
+        }))
+    }, []);
 
     function chooseCategory() {
         setMaxResults(6);
@@ -21,7 +28,7 @@ function MainContent() {
     return (
         <div className={s.root}>
             <Sidebar chooseCategory={chooseCategory} />
-            <Books category={chosenCategory.title} maxResults={maxResults} setMaxResults={setMaxResults}/>
+            <Books category={chosenCategory.title || 'Architecture'} maxResults={maxResults} setMaxResults={setMaxResults}/>
         </div>
 
     )
