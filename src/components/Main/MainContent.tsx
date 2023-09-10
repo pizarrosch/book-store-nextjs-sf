@@ -14,12 +14,15 @@ function MainContent() {
 
     const chosenCategory = useSelector((state) => state.category);
 
-    useEffect(() => {
-        dispatch(changeCategory({
-            id: 0,
-            title: CATEGORIES[0]
-        }))
-    }, []);
+    // useEffect(() => {
+    //     if (chosenCategory) {
+    //         return chosenCategory.title
+    //     }
+    //     dispatch(changeCategory({
+    //         id: 0,
+    //         title: CATEGORIES[0]
+    //     }))
+    // }, [chosenCategory]);
 
     function chooseCategory() {
         setMaxResults(6);

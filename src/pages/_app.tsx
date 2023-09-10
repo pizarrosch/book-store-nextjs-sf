@@ -2,7 +2,7 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app';
 import {Provider} from "react-redux";
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import {addBook, bookSlice, categorySlice, cartSlice, priceSlice, userSlice} from "@/reducer";
+import {addBook, bookSlice, categorySlice, cartSlice, priceSlice, userSlice, clickedItemSlice} from "@/reducer";
 import {
     persistReducer,
     persistStore,
@@ -22,7 +22,8 @@ const reducer = combineReducers({
     price: priceSlice.reducer,
     cart: cartSlice.reducer,
     category: categorySlice.reducer,
-    userCredentials: userSlice.reducer
+    userCredentials: userSlice.reducer,
+    clickedItem: clickedItemSlice.reducer
 })
 
 const persistConfig = {

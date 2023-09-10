@@ -1,6 +1,35 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {bookData} from "@/components/Main/Books";
 
+export type TCartItem = {
+    number: number,
+    id: string
+}
+
+export type TCategory = {
+    id: number,
+    title: string,
+}
+
+type TUserCredentials = {
+    email: string,
+    name: string
+}
+
+const userCredentials = {
+    email: '',
+    name: ''
+}
+
+export type TClicked = {
+    id: string,
+    isClicked: 'buy now' | 'unavailable' | 'in the cart'
+}
+//
+// const initialBuyButtonState = {
+//     id
+// }
+
 export const bookSlice = createSlice({
     name: 'books',
     initialState: [] as bookData[],
@@ -23,11 +52,6 @@ export const priceSlice = createSlice({
         }
     }
 })
-
-export type TCartItem = {
-    number: number,
-    id: string
-}
 
 export const cartSlice = createSlice({
     name: 'cart',
@@ -54,11 +78,6 @@ export const cartSlice = createSlice({
     }
 })
 
-export type TCategory = {
-    id: number,
-    title: string,
-}
-
 export const categorySlice = createSlice({
     name: 'category',
     initialState: {} as TCategory,
@@ -71,16 +90,6 @@ export const categorySlice = createSlice({
         }
     }
 })
-
-type TUserCredentials = {
-    email: string,
-    name: string
-}
-
-const userCredentials = {
-    email: '',
-    name: ''
-}
 
 export const userSlice = createSlice({
     name: 'user',
@@ -95,9 +104,38 @@ export const userSlice = createSlice({
     }
 })
 
+export const clickedItemSlice = createSlice({
+    name: 'clickedItem',
+    initialState: [] as TClicked[],
+    reducers: {
+        isUnavailable: (state: TClicked[], action: PayloadAction<TClicked>) => {
+            state.push({
+                id: action.payload.id,
+                isClicked: action.payload.isClicked
+            })
+        },
+        addedToCart: (state: TClicked[], action: PayloadAction<TClicked>) => {
+            state.push({
+                id: action.payload.id,
+                isClicked: action.payload.isClicked
+            })
+        },
+        removedFromCart: (state: TClicked[], action: PayloadAction<TClicked>) => {
+            state.push({
+                id: action.payload.id,
+                isClicked: action.payload.isClicked
+            })
+
+            const item = state.findIndex(chosenItem => chosenItem.id === action.payload.id && chosenItem.isClicked !== 'buy now');
+            state.splice(item, 1);
+        }
+    }
+})
+
 
 export const {addBook} = bookSlice.actions;
 export const {addPrice, subtractPrice} = priceSlice.actions;
 export const {addCartItem, removeCartItem, increase, decrease} = cartSlice.actions;
 export const {changeCategory} = categorySlice.actions;
 export const {setEmail, setName} = userSlice.actions;
+export const {isUnavailable, addedToCart, removedFromCart} = clickedItemSlice.actions;

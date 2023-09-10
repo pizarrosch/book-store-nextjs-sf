@@ -75,7 +75,7 @@
       }
     }
   }
-  .button {
+  .button, .unavailable {
     width: 176px;
     height: 45px;
     border: 1px #4C3DB2 solid;
@@ -85,5 +85,10 @@
     color: #4C3DB2;
     background-color: transparent;
     cursor: pointer;
+  }
+
+  .unavailable {
+    border: 1px red solid;
+    color: red;
   }
 }

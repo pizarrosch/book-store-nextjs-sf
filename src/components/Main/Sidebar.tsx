@@ -23,7 +23,11 @@ function Sidebar({chooseCategory}: TCategory) {
             <ul className={s.categoriesList} onClick={chooseCategory}>
                 {
                     CATEGORIES.map((category, index) => (
-                        <li className={chosenCategory.id === index ? s.chosenCategory : ''} key={index} onClick={() => dispatch(changeCategory(
+                        <li className={
+                            (chosenCategory.id === index && chosenCategory.title)
+                            || (category === 'Architecture' && !chosenCategory.title)
+                                ? s.chosenCategory
+                                : ''} key={index} onClick={() => dispatch(changeCategory(
                             {
                                 id: index,
                                 title: category,

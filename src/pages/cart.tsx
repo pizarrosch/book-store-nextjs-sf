@@ -7,7 +7,7 @@ import filledStar from "../../public/assets/star-filled.svg";
 import unfilledStar from "../../public/assets/Star.svg";
 import minus from '../../public/assets/minus.svg';
 import plus from '../../public/assets/plus.svg';
-import {increase, decrease, addPrice, subtractPrice, TCartItem, removeCartItem} from "@/reducer";
+import {increase, decrease, addPrice, subtractPrice, TCartItem, removeCartItem, removedFromCart} from "@/reducer";
 import React, {useEffect, useState} from "react";
 import {act} from "react-dom/test-utils";
 
@@ -78,7 +78,11 @@ export default function Cart() {
                                         <Image src={minus} alt='' className={s.minus}  onClick={() => {
                                             if (cartItem.number <= 1) {
                                                 dispatch(removeCartItem(cartItem));
-                                                dispatch(subtractPrice(book.saleInfo.listPrice.amount))
+                                                dispatch(subtractPrice(book.saleInfo.listPrice.amount));
+                                                dispatch(removedFromCart({
+                                                    id: book.id,
+                                                    isClicked: "buy now"
+                                                }));
                                                 return;
                                             }
                                             dispatch(decrease({

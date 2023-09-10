@@ -4,8 +4,8 @@ import noCoverBook from '../../../public/assets/no-cover.jpg';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
 import Image from "next/image";
-import {addBook, addPrice, addCartItem} from "@/reducer";
-import {useDispatch} from "react-redux";
+import {addBook, addPrice, addCartItem, addedToCart, isUnavailable, TClicked} from "@/reducer";
+import {useDispatch, useSelector} from "react-redux";
 
 const API_KEY: string = 'AIzaSyDNqOURIAkd6F9DFzmyw2L688i7-_tIlSo';
 
@@ -48,6 +48,7 @@ type TBookCategory = {
 function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
     const dispatch = useDispatch();
+    const buyButtonState = useSelector(state => state.clickedItem);
 
     const [books, setBooks] = useState<Array<bookData>>([]);
 
@@ -68,20 +69,28 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
     function onBuyClick(e: React.MouseEvent) {
         const target = e.currentTarget as HTMLButtonElement;
-        books.filter((item, id) => {
-            if (target.dataset.id === (item.id).toString()) {
-                if (!item.saleInfo.listPrice) {
-                    target.innerHTML = 'Currently unavailable';
-                    target.style.border = '1px solid red';
-                    target.style.color = 'red';
+        books.filter((item) => {
+            const buyIndex = buyButtonState.find((buyItem: TClicked) => buyItem.id === String(item.id));
+            if (String(target.dataset.id) === (item.id).toString()) {
+                if (!item.saleInfo.listPrice && target.innerHTML !== 'unavailable') {
+                    dispatch(isUnavailable({
+                        id: String(target.dataset.id),
+                        isClicked: "unavailable"
+                    }));
                     return;
-                }
-                target.innerHTML = 'In the cart'
+                } else if (target.innerHTML === 'unavailable') return;
+
+                if (target.innerHTML === 'in the cart') return;
+
                 dispatch(addBook(item));
                 dispatch(addCartItem({
                     number: 1,
                     id: String(item.id)
                 }))
+                dispatch(addedToCart({
+                    id: String(item.id),
+                    isClicked: "in the cart"
+                }));
                 dispatch(addPrice(item.saleInfo.listPrice.amount));
             }
         })
@@ -90,8 +99,9 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
     return (
         <div className={s.booksContainer}>
-            {books && books.map(book => (
-                <div className={s.book} data-index={book.id}>
+            {books && books.map((book, id) => {
+                const buyIndex = buyButtonState.find((item: TClicked) => item.id === String(book.id));
+                return (<div className={s.book} data-index={book.id}>
                     <Image src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : noCoverBook}
                            alt="book-cover" className={s.bookCover} width={212} height={287}/>
                     <div className={s.book_bookInformation}>
@@ -117,12 +127,19 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
                             </span>
                         </div>
                         <p className={s.bookDescription}>{book.volumeInfo.description || 'No description available'}</p>
-                        <span
-                            className={s.price}>{book.saleInfo.listPrice ? '$' + book.saleInfo.listPrice.amount : 'out of stock'}</span>
-                        <button className={s.button} onClick={onBuyClick} data-id={book.id}>Buy now</button>
+                        <span className={s.price}>{book.saleInfo.listPrice ? '$' + book.saleInfo.listPrice.amount : 'out of stock'}</span>
+                        <button className={
+                            buyIndex && buyIndex.isClicked === 'unavailable'
+                                ? s.unavailable
+                                : s.button}
+                                onClick={onBuyClick}
+                                data-id={book.id}
+                        >
+                            {buyIndex ? buyIndex.isClicked : 'Buy now'}
+                        </button>
                     </div>
-                </div>
-            ))}
+                </div>)
+            })}
             <button className={s.button} onClick={loadMoreBooks}>LOAD MORE</button>
         </div>
     )
