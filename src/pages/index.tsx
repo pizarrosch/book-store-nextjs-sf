@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <div>
         <Layout handleShowLogin={handleShowLogin}>
-            {showLogin && <Login/>}
+            {showLogin && <Login setShowLogin={setShowLogin}/>}
             <Slider />
             <MainContent />
         </Layout>

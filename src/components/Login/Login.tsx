@@ -1,10 +1,14 @@
 import s from './Login.module.scss';
-import React, {useRef, useState} from "react";
+import React, {Dispatch, SetStateAction, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 import {useDispatch} from "react-redux";
 import {setName, setEmail} from "@/reducer";
 
-function Login() {
+type TShowLogin = {
+    setShowLogin: Dispatch<SetStateAction<boolean>>
+}
+
+function Login({setShowLogin}: TShowLogin) {
 
     const [email, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -23,9 +27,10 @@ function Login() {
             .then(response => response.json())
             .then(data => {
                 if (email === data.email && password === data.password) {
-                    router.push('/profile');
+                    // router.push('/profile');
                     dispatch(setEmail(data.email));
                     dispatch(setName(data.name));
+                    setShowLogin(false);
                 } else {
                     setAreCredentialsCorrect(false);
                 }

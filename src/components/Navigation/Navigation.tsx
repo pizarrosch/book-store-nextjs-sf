@@ -38,7 +38,7 @@ export default function Navigation({handleShowLogin}: TShowLogin) {
                 <Link href={'/cart'}>
                     <Image src={shopBag} alt={'bag'}/>
                 </Link>
-                {cart.length > 0 && <div className={s.itemsNumber} onClick={() =>router.push('/profile')}>{cart.length}</div>}
+                {cart.length > 0 && <div className={s.itemsNumber} onClick={() =>router.push('/cart')}>{cart.length}</div>}
             </div>
         </div>
     )
