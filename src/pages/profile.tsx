@@ -37,7 +37,7 @@ export default function Profile({handleShowLogin}: TShowLogin) {
                     <p className={s.paragraph}>
                         Charles Dickens was an English writer and social critic. During his lifetime, his works enjoyed
                         unprecedented popularity. He is now considered a literary genius because he created some of the
-                        world's best-known fictional characters and is regarded as the greatest novelist of the
+                        worlds best-known fictional characters and is regarded as the greatest novelist of the
                         Victorian era. His novels and short stories enjoy lasting popularity.
                     </p>
                 </div>

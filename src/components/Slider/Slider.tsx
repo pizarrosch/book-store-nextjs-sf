@@ -43,6 +43,7 @@ export default function Slider() {
                 {dotsArray.map((dot: number, index) => {
                         return (
                             <div
+                                key={dot}
                                 className={dot === 1 ? s.violet : s.dot}
                                 data-index={dot}
                                 onClick={handleClick}
