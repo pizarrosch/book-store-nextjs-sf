@@ -3,12 +3,16 @@ import Link from "next/link";
 import Image from "next/image";
 import user from "../../../public/assets/user.svg";
 import shopBag from "../../../public/assets/shop-bag.svg";
+import {useSelector} from "react-redux";
 
 type TShowLogin = {
     handleShowLogin: () => void
 }
 
 export default function Navigation({handleShowLogin}: TShowLogin) {
+
+    const cart = useSelector(state => state.cart);
+
     return (
         <div className={s.root}>
             <nav>
@@ -32,7 +36,7 @@ export default function Navigation({handleShowLogin}: TShowLogin) {
                 <Link href={'/cart'}>
                     <Image src={shopBag} alt={'bag'}/>
                 </Link>
-                <div className={s.itemsNumber}>1</div>
+                {cart.length > 0 && <div className={s.itemsNumber}>{cart.length}</div>}
             </div>
         </div>
     )

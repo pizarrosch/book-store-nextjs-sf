@@ -35,7 +35,7 @@ $font-family: 'Montserrat', sans-serif;
     }
 
     .itemsNumber {
-      display: none;
+      display: block;
       position: absolute;
       background-color: #FF353A;
       border-radius: 50%;
@@ -44,8 +44,8 @@ $font-family: 'Montserrat', sans-serif;
       @include font(10px, 500);
       color: white;
       text-align: center;
-      right: -4px;
-      bottom: -4px;
+      right: -3px;
+      bottom: 5px;
     }
   }
 }
