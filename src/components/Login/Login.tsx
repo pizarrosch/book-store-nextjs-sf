@@ -1,5 +1,5 @@
 import s from './Login.module.scss';
-import React, {Dispatch, SetStateAction, useRef, useState} from "react";
+import React, {ChangeEvent, Dispatch, SetStateAction, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 import {useDispatch} from "react-redux";
 import {setName, setEmail} from "@/reducer";
@@ -44,7 +44,7 @@ function Login({setShowLogin}: TShowLogin) {
         setPasswordIsValid(true);
     }
 
-    function handleInputChange(e: React.KeyboardEvent) {
+    function handleInputChange(e: React.ChangeEvent) {
         const target = e.target as HTMLInputElement;
         setUserEmail(target.value);
         if (!target.value.includes('@')) {
@@ -54,7 +54,7 @@ function Login({setShowLogin}: TShowLogin) {
         }
     }
 
-    function handlePasswordChange(e: InputEvent) {
+    function handlePasswordChange(e: React.ChangeEvent) {
         const target = e.target as HTMLInputElement;
         setPassword(target.value);
         if (target.value.length < 6) {
@@ -75,7 +75,7 @@ function Login({setShowLogin}: TShowLogin) {
                 <div className={s.passwordContainer}>
                     <label htmlFor='password' className={s.label}>Password</label>
                     <input type='password' id='password' className={passwordIsValid ? s.input : s.invalid}
-                           value={password} onInput={handlePasswordChange}/>
+                           value={password} onChange={handlePasswordChange}/>
                 </div>
                 {!passwordIsValid ?
                     <span className={s.errorText}>Your password must be at least 6 characters long</span> : ''}
