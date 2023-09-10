@@ -7,7 +7,7 @@ import s from './Slider.module.scss';
 import React, {useState} from "react";
 
 const imagesArray: StaticImageData[] = [banner, banner2, banner3];
-const dotsArray: number[] = [1, 2, 3];
+const dotsArray: number[] = [1 ,2 ,3];
 
 export default function Slider() {
     const [clicked, setClicked] = useState(false);

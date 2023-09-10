@@ -50,6 +50,7 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
     const dispatch = useDispatch();
     const buyButtonState = useAppSelector(state => state.clickedItem);
+    const authorized = useAppSelector(state => state.userCredentials);
 
     const [books, setBooks] = useState<Array<bookData>>([]);
 
@@ -72,7 +73,7 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
         const target = e.currentTarget as HTMLButtonElement;
         books.filter((item) => {
             const buyIndex = buyButtonState.find((buyItem: TClicked) => buyItem.id === String(item.id));
-            if (String(target.dataset.id) === (item.id).toString()) {
+            if (String(target.dataset.id) === (item.id).toString() && authorized.email && authorized.name) {
                 if (!item.saleInfo.listPrice && target.innerHTML !== 'unavailable') {
                     dispatch(isUnavailable({
                         id: String(target.dataset.id),
@@ -93,7 +94,7 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
                     isClicked: "in the cart"
                 }));
                 dispatch(addPrice(item.saleInfo.listPrice.amount));
-            }
+            } else return;
         })
     }
 
