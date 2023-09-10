@@ -102,7 +102,7 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
         <div className={s.booksContainer}>
             {books && books.map((book, id) => {
                 const buyIndex = buyButtonState.find((item: TClicked) => item.id === String(book.id));
-                return (<div className={s.book} data-index={book.id}>
+                return (<div className={s.book} data-index={book.id} key={id}>
                     <Image src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : noCoverBook}
                            alt="book-cover" className={s.bookCover} width={212} height={287}/>
                     <div className={s.book_bookInformation}>
