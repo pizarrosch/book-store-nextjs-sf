@@ -1,5 +1,5 @@
 import s from './Login.module.scss';
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 import {useDispatch} from "react-redux";
 import {setName, setEmail} from "@/reducer";
@@ -18,49 +18,44 @@ function Login() {
 
     const dispatch = useDispatch();
 
-     function logIn() {
+    function logIn() {
         fetch('/api/auth')
-           .then(response => response.json())
-           .then(data => {
-               dispatch(setEmail(data.email));
-               dispatch(setName(data.name));
-               if (inputRef.current!.value === data.email && passRef.current!.value === data.password) {
-                   router.push('/profile');
-               } else {
-                   setAreCredentialsCorrect(false);
-               }
-           })
+            .then(response => response.json())
+            .then(data => {
+                if (email === data.email && password === data.password) {
+                    router.push('/profile');
+                    dispatch(setEmail(data.email));
+                    dispatch(setName(data.name));
+                } else {
+                    setAreCredentialsCorrect(false);
+                }
+            })
     }
 
 
     function focus() {
-         setAreCredentialsCorrect(true);
-         setEmailIsValid(true);
-         setPasswordIsValid(true);
+        setAreCredentialsCorrect(true);
+        setEmailIsValid(true);
+        setPasswordIsValid(true);
     }
 
-    function handleInputChange() {
-            // setEmail(inputRef.current!.value);
-            // setPassword(passRef.current!.value);
-        if (password.length < 6 || !email.includes('@')) {
+    function handleInputChange(e: React.KeyboardEvent) {
+        const target = e.target as HTMLInputElement;
+        setUserEmail(target.value);
+        if (!target.value.includes('@')) {
             setEmailIsValid(false);
-            setPasswordIsValid(false);
-        } else if (password.length >= 6 || email.includes('@')) {
-            setEmailIsValid(true);
-            setPasswordIsValid(true);
+        } else if (target.value.includes('@')) {
+            setEmailIsValid(true)
         }
     }
 
-    function validate() {
-        if (password.length < 6 || !email.includes('@')) {
-            setEmailIsValid(false);
+    function handlePasswordChange(e: InputEvent) {
+        const target = e.target as HTMLInputElement;
+        setPassword(target.value);
+        if (target.value.length < 6) {
             setPasswordIsValid(false);
-            return;
-        } else if (password.length >= 6 || email.includes('@')) {
-            setEmailIsValid(true);
+        } else if (target.value.length >= 6)
             setPasswordIsValid(true);
-            router.push('/profile');
-        }
     }
 
     return (
@@ -69,17 +64,20 @@ function Login() {
             <form className={s.formContainer} onFocus={focus}>
                 <div className={s.loginContainer}>
                     <label htmlFor='login' className={s.label}>Email</label>
-                    <input type='email' id='login' className={s.input} ref={inputRef} onInput={handleInputChange}/>
+                    <input type='email' id='login' className={s.input} value={email} onChange={handleInputChange}/>
                 </div>
-                { !emailIsValid ? <span className={s.errorText}>Your email must contain @</span> : ''}
+                {!emailIsValid ? <span className={s.errorText}>Your email must contain @</span> : ''}
                 <div className={s.passwordContainer}>
                     <label htmlFor='password' className={s.label}>Password</label>
-                    <input type='password' id='password' className={passwordIsValid ? s.input : s.invalid} ref={passRef} onInput={handleInputChange}/>
+                    <input type='password' id='password' className={passwordIsValid ? s.input : s.invalid}
+                           value={password} onInput={handlePasswordChange}/>
                 </div>
-                { !passwordIsValid ? <span className={s.errorText}>Your password must be at least 6 characters long</span> : ''}
-                { !areCredentialsCorrect ? <span className={s.errorText}>Email or password are wrong</span> : ''}
+                {!passwordIsValid ?
+                    <span className={s.errorText}>Your password must be at least 6 characters long</span> : ''}
+                {!areCredentialsCorrect ? <span className={s.errorText}>Email or password are wrong</span> : ''}
             </form>
-            <button className={s.loginButton} onClick={logIn} disabled={!passwordIsValid || !emailIsValid}>Log in</button>
+            <button className={s.loginButton} onClick={logIn} disabled={!passwordIsValid || !emailIsValid}>Log in
+            </button>
         </div>
     )
 }

@@ -6,6 +6,7 @@ import filledStar from '../../../public/assets/star-filled.svg';
 import Image from "next/image";
 import {addBook, addPrice, addCartItem, addedToCart, isUnavailable, TClicked} from "@/reducer";
 import {useDispatch, useSelector} from "react-redux";
+import {useAppSelector} from "@/pages/hooks";
 
 const API_KEY: string = 'AIzaSyDNqOURIAkd6F9DFzmyw2L688i7-_tIlSo';
 
@@ -48,7 +49,7 @@ type TBookCategory = {
 function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
     const dispatch = useDispatch();
-    const buyButtonState = useSelector(state => state.clickedItem);
+    const buyButtonState = useAppSelector(state => state.clickedItem);
 
     const [books, setBooks] = useState<Array<bookData>>([]);
 
@@ -127,7 +128,8 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
                             </span>
                         </div>
                         <p className={s.bookDescription}>{book.volumeInfo.description || 'No description available'}</p>
-                        <span className={s.price}>{book.saleInfo.listPrice ? '$' + book.saleInfo.listPrice.amount : 'out of stock'}</span>
+                        <span
+                            className={s.price}>{book.saleInfo.listPrice ? '$' + book.saleInfo.listPrice.amount : 'out of stock'}</span>
                         <button className={
                             buyIndex && buyIndex.isClicked === 'unavailable'
                                 ? s.unavailable

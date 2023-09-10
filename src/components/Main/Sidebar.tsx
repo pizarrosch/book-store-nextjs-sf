@@ -1,8 +1,7 @@
 import s from './Sidebar.module.scss';
-import cx from 'classnames';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {changeCategory} from "@/reducer";
-import {useEffect} from "react";
+import {useAppSelector} from "@/pages/hooks";
 
 export const CATEGORIES = [
     'Architecture', 'Art & fashion', 'Biography', 'Business', 'Drama', 'Fiction', 'Food & Drink',
@@ -16,7 +15,7 @@ type TCategory = {
 
 function Sidebar({chooseCategory}: TCategory) {
     const dispatch = useDispatch();
-    const chosenCategory = useSelector(state => state.category)
+    const chosenCategory = useAppSelector(state => state.category)
 
     return (
         <div className={s.root}>

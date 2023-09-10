@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import user from "../../../public/assets/user.svg";
 import shopBag from "../../../public/assets/shop-bag.svg";
-import {useSelector} from "react-redux";
+import {useAppSelector} from "@/pages/hooks";
 
 type TShowLogin = {
     handleShowLogin: () => void
@@ -11,7 +11,7 @@ type TShowLogin = {
 
 export default function Navigation({handleShowLogin}: TShowLogin) {
 
-    const cart = useSelector(state => state.cart);
+    const cart = useAppSelector(state => state.cart);
 
     return (
         <div className={s.root}>

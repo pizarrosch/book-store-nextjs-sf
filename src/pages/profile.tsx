@@ -6,14 +6,18 @@ import {useState} from "react";
 import {useSelector} from "react-redux";
 import {TUserData} from "@/pages/api/auth";
 
-export default function Profile() {
+type TShowLogin = {
+    handleShowLogin: () => void
+}
+
+export default function Profile({handleShowLogin}: TShowLogin) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
 
     const userData: any = useSelector((state: TUserData) => state.userCredentials);
 
     return (
-        <Layout>
+        <Layout handleShowLogin={handleShowLogin}>
             <div className={s.root}>
                 <div className={s.userDataContainer}>
                     <div>
