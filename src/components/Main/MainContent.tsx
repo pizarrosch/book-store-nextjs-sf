@@ -1,7 +1,7 @@
 import Sidebar from "@/components/Main/Sidebar";
 import s from './Main.module.scss';
 import Books from "@/components/Main/Books";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useAppSelector} from "@/pages/hooks";
 
 function MainContent() {

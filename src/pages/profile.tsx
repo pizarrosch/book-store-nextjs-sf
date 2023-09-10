@@ -2,7 +2,6 @@ import profileImage from '../../public/assets/profile-image.png';
 import Layout from "@/components/layout";
 import Image from "next/image";
 import s from '../styles/profile.module.scss';
-import {useState} from "react";
 import {useSelector} from "react-redux";
 import {TUserData} from "@/pages/api/auth";
 
@@ -11,9 +10,6 @@ type TShowLogin = {
 }
 
 export default function Profile({handleShowLogin}: TShowLogin) {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-
     const userData: any = useSelector((state: TUserData) => state.userCredentials);
 
     return (

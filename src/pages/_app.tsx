@@ -1,20 +1,20 @@
 import '@/styles/globals.css'
-import type { AppProps } from 'next/app';
+import type {AppProps} from 'next/app';
 import {Provider} from "react-redux";
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import {addBook, bookSlice, categorySlice, cartSlice, priceSlice, userSlice, clickedItemSlice} from "@/reducer";
+import {bookSlice, categorySlice, cartSlice, priceSlice, userSlice, clickedItemSlice} from "@/reducer";
 import {
     persistReducer,
     persistStore,
-FLUSH,
-REHYDRATE,
+    FLUSH,
+    REHYDRATE,
     PAUSE,
     PERSIST,
     PURGE,
     REGISTER
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { PersistGate } from 'redux-persist/integration/react';
+import {PersistGate} from 'redux-persist/integration/react';
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
@@ -47,14 +47,13 @@ const store = configureStore({
 });
 const persistor = persistStore(store);
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({Component, pageProps}: AppProps) {
 
-
-  return (
-      <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-              <Component {...pageProps} />
-          </PersistGate>
-      </Provider>
-)
+    return (
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <Component {...pageProps} />
+            </PersistGate>
+        </Provider>
+    )
 }

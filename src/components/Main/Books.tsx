@@ -5,7 +5,7 @@ import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
 import Image from "next/image";
 import {addBook, addPrice, addCartItem, addedToCart, isUnavailable, TClicked} from "@/reducer";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useAppSelector} from "@/pages/hooks";
 
 const API_KEY: string = 'AIzaSyDNqOURIAkd6F9DFzmyw2L688i7-_tIlSo';
@@ -96,7 +96,6 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
             }
         })
     }
-
 
     return (
         <div className={s.booksContainer}>

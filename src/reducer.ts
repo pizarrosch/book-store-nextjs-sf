@@ -25,10 +25,6 @@ export type TClicked = {
     id: string,
     isClicked: 'buy now' | 'unavailable' | 'in the cart'
 }
-//
-// const initialBuyButtonState = {
-//     id
-// }
 
 export const bookSlice = createSlice({
     name: 'books',
@@ -83,7 +79,7 @@ export const categorySlice = createSlice({
     initialState: {} as TCategory,
     reducers: {
         changeCategory: (state: TCategory, action: PayloadAction<TCategory>) => {
-           return {
+            return {
                 id: action.payload.id,
                 title: action.payload.title,
             };

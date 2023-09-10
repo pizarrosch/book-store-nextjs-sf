@@ -1,5 +1,5 @@
 import s from './Login.module.scss';
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 import {useDispatch} from "react-redux";
 import {setName, setEmail} from "@/reducer";

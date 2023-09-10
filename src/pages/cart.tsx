@@ -8,7 +8,7 @@ import unfilledStar from "../../public/assets/Star.svg";
 import minus from '../../public/assets/minus.svg';
 import plus from '../../public/assets/plus.svg';
 import {increase, decrease, addPrice, subtractPrice, TCartItem, removeCartItem, removedFromCart} from "@/reducer";
-import React, {useState} from "react";
+import React from "react";
 import {useAppSelector} from "@/pages/hooks";
 
 type TShowLogin = {
