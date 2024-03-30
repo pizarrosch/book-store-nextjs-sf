@@ -73,14 +73,14 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
         const target = e.currentTarget as HTMLButtonElement;
         books.filter((item) => {
             const buyIndex = buyButtonState.find((buyItem: TClicked) => buyItem.id === String(item.id));
-            if (String(target.dataset.id) === (item.id).toString() && authorized.email && authorized.name) {
-                if (!item.saleInfo.listPrice && target.innerHTML !== 'unavailable') {
-                    dispatch(isUnavailable({
-                        id: String(target.dataset.id),
-                        isClicked: "unavailable"
-                    }));
-                    return;
-                } else if (target.innerHTML === 'unavailable') return;
+            if (String(target.dataset.id) === (item.id).toString()) {
+                // if (!item.saleInfo.listPrice && target.innerHTML !== 'unavailable') {
+                //     dispatch(isUnavailable({
+                //         id: String(target.dataset.id),
+                //         isClicked: "unavailable"
+                //     }));
+                //     return;
+                if (target.innerHTML === 'unavailable') return;
 
                 if (target.innerHTML === 'in the cart') return;
 
@@ -93,7 +93,7 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
                     id: String(item.id),
                     isClicked: "in the cart"
                 }));
-                dispatch(addPrice(item.saleInfo.listPrice.amount));
+                item.saleInfo.listPrice && dispatch(addPrice(item.saleInfo.listPrice.amount));
             } else return;
         })
     }
@@ -131,13 +131,13 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
                         <span
                             className={s.price}>{book.saleInfo.listPrice ? '$' + book.saleInfo.listPrice.amount : 'out of stock'}</span>
                         <button className={
-                            buyIndex && buyIndex.isClicked === 'unavailable'
+                            !book.saleInfo.listPrice
                                 ? s.unavailable
                                 : s.button}
                                 onClick={onBuyClick}
                                 data-id={book.id}
                         >
-                            {buyIndex ? buyIndex.isClicked : 'Buy now'}
+                            {!book.saleInfo.listPrice ? 'unavailable' : buyIndex ? buyIndex.isClicked : 'Buy now'}
                         </button>
                     </div>
                 </div>)
