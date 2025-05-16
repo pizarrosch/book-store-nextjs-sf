@@ -55,7 +55,7 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
     const [books, setBooks] = useState<Array<bookData>>([]);
 
     function fetchBooks() {
-        fetch(`https://www.googleapis.com/books/v1/volumes?q="subject:${category}"&key=${API_KEY}&printType=books&startIndex=0&maxResults=${maxResults}&langRestrict=en`)
+        fetch(`/api/books?category=${encodeURIComponent(category)}&maxResults=${maxResults}`)
             .then(response => response.json())
             .then(data => setBooks(data.items));
     }
