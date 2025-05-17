@@ -1,8 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project for a book store application with secure authentication.
 
 ## Getting Started
 
-First, run the development server:
+### Environment Setup
+
+1. Copy the `.env.local.example` file to `.env.local`:
+
+```bash
+cp .env.local.example .env.local
+```
+
+2. Edit `.env.local` and add your actual values:
+   - `GOOGLE_BOOKS_API_KEY`: Your Google Books API key
+   - `JWT_SECRET`: A secure random string for JWT token signing
+
+### Install Dependencies
+
+Install the required dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+You'll need to install these additional packages for authentication:
+
+```bash
+npm install jsonwebtoken bcryptjs
+# or
+yarn add jsonwebtoken bcryptjs
+# or
+pnpm add jsonwebtoken bcryptjs
+```
+
+### Run the Development Server
 
 ```bash
 npm run dev
@@ -14,13 +48,36 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Authentication System
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+This application implements a secure authentication system with the following features:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- JWT (JSON Web Token) based authentication
+- Secure password hashing with bcrypt
+- Protected API routes
+- Protected pages (profile)
+- Secure credential storage
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### How Authentication Works
+
+1. Users log in with email and password
+2. Credentials are verified against securely stored hashed passwords
+3. Upon successful authentication, a JWT token is generated and stored in Redux
+4. Protected routes and pages check for this token
+5. API requests include the token in the Authorization header
+
+### Default Test User
+
+For testing purposes, you can use the following credentials:
+- Email: shomakhov@skillfactory.ru
+- Password: Zaurskillfactory
+
+### API Routes
+
+The application includes the following API routes:
+
+- `/api/auth` - Authentication endpoint (POST for login, GET for user info)
+- `/api/books` - Protected endpoint for fetching books from Google Books API
 
 ## Learn More
 

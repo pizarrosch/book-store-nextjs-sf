@@ -2,7 +2,7 @@ import s from './Login.module.scss';
 import React, {ChangeEvent, Dispatch, SetStateAction, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 import {useDispatch} from "react-redux";
-import {setName, setEmail} from "@/reducer";
+import {setName, setEmail, setAuthenticated, setToken} from "@/reducer";
 
 type TShowLogin = {
     setShowLogin: Dispatch<SetStateAction<boolean>>
@@ -15,6 +15,7 @@ function Login({setShowLogin}: TShowLogin) {
     const [emailIsValid, setEmailIsValid] = useState(true);
     const [passwordIsValid, setPasswordIsValid] = useState(true);
     const [areCredentialsCorrect, setAreCredentialsCorrect] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -22,19 +23,46 @@ function Login({setShowLogin}: TShowLogin) {
 
     const dispatch = useDispatch();
 
-    function logIn() {
-        fetch('/api/auth')
-            .then(response => response.json())
-            .then(data => {
-                if (email === data.email && password === data.password) {
-                    // router.push('/profile');
-                    dispatch(setEmail(data.email));
-                    dispatch(setName(data.name));
-                    setShowLogin(false);
-                } else {
-                    setAreCredentialsCorrect(false);
-                }
-            })
+    async function logIn() {
+        if (!emailIsValid || !passwordIsValid) {
+            return;
+        }
+
+        setIsLoading(true);
+        setAreCredentialsCorrect(true);
+
+        try {
+            const response = await fetch('/api/auth', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Store user data in Redux
+                dispatch(setEmail(data.email));
+                dispatch(setName(data.name));
+                dispatch(setToken(data.token));
+                dispatch(setAuthenticated(true));
+
+                // Close login modal
+                setShowLogin(false);
+
+                // Optionally redirect to profile
+                // router.push('/profile');
+            } else {
+                setAreCredentialsCorrect(false);
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            setAreCredentialsCorrect(false);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
 

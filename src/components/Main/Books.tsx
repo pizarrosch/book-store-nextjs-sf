@@ -7,8 +7,7 @@ import Image from "next/image";
 import {addBook, addPrice, addCartItem, addedToCart, isUnavailable, TClicked} from "@/reducer";
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "@/pages/hooks";
-
-const API_KEY: string = 'AIzaSyDNqOURIAkd6F9DFzmyw2L688i7-_tIlSo';
+import {useRouter} from "next/navigation";
 
 type imageAddress = {
     thumbnail: string
@@ -50,14 +49,39 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
     const dispatch = useDispatch();
     const buyButtonState = useAppSelector(state => state.clickedItem);
-    const authorized = useAppSelector(state => state.userCredentials);
+    const userCredentials = useAppSelector(state => state.userCredentials);
+    const router = useRouter();
 
     const [books, setBooks] = useState<Array<bookData>>([]);
+    const [error, setError] = useState<string | null>(null);
 
-    function fetchBooks() {
-        fetch(`/api/books?category=${encodeURIComponent(category)}&maxResults=${maxResults}`)
-            .then(response => response.json())
-            .then(data => setBooks(data.items));
+    async function fetchBooks() {
+        try {
+            const headers: HeadersInit = {};
+
+            // Add authorization header if user is authenticated
+            if (userCredentials.isAuthenticated && userCredentials.token) {
+                headers['Authorization'] = `Bearer ${userCredentials.token}`;
+            }
+
+            const response = await fetch(
+                `/api/books?category=${encodeURIComponent(category)}&maxResults=${maxResults}`,
+                {
+                    headers
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setBooks(data.items || []);
+            setError(null);
+        } catch (error) {
+            console.error('Error fetching books:', error);
+            setError('Failed to fetch books. Please try again later.');
+        }
     }
 
     function loadMoreBooks() {
@@ -67,9 +91,17 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
     useEffect(() => {
         fetchBooks();
-    }, [category, maxResults]);
+    }, [category, maxResults, userCredentials.isAuthenticated, userCredentials.token]);
 
     function onBuyClick(e: React.MouseEvent) {
+        // Check if user is authenticated
+        if (!userCredentials.isAuthenticated || !userCredentials.token) {
+            // Redirect to login page with current URL as redirect parameter
+            const currentPath = window.location.pathname + window.location.search;
+            router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
+            return;
+        }
+
         const target = e.currentTarget as HTMLButtonElement;
         books.filter((item) => {
             const buyIndex = buyButtonState.find((buyItem: TClicked) => buyItem.id === String(item.id));
@@ -100,7 +132,34 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
     return (
         <div className={s.booksContainer}>
-            {books && books.map((book, id) => {
+            {error && (
+                <div style={{
+                    padding: '20px',
+                    margin: '20px 0',
+                    backgroundColor: '#f8d7da',
+                    color: '#721c24',
+                    borderRadius: '5px',
+                    textAlign: 'center',
+                    width: '100%'
+                }}>
+                    <p style={{ marginBottom: '15px' }}>{error}</p>
+                    {error.includes('logged in') && (
+                        <button 
+                            className={s.button} 
+                            onClick={() => document.querySelector('#user-icon')?.dispatchEvent(
+                                new MouseEvent('click', { bubbles: true })
+                            )}
+                            style={{
+                                display: 'inline-block',
+                                margin: '0 auto'
+                            }}
+                        >
+                            Log in
+                        </button>
+                    )}
+                </div>
+            )}
+            {!error && books && books.map((book, id) => {
                 const buyIndex = buyButtonState.find((item: TClicked) => item.id === String(book.id));
                 return (<div className={s.book} data-index={book.id} key={id}>
                     <Image src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : noCoverBook}

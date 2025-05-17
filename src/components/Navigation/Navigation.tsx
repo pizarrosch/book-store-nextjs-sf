@@ -34,7 +34,7 @@ export default function Navigation({handleShowLogin}: TShowLogin) {
                 </ul>
             </nav>
             <div className={s.accountActionsMenu}>
-                <Image src={user} alt={'user'} onClick={handleShowLogin}/>
+                <Image src={user} alt="user" id='user-icon' onClick={handleShowLogin}/>
                 <Link href={'/cart'}>
                     <Image src={shopBag} alt={'bag'}/>
                 </Link>

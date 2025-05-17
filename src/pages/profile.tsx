@@ -4,6 +4,8 @@ import Image from "next/image";
 import s from '../styles/profile.module.scss';
 import {useSelector} from "react-redux";
 import {TUserData} from "@/pages/api/auth";
+import {useEffect} from "react";
+import {useRouter} from "next/navigation";
 
 type TShowLogin = {
     handleShowLogin: () => void
@@ -11,6 +13,18 @@ type TShowLogin = {
 
 export default function Profile({handleShowLogin}: TShowLogin) {
     const userData: any = useSelector((state: TUserData) => state.userCredentials);
+    const router = useRouter();
+
+    // Redirect to home if not authenticated
+    useEffect(() => {
+        if (!userData.isAuthenticated) {
+            router.push('/');
+            // Show login modal
+            setTimeout(() => {
+                handleShowLogin();
+            }, 100);
+        }
+    }, [userData.isAuthenticated, router, handleShowLogin]);
 
     return (
         <Layout handleShowLogin={handleShowLogin}>
