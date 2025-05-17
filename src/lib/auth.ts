@@ -20,7 +20,7 @@ export const users: User[] = [
     name: 'Zaur Shomakhov',
     email: 'shomakhov@skillfactory.ru',
     // This is a hashed version of 'Zaurskillfactory'
-    password: '$2a$12$Q0grHjH9PXc6SxivC8m12.2mZJ9BbKcgFpwSG4Y1ZEII8HJVzWeyS'
+    password: '$2b$12$th9YygP3xnMPRAcw9nqgKu8DvzIiSiHR4DFvas8YQwgPob/rpaJd2'
   }
 ];
 
@@ -36,7 +36,7 @@ export async function verifyPassword(password: string, hashedPassword: string): 
 
 // Function to find a user by email
 export function findUserByEmail(email: string): User | undefined {
-  return users.find(user => user.email === email);
+  return users.find(user => user.email.toLowerCase() === email.toLowerCase());
 }
 
 // Function to generate a JWT token
@@ -61,18 +61,18 @@ export function verifyToken(token: string): { id: string; email: string; name: s
 // Middleware to check if a request is authenticated
 export function isAuthenticated(req: any): boolean {
   const authHeader = req.headers.authorization;
-  
+
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return false;
   }
-  
+
   const token = authHeader.substring(7);
   const payload = verifyToken(token);
-  
+
   if (!payload) {
     return false;
   }
-  
+
   // Add the user to the request object
   req.user = payload;
   return true;
