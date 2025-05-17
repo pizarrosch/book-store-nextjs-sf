@@ -76,7 +76,8 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
             }
 
             const data = await response.json();
-            setBooks(data.items || []);
+            const booksInStock = data.items.filter((book: bookData) => book.saleInfo.listPrice);
+            setBooks(booksInStock || []);
             setError(null);
         } catch (error) {
             console.error('Error fetching books:', error);
