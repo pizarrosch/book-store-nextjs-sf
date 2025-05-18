@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {bookData} from "@/components/Main/Books";
+import {bookData} from "@/components/Book/Books";
 
 export type TCartItem = {
     number: number,

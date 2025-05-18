@@ -1,6 +1,6 @@
 import Layout from "@/components/layout";
 import {useDispatch} from 'react-redux';
-import {bookData} from "@/components/Main/Books";
+import {bookData} from "@/components/Book/Books";
 import Image from "next/image";
 import s from '../styles/cart.module.scss';
 import filledStar from "../../public/assets/star-filled.svg";

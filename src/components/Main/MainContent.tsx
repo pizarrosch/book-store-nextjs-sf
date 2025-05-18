@@ -1,6 +1,6 @@
 import Sidebar from "@/components/Main/Sidebar";
 import s from './Main.module.scss';
-import Books from "@/components/Main/Books";
+import Books from "@/components/Book/Books";
 import {useState} from "react";
 import {useAppSelector} from "@/pages/hooks";
 
