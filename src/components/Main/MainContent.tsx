@@ -1,8 +1,9 @@
-import Sidebar from "@/components/Main/Sidebar";
+import Sidebar from "@/components/Drawer/Sidebar";
 import s from './Main.module.scss';
 import Books from "@/components/Book/Books";
 import {useState} from "react";
 import {useAppSelector} from "@/pages/hooks";
+import MenuDrawer from "@/components/Drawer/MenuDrawer";
 
 function MainContent() {
     const [maxResults, setMaxResults] = useState(6);
@@ -13,10 +14,13 @@ function MainContent() {
     }
 
     return (
-        <div className={s.root}>
-            <Sidebar chooseCategory={chooseCategory} />
-            <Books category={chosenCategory.title || 'Architecture'} maxResults={maxResults} setMaxResults={setMaxResults}/>
-        </div>
+        <>
+            <MenuDrawer />
+            <div className={s.root}>
+                <Books category={chosenCategory.title || 'Architecture'} maxResults={maxResults} setMaxResults={setMaxResults}/>
+            </div>
+        </>
+
 
     )
 }
