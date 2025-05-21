@@ -1,4 +1,4 @@
-import banner from '../../../public/assets/banner.png';
+import banner from '../../../public/assets/Sales-influencers-tell-us-the-books-that-changed-how-they-sell.webp';
 import banner2 from '../../../public/assets/banner_2-transformed.png';
 import banner3 from '../../../public/assets/banner_3.png';
 import s from './Slider.module.scss';

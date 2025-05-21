@@ -1,14 +1,15 @@
 .root {
   margin: 0 auto;
   display: block;
-  max-width: 1122px;
+  max-width: 1170px;
   width: 100%;
 }
 
 .banner {
-  width: 1122px;
-  height: 702px;
+  width: auto;
+  height: 450px;
   display: flex;
+  overflow: hidden;
 }
 
 
