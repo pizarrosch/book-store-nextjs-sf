@@ -7,10 +7,10 @@ const nextConfig = {
         protocol: 'http',
         hostname: 'books.google.com',
         port: '',
-        pathname: '**',
-      },
-    ],
+        pathname: '**'
+      }
+    ]
   }
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
