@@ -1,3 +1,58 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:css-modules/recommended",
+    "next",
+    "prettier"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "root": true,
+  "plugins": [
+    "import",
+    "css-modules"
+  ],
+  "rules": {
+    "prettier/prettier": ["error", { "trailingComma": "none", "bracketSpacing": false, "singleQuote": true }],
+    "import/newline-after-import": "error",
+    "import/no-unresolved": ["error", {"commonjs": true}],
+    "import/no-named-as-default": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "newlines-between": "never",
+        "alphabetize": {"order": "asc"}
+      }
+    ],
+    "jsx-a11y/no-autofocus": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "jsx-a11y/no-onchange": "off",
+    "@next/next/no-html-link-for-pages": "off",
+    "import/no-anonymous-default-export": "off",
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+  },
+  "settings": {
+    "next": {
+      "rootDir": "./sites/**/src"
+    }
+  },
+  "globals": {
+    "cy": false,
+    "Cypress": false,
+    "before": false
+  }
 }
