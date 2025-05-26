@@ -120,9 +120,9 @@ export default function LoginPage() {
         <title>Login - Book Store</title>
       </Head>
       <div className={s.pageContainer}>
-        <h2 className={s.title}>Log in</h2>
-        <form className={s.formContainer} onFocus={focus}>
-          <div className={s.loginContainer}>
+        <h2>Log in</h2>
+        <form onFocus={focus}>
+          <div>
             <label htmlFor="login" className={s.label}>
               Email
             </label>

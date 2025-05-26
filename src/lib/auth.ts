@@ -1,5 +1,5 @@
-import { sign, verify } from 'jsonwebtoken';
-import { hash, compare } from 'bcryptjs';
+import {hash, compare} from 'bcryptjs';
+import {sign, verify} from 'jsonwebtoken';
 
 // Secret key for JWT - in production, this should be in environment variables
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
@@ -30,29 +30,40 @@ export async function hashPassword(password: string): Promise<string> {
 }
 
 // Function to verify a password
-export async function verifyPassword(password: string, hashedPassword: string): Promise<boolean> {
+export async function verifyPassword(
+  password: string,
+  hashedPassword: string
+): Promise<boolean> {
   return await compare(password, hashedPassword);
 }
 
 // Function to find a user by email
 export function findUserByEmail(email: string): User | undefined {
-  return users.find(user => user.email.toLowerCase() === email.toLowerCase());
+  return users.find((user) => user.email.toLowerCase() === email.toLowerCase());
 }
 
 // Function to generate a JWT token
-export function generateToken(user: { id: string; email: string; name: string }): string {
+export function generateToken(user: {
+  id: string;
+  email: string;
+  name: string;
+}): string {
   // Create a token that expires in 1 hour
-  return sign(
-    { id: user.id, email: user.email, name: user.name },
-    JWT_SECRET,
-    { expiresIn: '1h' }
-  );
+  return sign({id: user.id, email: user.email, name: user.name}, JWT_SECRET, {
+    expiresIn: '1h'
+  });
 }
 
 // Function to verify a JWT token
-export function verifyToken(token: string): { id: string; email: string; name: string } | null {
+export function verifyToken(
+  token: string
+): {id: string; email: string; name: string} | null {
   try {
-    return verify(token, JWT_SECRET) as { id: string; email: string; name: string };
+    return verify(token, JWT_SECRET) as {
+      id: string;
+      email: string;
+      name: string;
+    };
   } catch (error) {
     return null;
   }
