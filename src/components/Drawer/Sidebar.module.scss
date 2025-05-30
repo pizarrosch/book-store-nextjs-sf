@@ -7,8 +7,12 @@
   margin-bottom: 90px;
   margin-left: 0;
   box-sizing: border-box;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 500;
+
+  h1 {
+    font-size: 24px;
+  }
 
   .categoriesList {
     padding: 0;
@@ -17,18 +21,18 @@
       display: flex;
       justify-content: left;
       list-style: none;
-      padding: 10px 0 10px 0;
+      padding: 10px 20px 10px 20px;
       cursor: pointer;
     }
 
     :hover {
-      background-color: #ABB3BF;
+      background-color: #F6F7F9;
     }
   }
 
   .chosenCategory {
-    background-color: #ABB3BF;
-    color: #DCE0E5;
+    //color: #2d72d2;
+    font-weight: 900;
   }
 }
 
