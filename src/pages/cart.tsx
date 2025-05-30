@@ -2,7 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import {bookData} from '@/components/Book/Books';
-import Layout from '@/components/layout';
+import Layout from '@/components/Layout/Layout';
 import {useAppSelector} from '@/pages/hooks';
 import {
   increase,

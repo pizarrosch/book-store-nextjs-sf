@@ -2,7 +2,7 @@ import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import Layout from '@/components/layout';
+import Layout from '@/components/Layout/Layout';
 import {TUserData} from '@/pages/api/auth';
 import profileImage from '../../public/assets/profile-image.png';
 import s from '../styles/profile.module.scss';

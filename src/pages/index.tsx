@@ -3,7 +3,7 @@ import {useState} from 'react';
 import Login from '@/components/Login/Login';
 import MainContent from '@/components/Main/MainContent';
 import Slider from '@/components/Slider/Slider';
-import Layout from '@/components/layout';
+import Layout from '@/components/Layout/Layout';
 import {useAppSelector} from '@/pages/hooks';
 
 export default function Home() {

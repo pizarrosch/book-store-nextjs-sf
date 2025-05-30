@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project for a book store application with secure authentication.
+This is a [Next.js](https://nextjs.org/) project for a book store application with secure authentication. The project follows a structured approach to component organization and testing.
 
 ## Getting Started
 
@@ -47,6 +47,49 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Project Structure
+
+The project follows these organization rules:
+
+- Every React component is located in its own folder of the same name.
+- If a component is divided into smaller subcomponents, each subcomponent's name contains the name of its parent component as its prefix. For example: Parent component has a name `Book.tsx`, then the subcomponent might be `BookDetails.tsx`, `BookButton.tsx`.
+- All parent/child components are in one folder named after the root component (main parent component).
+- Every component has a corresponding SCSS module, ensuring styles are not shared between components.
+- All components are located in the "components" folder.
+- All components have corresponding Jest unit tests.
+- Test files are co-located with the corresponding React components.
+
+### Components
+
+#### Layout Components
+- `Layout`: The main layout component that wraps all pages
+- `Navigation`: The navigation bar component
+
+#### Book Components
+- `Books`: The main component for displaying books
+- `BookDetails`: Displays detailed information about a book
+- `BookCoverImage`: Displays the book cover image
+
+#### UI Components
+- `Backdrop`: Loading indicator component
+- `Slider`: Image slider component
+- `Login`: Login form component
+- `MainContent`: Main content area with book categories
+
+### Testing
+
+The project uses Jest and React Testing Library for unit testing. To run the tests:
+
+```bash
+npm test
+```
+
+To run tests in watch mode:
+
+```bash
+npm run test:watch
+```
 
 ## Authentication System
 

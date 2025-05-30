@@ -2,7 +2,7 @@ import Head from 'next/head';
 import {useRouter} from 'next/navigation';
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import Layout from '@/components/layout';
+import Layout from '@/components/Layout/Layout';
 import {setName, setEmail, setAuthenticated, setToken} from '@/reducer';
 import s from '../styles/login.module.scss';
 
