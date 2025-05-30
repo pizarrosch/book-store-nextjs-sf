@@ -85,7 +85,7 @@ export default function BookDetails(details: BookDetailsProps) {
         onClick={handleClick}
         data-id={details.id}
         intent="primary"
-        text="Add to the cart"
+        text="Add to cart"
       />
     </div>
   );
