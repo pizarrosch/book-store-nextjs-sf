@@ -1,10 +1,11 @@
+import {Button} from '@blueprintjs/core';
 import Image from 'next/image';
 import React from 'react';
 import {bookData} from '@/components/Book/Books';
-import s from '@/components/Book/Books.module.scss';
 import {TClicked} from '@/reducer';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
+import s from './Books.module.scss';
 
 type BookDetailsProps = bookData & {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
@@ -75,17 +76,13 @@ export default function BookDetails(details: BookDetailsProps) {
           ? '$' + details.saleInfo?.listPrice.amount
           : 'out of stock'}
       </span>
-      <button
-        className={!details.saleInfo?.listPrice ? s.unavailable : s.button}
+      <Button
+        // className={!details.saleInfo?.listPrice ? s.unavailable : s.button}
         onClick={onClick}
         data-id={details.id}
-      >
-        {!details.saleInfo?.listPrice
-          ? 'unavailable'
-          : buyIndex
-            ? buyIndex.isClicked
-            : 'Buy now'}
-      </button>
+        intent="primary"
+        text="Add to the cart"
+      />
     </div>
   );
 }

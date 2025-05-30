@@ -22,6 +22,7 @@ import {
   userSlice,
   clickedItemSlice
 } from '@/reducer';
+import '@blueprintjs/core/lib/css/blueprint.css';
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

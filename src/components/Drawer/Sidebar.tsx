@@ -31,30 +31,33 @@ function Sidebar({chooseCategory}: TCategory) {
 
   return (
     <div className={s.root}>
-      <ul className={s.categoriesList} onClick={chooseCategory}>
-        {CATEGORIES.map((category, index) => (
-          <li
-            className={
-              (chosenCategory.id === index && chosenCategory.title) ||
-              (category === 'Architecture' && !chosenCategory.title)
-                ? s.chosenCategory
-                : ''
-            }
-            key={index}
-            onClick={() =>
-              dispatch(
-                changeCategory({
-                  id: index,
-                  title: category
-                })
-              )
-            }
-            data-id={index}
-          >
-            {category}
-          </li>
-        ))}
-      </ul>
+      <div>
+        <h1>Categories</h1>
+        <ul className={s.categoriesList} onClick={chooseCategory}>
+          {CATEGORIES.map((category, index) => (
+            <li
+              className={
+                (chosenCategory.id === index && chosenCategory.title) ||
+                (category === 'Architecture' && !chosenCategory.title)
+                  ? s.chosenCategory
+                  : ''
+              }
+              key={index}
+              onClick={() =>
+                dispatch(
+                  changeCategory({
+                    id: index,
+                    title: category
+                  })
+                )
+              }
+              data-id={index}
+            >
+              {category}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
