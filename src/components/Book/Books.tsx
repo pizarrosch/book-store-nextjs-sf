@@ -1,3 +1,4 @@
+import {Button} from '@blueprintjs/core';
 import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
@@ -183,9 +184,12 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
         <Backdrop />
       )}
       {allBooks.length > maxResults && (
-        <button className={s.button} onClick={loadMoreBooks}>
-          LOAD MORE
-        </button>
+        <Button
+          className={s.button}
+          text="Load more"
+          variant="outlined"
+          onClick={loadMoreBooks}
+        />
       )}
     </div>
   );

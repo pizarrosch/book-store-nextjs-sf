@@ -1,4 +1,4 @@
-import {Button} from '@blueprintjs/core';
+import {Button, ButtonProps} from '@blueprintjs/core';
 import Image from 'next/image';
 import React from 'react';
 import {bookData} from '@/components/Book/Books';
@@ -13,7 +13,11 @@ type BookDetailsProps = bookData & {
 };
 
 export default function BookDetails(details: BookDetailsProps) {
-  const {onClick, buyIndex} = details;
+  const {onClick} = details;
+
+  const handleClick: ButtonProps['onClick'] = (e) => {
+    onClick(e as React.MouseEvent<HTMLButtonElement>);
+  };
 
   return (
     <div className={s.book_bookInformation}>
@@ -78,7 +82,7 @@ export default function BookDetails(details: BookDetailsProps) {
       </span>
       <Button
         // className={!details.saleInfo?.listPrice ? s.unavailable : s.button}
-        onClick={onClick}
+        onClick={handleClick}
         data-id={details.id}
         intent="primary"
         text="Add to the cart"
