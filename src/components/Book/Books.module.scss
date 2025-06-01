@@ -6,7 +6,6 @@
   width: 900px;
   margin-top: 60px;
   margin-bottom: 100px;
-  justify-content: center;
 
   .book {
     display: flex;
@@ -76,6 +75,7 @@
     }
   }
   .button, .unavailable {
+    margin: 0 auto;
     width: 176px;
     height: 45px;
     font-family: 'Montserrat', sans-serif;
