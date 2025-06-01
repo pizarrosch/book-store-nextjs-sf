@@ -10,6 +10,7 @@
   .book {
     display: flex;
     gap: 36px;
+    align-items: flex-start;
 
     .bookCover {
       width: 212px;
