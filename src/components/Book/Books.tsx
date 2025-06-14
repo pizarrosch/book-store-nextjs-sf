@@ -50,8 +50,6 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
   const buyButtonState = useAppSelector((state) => state.clickedItem);
   const userCredentials = useAppSelector((state) => state.userCredentials);
-  const cart = useAppSelector((state) => state.cart);
-  const addedBooks = useAppSelector((state) => state.books);
 
   const router = useRouter();
 

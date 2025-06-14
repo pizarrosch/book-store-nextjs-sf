@@ -6,7 +6,7 @@ import {useAppSelector} from '@/pages/hooks';
 import {TClicked} from '@/reducer';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
-import s from './Books.module.scss';
+import s from './BookDetails.module.scss';
 
 type BookDetailsProps = bookData & {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
@@ -24,7 +24,7 @@ export default function BookDetails(details: BookDetailsProps) {
   };
 
   return (
-    <div className={s.book_bookInformation}>
+    <div className={s.bookInformation}>
       <span className={s.author}>{details.volumeInfo?.authors}</span>
       <h2 className={s.title}>{details.volumeInfo?.title}</h2>
       <div className={s.ratingsWrapper}>
@@ -85,7 +85,6 @@ export default function BookDetails(details: BookDetailsProps) {
           : 'out of stock'}
       </span>
       <Button
-        // className={!details.saleInfo?.listPrice ? s.unavailable : s.button}
         onClick={handleClick}
         data-id={details.id}
         intent={!isItemAdded ? 'primary' : 'success'}

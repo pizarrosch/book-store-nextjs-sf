@@ -1,11 +1,5 @@
 import {useRouter} from 'next/navigation';
-import React, {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useRef,
-  useState
-} from 'react';
+import React, {Dispatch, SetStateAction, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {setName, setEmail, setAuthenticated, setToken} from '@/reducer';
 import s from './Login.module.scss';
@@ -20,11 +14,6 @@ function Login({setShowLogin}: TShowLogin) {
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [passwordIsValid, setPasswordIsValid] = useState(true);
   const [areCredentialsCorrect, setAreCredentialsCorrect] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  const passRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useDispatch();
 
@@ -33,7 +22,6 @@ function Login({setShowLogin}: TShowLogin) {
       return;
     }
 
-    setIsLoading(true);
     setAreCredentialsCorrect(true);
 
     try {
@@ -65,8 +53,6 @@ function Login({setShowLogin}: TShowLogin) {
     } catch (error) {
       console.error('Login error:', error);
       setAreCredentialsCorrect(false);
-    } finally {
-      setIsLoading(false);
     }
   }
 

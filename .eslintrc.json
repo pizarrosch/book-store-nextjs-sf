@@ -43,7 +43,11 @@
     "jsx-a11y/no-onchange": "off",
     "@next/next/no-html-link-for-pages": "off",
     "import/no-anonymous-default-export": "off",
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "css-modules/no-unused-class": [2, {
+      "camelCase": true,
+      "includeFiles": ["**/*.tsx"]
+    }]
   },
   "settings": {
     "next": {

@@ -2,7 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import {bookData} from '@/components/Book/Books';
 import noCoverBook from '../../../public/assets/no-cover.jpg';
-import s from './Books.module.scss';
+import s from './BookCoverImage.module.scss';
 
 export default function CoverImage(data: bookData) {
   return (
@@ -13,7 +13,7 @@ export default function CoverImage(data: bookData) {
           : noCoverBook
       }
       alt="book-cover"
-      className={s.book}
+      className={s.bookCover}
       width={212}
       height={287}
     />

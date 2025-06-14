@@ -160,7 +160,6 @@ export default function Cart({handleShowLogin}: TShowLogin) {
                     <Image
                       src={plus}
                       alt=""
-                      className={s.plus}
                       onClick={() => {
                         dispatch(
                           increase({
@@ -172,7 +171,7 @@ export default function Cart({handleShowLogin}: TShowLogin) {
                       }}
                     />
                   </div>
-                  <div className={s.itemPrice}>
+                  <div>
                     {book.saleInfo.listPrice
                       ? `$${(book.saleInfo.listPrice.amount * cartItem.number).toFixed(2)}`
                       : 'out of stock'}

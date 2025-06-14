@@ -1,8 +1,8 @@
+import {configureStore} from '@reduxjs/toolkit';
 import {render, screen, fireEvent} from '@testing-library/react';
 import {useRouter} from 'next/navigation';
 import React from 'react';
 import {Provider} from 'react-redux';
-import {configureStore} from '@reduxjs/toolkit';
 import Books from './Books';
 
 // Mock the components used by Books
@@ -96,11 +96,7 @@ describe('Books', () => {
   it('renders books when data is loaded', async () => {
     render(
       <Provider store={mockStore}>
-        <Books 
-          category="fiction" 
-          maxResults={6} 
-          setMaxResults={jest.fn()} 
-        />
+        <Books category="fiction" maxResults={6} setMaxResults={jest.fn()} />
       </Provider>
     );
 
@@ -109,7 +105,9 @@ describe('Books', () => {
 
     // After data is loaded, it should show the books
     expect(await screen.findAllByTestId('book-details-mock')).toHaveLength(2);
-    expect(await screen.findAllByTestId('book-cover-image-mock')).toHaveLength(2);
+    expect(await screen.findAllByTestId('book-cover-image-mock')).toHaveLength(
+      2
+    );
   });
 
   it('shows loading state when there are no books', async () => {
@@ -120,11 +118,7 @@ describe('Books', () => {
 
     render(
       <Provider store={mockStore}>
-        <Books 
-          category="fiction" 
-          maxResults={6} 
-          setMaxResults={jest.fn()} 
-        />
+        <Books category="fiction" maxResults={6} setMaxResults={jest.fn()} />
       </Provider>
     );
 
@@ -145,11 +139,7 @@ describe('Books', () => {
 
     render(
       <Provider store={unauthenticatedStore}>
-        <Books 
-          category="fiction" 
-          maxResults={6} 
-          setMaxResults={jest.fn()} 
-        />
+        <Books category="fiction" maxResults={6} setMaxResults={jest.fn()} />
       </Provider>
     );
 
@@ -158,6 +148,8 @@ describe('Books', () => {
     fireEvent.click(addToCartButtons[0]);
 
     // It should redirect to the login page
-    expect(mockRouter.push).toHaveBeenCalledWith(expect.stringContaining('/login'));
+    expect(mockRouter.push).toHaveBeenCalledWith(
+      expect.stringContaining('/login')
+    );
   });
 });

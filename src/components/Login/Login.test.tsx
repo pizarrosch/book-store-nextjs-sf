@@ -1,8 +1,8 @@
+import {configureStore} from '@reduxjs/toolkit';
 import {render, screen, fireEvent} from '@testing-library/react';
 import {useRouter} from 'next/navigation';
 import React from 'react';
 import {Provider} from 'react-redux';
-import {configureStore} from '@reduxjs/toolkit';
 import Login from './Login';
 
 // Mock next/navigation
@@ -57,7 +57,7 @@ describe('Login', () => {
       </Provider>
     );
 
-    expect(screen.getByRole('heading', { name: 'Log in' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', {name: 'Log in'})).toBeInTheDocument();
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByRole('button', {name: 'Log in'})).toBeInTheDocument();
@@ -84,7 +84,9 @@ describe('Login', () => {
     fireEvent.blur(emailInput);
 
     // Error message should be gone
-    expect(screen.queryByText('Your email must contain @')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Your email must contain @')
+    ).not.toBeInTheDocument();
   });
 
   it('validates password input', () => {
@@ -101,14 +103,18 @@ describe('Login', () => {
     fireEvent.blur(passwordInput);
 
     // Check for validation error
-    expect(screen.getByText('Your password must be at least 6 characters long')).toBeInTheDocument();
+    expect(
+      screen.getByText('Your password must be at least 6 characters long')
+    ).toBeInTheDocument();
 
     // Enter valid password
     fireEvent.change(passwordInput, {target: {value: '123456'}});
     fireEvent.blur(passwordInput);
 
     // Error message should be gone
-    expect(screen.queryByText('Your password must be at least 6 characters long')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Your password must be at least 6 characters long')
+    ).not.toBeInTheDocument();
   });
 
   it('submits the form with valid credentials', async () => {
