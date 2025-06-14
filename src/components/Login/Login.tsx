@@ -1,4 +1,3 @@
-import {useRouter} from 'next/navigation';
 import React, {Dispatch, SetStateAction, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {setName, setEmail, setAuthenticated, setToken} from '@/reducer';

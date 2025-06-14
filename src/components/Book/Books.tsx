@@ -59,7 +59,7 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
   async function fetchBooks() {
     try {
-      const headers: HeadersInit = {};
+      const headers: Record<string, string> = {};
 
       // Add authorization header if user is authenticated
       if (userCredentials.isAuthenticated && userCredentials.token) {
@@ -113,7 +113,12 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
   useEffect(() => {
     fetchBooks();
-  }, [category, userCredentials.isAuthenticated, userCredentials.token]);
+  }, [
+    category,
+    userCredentials.isAuthenticated,
+    userCredentials.token,
+    fetchBooks
+  ]);
 
   useEffect(() => {
     if (allBooks.length > 0) {
