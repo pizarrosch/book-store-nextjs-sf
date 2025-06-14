@@ -20,6 +20,8 @@ export default function BookDetails(details: BookDetailsProps) {
   const cart = useAppSelector((state) => state.cart);
   const isItemAdded = cart.some((item) => item.id === String(details.id));
   const itemToRemove = cart.filter((item) => item.id === String(details.id));
+  const itemInTheCart = cart.find((item) => item.id === String(details.id));
+  const quantity = itemInTheCart?.number || 0;
 
   const handleClick: ButtonProps['onClick'] = (e) => {
     onClick(e as React.MouseEvent<HTMLButtonElement>);
@@ -27,7 +29,7 @@ export default function BookDetails(details: BookDetailsProps) {
 
   function removeFromCart() {
     dispatch(removeCartItem(itemToRemove[itemToRemove.length - 1]));
-    dispatch(subtractPrice(details.saleInfo.listPrice.amount));
+    dispatch(subtractPrice(details.saleInfo.listPrice.amount * quantity));
   }
 
   return (
