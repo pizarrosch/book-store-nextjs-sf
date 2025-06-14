@@ -20,8 +20,7 @@ import {
   cartSlice,
   priceSlice,
   userSlice,
-  clickedItemSlice,
-  itemIsAddedSlice
+  clickedItemSlice
 } from '@/reducer';
 import '@blueprintjs/core/lib/css/blueprint.css';
 
@@ -34,8 +33,7 @@ const reducer = combineReducers({
   cart: cartSlice.reducer,
   category: categorySlice.reducer,
   userCredentials: userSlice.reducer,
-  clickedItem: clickedItemSlice.reducer,
-  isItemAdded: itemIsAddedSlice.reducer
+  clickedItem: clickedItemSlice.reducer
 });
 
 const persistConfig = {

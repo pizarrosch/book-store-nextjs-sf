@@ -6,14 +6,7 @@ import Backdrop from '@/components/Backdrop/Backdrop';
 import BookDetails from '@/components/Book/BookDetails';
 import CoverImage from '@/components/Book/CoverImage';
 import {useAppSelector} from '@/pages/hooks';
-import {
-  addBook,
-  addPrice,
-  addCartItem,
-  addedToCart,
-  TClicked,
-  setItemIsAdded
-} from '@/reducer';
+import {addBook, addPrice, addCartItem, addedToCart, TClicked} from '@/reducer';
 import s from './Books.module.scss';
 
 type imageAddress = {
