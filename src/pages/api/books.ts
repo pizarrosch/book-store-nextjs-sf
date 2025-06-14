@@ -1,5 +1,4 @@
 import {NextApiRequest, NextApiResponse} from 'next';
-import {isAuthenticated} from '@/lib/auth';
 
 // Store API key securely on the server
 const API_KEY = process.env.GOOGLE_BOOKS_API_KEY;

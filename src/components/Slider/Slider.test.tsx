@@ -14,7 +14,7 @@ jest.mock('next/image', () => ({
 describe('Slider', () => {
   it('renders the slider with dots', () => {
     render(<Slider />);
-    
+
     // Check for slider dots
     const dots = screen.getAllByRole('button');
     expect(dots.length).toBeGreaterThan(0);
@@ -22,7 +22,7 @@ describe('Slider', () => {
 
   it('renders the slider with images', () => {
     render(<Slider />);
-    
+
     // Check for slider images
     const images = screen.getAllByRole('img');
     expect(images.length).toBeGreaterThan(0);
@@ -30,7 +30,7 @@ describe('Slider', () => {
 
   it('renders the slider with the correct title', () => {
     render(<Slider />);
-    
+
     // Check for slider title
     const title = screen.getByText(/change the world/i);
     expect(title).toBeInTheDocument();
