@@ -50,6 +50,7 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
   const buyButtonState = useAppSelector((state) => state.clickedItem);
   const userCredentials = useAppSelector((state) => state.userCredentials);
+  const cart = useAppSelector((state) => state.cart);
 
   const router = useRouter();
 
@@ -124,43 +125,38 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
   function onBuyClick(e: React.MouseEvent) {
     // Check if user is authenticated
     if (!userCredentials.isAuthenticated || !userCredentials.token) {
-      // Redirect to login page with current URL as redirect parameter
       const currentPath = window.location.pathname + window.location.search;
       router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
       return;
     }
 
     const target = e.currentTarget as HTMLButtonElement;
-    books.filter((item) => {
-      const buyIndex = buyButtonState.find(
-        (buyItem: TClicked) => buyItem.id === String(item.id)
-      );
-      if (String(target.dataset.id) === item.id.toString()) {
-        if (target.innerHTML === 'in the cart') return;
+    const bookId = target.dataset.id;
 
-        dispatch(addBook(item));
+    // Find the book that was clicked
+    const selectedBook = books.find((item) => String(item.id) === bookId);
 
-        if (buyIndex) {
-          return;
-        } else {
-          dispatch(
-            addCartItem({
-              number: 1,
-              id: String(item.id)
-            })
-          );
-        }
+    if (!selectedBook) return;
 
-        dispatch(
-          addedToCart({
-            id: String(item.id),
-            isClicked: 'in the cart'
-          })
-        );
-        item.saleInfo.listPrice &&
-          dispatch(addPrice(item.saleInfo.listPrice.amount));
-      } else return;
-    });
+    // Check if the book is already in cart using cart state
+    const isInCart = cart.some((item) => item.id === String(selectedBook.id));
+
+    // If already in cart, return early
+    if (isInCart) return;
+
+    // Add book to cart
+    dispatch(addBook(selectedBook));
+    dispatch(
+      addCartItem({
+        number: 1,
+        id: String(selectedBook.id)
+      })
+    );
+
+    // Add price if available
+    if (selectedBook.saleInfo.listPrice) {
+      dispatch(addPrice(selectedBook.saleInfo.listPrice.amount));
+    }
   }
 
   return (
