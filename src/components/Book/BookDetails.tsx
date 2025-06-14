@@ -2,8 +2,8 @@ import {Button, ButtonProps} from '@blueprintjs/core';
 import Image from 'next/image';
 import React from 'react';
 import {bookData} from '@/components/Book/Books';
-import {useAppSelector} from '@/pages/hooks';
-import {TClicked} from '@/reducer';
+import {useAppSelector, useAppDispatch} from '@/pages/hooks';
+import {removeCartItem, subtractPrice, TClicked} from '@/reducer';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
 import s from './BookDetails.module.scss';
@@ -15,13 +15,20 @@ type BookDetailsProps = bookData & {
 
 export default function BookDetails(details: BookDetailsProps) {
   const {onClick} = details;
-  const cart = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
 
+  const cart = useAppSelector((state) => state.cart);
   const isItemAdded = cart.some((item) => item.id === String(details.id));
+  const itemToRemove = cart.filter((item) => item.id === String(details.id));
 
   const handleClick: ButtonProps['onClick'] = (e) => {
     onClick(e as React.MouseEvent<HTMLButtonElement>);
   };
+
+  function removeFromCart() {
+    dispatch(removeCartItem(itemToRemove[itemToRemove.length - 1]));
+    dispatch(subtractPrice(details.saleInfo.listPrice.amount));
+  }
 
   return (
     <div className={s.bookInformation}>
@@ -86,7 +93,7 @@ export default function BookDetails(details: BookDetailsProps) {
       </span>
       <Button
         style={{width: '132px'}}
-        onClick={handleClick}
+        onClick={!isItemAdded ? handleClick : removeFromCart}
         data-id={details.id}
         intent={!isItemAdded ? 'primary' : 'danger'}
         text={!isItemAdded ? 'Add to cart' : 'Remove from cart'}
