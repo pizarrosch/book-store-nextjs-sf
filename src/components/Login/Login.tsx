@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useRef, useState} from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {setName, setEmail, setAuthenticated, setToken} from '@/reducer';
 import s from './Login.module.scss';

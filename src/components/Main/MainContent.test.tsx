@@ -1,7 +1,7 @@
+import {configureStore} from '@reduxjs/toolkit';
 import {render, screen} from '@testing-library/react';
 import React from 'react';
 import {Provider} from 'react-redux';
-import {configureStore} from '@reduxjs/toolkit';
 import MainContent from './MainContent';
 
 // Mock the Books component
@@ -35,7 +35,7 @@ describe('MainContent', () => {
     expect(screen.getByText('Art & Fashion')).toBeInTheDocument();
     expect(screen.getByText('Biography')).toBeInTheDocument();
     expect(screen.getByText('Business')).toBeInTheDocument();
-    
+
     // Check that Books component is rendered with the correct category
     const booksComponent = screen.getByTestId('books-mock');
     expect(booksComponent).toBeInTheDocument();
