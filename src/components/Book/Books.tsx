@@ -113,12 +113,7 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
   useEffect(() => {
     fetchBooks();
-  }, [
-    category,
-    userCredentials.isAuthenticated,
-    userCredentials.token,
-    fetchBooks
-  ]);
+  }, [category, userCredentials.isAuthenticated, userCredentials.token]);
 
   useEffect(() => {
     if (allBooks.length > 0) {
