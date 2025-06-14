@@ -1,5 +1,4 @@
 import {Button} from '@blueprintjs/core';
-import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
@@ -12,12 +11,9 @@ import {
   addPrice,
   addCartItem,
   addedToCart,
-  isUnavailable,
-  TClicked
+  TClicked,
+  setItemIsAdded
 } from '@/reducer';
-import unfilledStar from '../../../public/assets/Star.svg';
-import noCoverBook from '../../../public/assets/no-cover.jpg';
-import filledStar from '../../../public/assets/star-filled.svg';
 import s from './Books.module.scss';
 
 type imageAddress = {
@@ -58,8 +54,12 @@ type TBookCategory = {
 
 function Books({category, maxResults, setMaxResults}: TBookCategory) {
   const dispatch = useDispatch();
+
   const buyButtonState = useAppSelector((state) => state.clickedItem);
   const userCredentials = useAppSelector((state) => state.userCredentials);
+  const cart = useAppSelector((state) => state.cart);
+  const addedBooks = useAppSelector((state) => state.books);
+
   const router = useRouter();
 
   const [books, setBooks] = useState<Array<bookData>>([]);
@@ -148,12 +148,18 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
         if (target.innerHTML === 'in the cart') return;
 
         dispatch(addBook(item));
-        dispatch(
-          addCartItem({
-            number: 1,
-            id: String(item.id)
-          })
-        );
+
+        if (buyIndex) {
+          return;
+        } else {
+          dispatch(
+            addCartItem({
+              number: 1,
+              id: String(item.id)
+            })
+          );
+        }
+
         dispatch(
           addedToCart({
             id: String(item.id),

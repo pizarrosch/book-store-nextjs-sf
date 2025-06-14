@@ -2,6 +2,7 @@ import {Button, ButtonProps} from '@blueprintjs/core';
 import Image from 'next/image';
 import React from 'react';
 import {bookData} from '@/components/Book/Books';
+import {useAppSelector} from '@/pages/hooks';
 import {TClicked} from '@/reducer';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
@@ -14,6 +15,9 @@ type BookDetailsProps = bookData & {
 
 export default function BookDetails(details: BookDetailsProps) {
   const {onClick} = details;
+  const cart = useAppSelector((state) => state.cart);
+
+  const isItemAdded = cart.some((item) => item.id === String(details.id));
 
   const handleClick: ButtonProps['onClick'] = (e) => {
     onClick(e as React.MouseEvent<HTMLButtonElement>);
@@ -84,8 +88,8 @@ export default function BookDetails(details: BookDetailsProps) {
         // className={!details.saleInfo?.listPrice ? s.unavailable : s.button}
         onClick={handleClick}
         data-id={details.id}
-        intent="primary"
-        text="Add to cart"
+        intent={!isItemAdded ? 'primary' : 'success'}
+        text={!isItemAdded ? 'Add to cart' : 'Added to cart'}
       />
     </div>
   );

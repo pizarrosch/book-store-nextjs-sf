@@ -160,6 +160,16 @@ export const clickedItemSlice = createSlice({
   }
 });
 
+export const itemIsAddedSlice = createSlice({
+  name: 'itemIsAdded',
+  initialState: false,
+  reducers: {
+    setItemIsAdded: (state: boolean, action: PayloadAction<boolean>) => {
+      return action.payload;
+    }
+  }
+});
+
 export const {addBook} = bookSlice.actions;
 export const {addPrice, subtractPrice} = priceSlice.actions;
 export const {addCartItem, removeCartItem, increase, decrease} =
@@ -169,3 +179,4 @@ export const {setEmail, setName, setAuthenticated, setToken, logout} =
   userSlice.actions;
 export const {isUnavailable, addedToCart, removedFromCart} =
   clickedItemSlice.actions;
+export const {setItemIsAdded} = itemIsAddedSlice.actions;
