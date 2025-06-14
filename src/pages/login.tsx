@@ -123,49 +123,52 @@ export default function LoginPage() {
         <h2>Log in</h2>
         <form onFocus={focus}>
           <div>
-            <label htmlFor="login" className={s.label}>
-              Email
-            </label>
+            <label htmlFor="login">Email</label>
             <input
               type="email"
               id="login"
-              className={s.input}
               value={email}
               onChange={handleInputChange}
             />
           </div>
           {!emailIsValid ? (
-            <span className={s.errorText}>Your email must contain @</span>
+            <span style={{color: 'red'}}>Your email must contain @</span>
           ) : (
             ''
           )}
-          <div className={s.passwordContainer}>
-            <label htmlFor="password" className={s.label}>
-              Password
-            </label>
+          <div>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
-              className={passwordIsValid ? s.input : s.invalid}
+              style={passwordIsValid ? {} : {borderColor: 'red'}}
               value={password}
               onChange={handlePasswordChange}
             />
           </div>
           {!passwordIsValid ? (
-            <span className={s.errorText}>
+            <span style={{color: 'red'}}>
               Your password must be at least 6 characters long
             </span>
           ) : (
             ''
           )}
           {!areCredentialsCorrect ? (
-            <span className={s.errorText}>Email or password are wrong</span>
+            <span style={{color: 'red'}}>Email or password are wrong</span>
           ) : (
             ''
           )}
         </form>
         <button
-          className={s.loginButton}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            marginTop: '10px'
+          }}
           onClick={logIn}
           disabled={!passwordIsValid || !emailIsValid}
         >
