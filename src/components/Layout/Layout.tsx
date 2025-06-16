@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import {PropsWithChildren} from 'react';
+import Footer from '@/components/Footer/Footer';
 import Navigation from '@/components/Navigation/Navigation';
 import s from './Layout.module.scss';
 
@@ -29,6 +30,9 @@ export default function Layout({children, handleShowLogin}: Props) {
         <Navigation handleShowLogin={handleShowLogin} />
       </header>
       <main className={s.mainContainer}>{children}</main>
+      <footer>
+        <Footer />
+      </footer>
     </>
   );
 }
