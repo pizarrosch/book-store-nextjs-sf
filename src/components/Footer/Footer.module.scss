@@ -1,0 +1,18 @@
+.root {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 50px;
+  background-color: #F6F7F9;
+  padding: 20px 0;
+
+    .options-container {
+      display: flex;
+      gap: 20px;
+    }
+
+    .payment-container {
+      display: flex;
+      gap: 30px;
+    }
+}
