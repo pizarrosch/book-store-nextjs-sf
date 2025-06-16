@@ -34,8 +34,10 @@ export default function Navigation({handleShowLogin}: TShowLogin) {
       </nav>
       <div className={s.accountActionsMenu}>
         <Image src={user} alt="user" id="user-icon" onClick={handleShowLogin} />
-        <Link href={'/cart'}>
-          <Image src={shopBag} alt={'bag'} />
+        <Link href={'/cart'} legacyBehavior>
+          <a>
+            <Image src={shopBag} alt={'bag'} />
+          </a>
         </Link>
         {cart.length > 0 && (
           <div className={s.itemsNumber} onClick={() => router.push('/cart')}>

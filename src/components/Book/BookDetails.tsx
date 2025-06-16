@@ -94,7 +94,7 @@ export default function BookDetails(details: BookDetailsProps) {
           : 'out of stock'}
       </span>
       <Button
-        style={{width: '132px'}}
+        style={{width: '132px', outlineStyle: 'none'}}
         onClick={!isItemAdded ? handleClick : removeFromCart}
         data-id={details.id}
         intent={!isItemAdded ? 'primary' : 'danger'}

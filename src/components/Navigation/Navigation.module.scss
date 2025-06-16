@@ -21,6 +21,10 @@ $font-family: 'Montserrat', sans-serif;
       :hover {
         color: #4C3DB2;
       }
+
+      :focus {
+        outline: none;
+      }
     }
   }
 
@@ -29,6 +33,10 @@ $font-family: 'Montserrat', sans-serif;
     display: flex;
     align-items: center;
     gap: 62px;
+
+    a:focus {
+      outline-style: none;
+    }
 
     img {
       cursor: pointer;
@@ -49,5 +57,6 @@ $font-family: 'Montserrat', sans-serif;
       cursor: pointer;
     }
   }
+
 }
 
