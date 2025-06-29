@@ -15,7 +15,6 @@ import {
   removedFromCart
 } from '@/reducer';
 import unfilledStar from '../../public/assets/Star.svg';
-import plus from '../../public/assets/plus.svg';
 import filledStar from '../../public/assets/star-filled.svg';
 import s from '../styles/cart.module.scss';
 
@@ -28,6 +27,10 @@ export default function Cart({handleShowLogin}: TShowLogin) {
   const totalPrice = useAppSelector((state) => state.price);
   const cart = useAppSelector((state) => state.cart);
   const dispatch = useDispatch();
+
+  const deliveryStatuses = ['Processing', 'In Transit', 'Out for Delivery'];
+  const randomStatus =
+    deliveryStatuses[Math.floor(Math.random() * deliveryStatuses.length)];
 
   return (
     <Layout handleShowLogin={handleShowLogin}>
@@ -175,7 +178,7 @@ export default function Cart({handleShowLogin}: TShowLogin) {
                       ? `$${(book.saleInfo.listPrice.amount * cartItem.number).toFixed(2)}`
                       : 'out of stock'}
                   </div>
-                  <div>Shipping: delivery</div>
+                  <div>{randomStatus}</div>
                 </div>
               </div>
             );
