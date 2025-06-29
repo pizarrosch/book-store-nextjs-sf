@@ -1,3 +1,4 @@
+import {Icon} from '@blueprintjs/core';
 import Image from 'next/image';
 import React from 'react';
 import {useDispatch} from 'react-redux';
@@ -14,7 +15,6 @@ import {
   removedFromCart
 } from '@/reducer';
 import unfilledStar from '../../public/assets/Star.svg';
-import minus from '../../public/assets/minus.svg';
 import plus from '../../public/assets/plus.svg';
 import filledStar from '../../public/assets/star-filled.svg';
 import s from '../styles/cart.module.scss';
@@ -129,10 +129,7 @@ export default function Cart({handleShowLogin}: TShowLogin) {
                     data-id={cartItem.id}
                     key={id}
                   >
-                    <Image
-                      src={minus}
-                      alt=""
-                      className={s.minus}
+                    <div
                       onClick={() => {
                         if (cartItem.number <= 1) {
                           dispatch(removeCartItem(cartItem));
@@ -155,11 +152,11 @@ export default function Cart({handleShowLogin}: TShowLogin) {
                         );
                         dispatch(subtractPrice(book.saleInfo.listPrice.amount));
                       }}
-                    />
+                    >
+                      <Icon icon="minus" />
+                    </div>
                     <span className={s.itemsAmount}>{cartItem.number}</span>
-                    <Image
-                      src={plus}
-                      alt=""
+                    <div
                       onClick={() => {
                         dispatch(
                           increase({
@@ -169,7 +166,9 @@ export default function Cart({handleShowLogin}: TShowLogin) {
                         );
                         dispatch(addPrice(book.saleInfo.listPrice.amount));
                       }}
-                    />
+                    >
+                      <Icon icon="plus" />
+                    </div>
                   </div>
                   <div>
                     {book.saleInfo.listPrice
