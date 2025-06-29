@@ -14,45 +14,44 @@
   gap: 50px;
   margin-top: 40px;
 
-    .item {
-      display: flex;
-      gap: 50px;
-      align-items: center;
+  .item {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    border-bottom: 1px solid #EEEDF5;
+    padding-bottom: 40px;
 
+  }
 
-    }
   .itemSubitems {
     display: flex;
     width: 50%;
     justify-content: space-between;
+    align-items: center;
   }
 
   .itemAmountCounter {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 176px;
+    width: 100px;
     height: 45px;
     border: 1px solid #EEEDF5;
 
     .itemsAmount {
-      @include font(16px, 700);
+      @include font(14px, 700);
     }
 
-     .minus {
-       width: 20px;
-       height: 3px;
-     }
+    .minus {
+      width: 20px;
+      height: 3px;
+    }
 
     .minus {
       width: 21px;
       height: 24px;
     }
   }
-
-  //.itemPrice {
-  //  margin-left: 250px;
-  //}
 }
 
 .booksContainer {
@@ -101,16 +100,24 @@
 
 .subscript {
   display: flex;
-  gap: 430px;
   @include font(10px, 700);
+  gap: 200px;
   text-transform: uppercase;
+  padding: 20px 0;
+  border-bottom: 1px solid #EEEDF5;
 
-    .subscript_subitems {
-      display: flex;
-      width: 50%;
-      justify-content: space-between;
-      text-align: start;
-    }
+  .subscript_items {
+    width: 250px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .subscript_subitems {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+    text-align: start;
+  }
 
 
 }

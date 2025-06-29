@@ -28,16 +28,12 @@ export default function Cart({handleShowLogin}: TShowLogin) {
   const cart = useAppSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  const deliveryStatuses = ['Processing', 'In Transit', 'Out for Delivery'];
-  const randomStatus =
-    deliveryStatuses[Math.floor(Math.random() * deliveryStatuses.length)];
-
   return (
     <Layout handleShowLogin={handleShowLogin}>
       <div className={s.cartContainer}>
         <h1>Shopping cart</h1>
         <div className={s.subscript}>
-          <span>Item</span>
+          <span className={s.subscript_items}>Items</span>
           <div className={s.subscript_subitems}>
             <span>Quantity</span>
             <span>Price</span>
@@ -178,7 +174,7 @@ export default function Cart({handleShowLogin}: TShowLogin) {
                       ? `$${(book.saleInfo.listPrice.amount * cartItem.number).toFixed(2)}`
                       : 'out of stock'}
                   </div>
-                  <div>{randomStatus}</div>
+                  <div>Processing</div>
                 </div>
               </div>
             );
