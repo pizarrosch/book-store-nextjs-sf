@@ -15,9 +15,9 @@ import {
 } from '@/reducer';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
-import s from './CartItems.module.scss';
+import s from './CartItem.module.scss';
 
-export default function CartItems() {
+export default function CartItem() {
   const books = useAppSelector((state) => state.books);
   const cart = useAppSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -149,7 +149,7 @@ export default function CartItems() {
               ? `$${(book.saleInfo.listPrice.amount * cartItem.number).toFixed(2)}`
               : 'out of stock'}
           </div>
-          <div>Processing</div>
+          <Icon icon="trash" />
         </div>
       </div>
     );

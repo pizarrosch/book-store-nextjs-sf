@@ -3,16 +3,21 @@
   font-weight: $weight;
 }
 
+.title {
+  margin-left: 25px;
+}
+
 .cartContainer {
-  margin: 0 auto;
+  margin: 0 auto 40px;
   width: 1120px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
+  padding: 40px;
 }
 
 .itemsContainer {
   display: flex;
   flex-direction: column;
   gap: 50px;
-  margin-top: 40px;
 }
 
 .subscript {
@@ -46,10 +51,6 @@
   margin-top: 50px;
   @include font(24px, 700);
   text-transform: uppercase;
-
-  .totalPrice {
-
-  }
 
   .checkoutButton {
     display: flex;
