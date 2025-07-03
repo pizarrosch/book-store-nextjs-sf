@@ -15,13 +15,6 @@ export default function Cart({handleShowLogin}: TShowLogin) {
     <Layout handleShowLogin={handleShowLogin}>
       <h1 className={s.title}>Shopping cart</h1>
       <div className={s.cartContainer}>
-        {/*<div className={s.subscript}>*/}
-        {/*  <span className={s.subscript_items}>Items</span>*/}
-        {/*  <div className={s.subscript_subitems}>*/}
-        {/*    <span>Quantity</span>*/}
-        {/*    <span>Price</span>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
         <div className={s.itemsContainer}>
           <CartItem />
         </div>

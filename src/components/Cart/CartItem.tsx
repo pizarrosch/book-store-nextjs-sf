@@ -1,6 +1,6 @@
 import {Icon} from '@blueprintjs/core';
 import Image from 'next/image';
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {bookData} from '@/components/Book/Books';
 import {useAppSelector} from '@/pages/hooks';
@@ -18,6 +18,7 @@ import filledStar from '../../../public/assets/star-filled.svg';
 import s from './CartItem.module.scss';
 
 export default function CartItem() {
+  const starsCount = [1, 2, 3, 4, 5];
   const books = useAppSelector((state) => state.books);
   const cart = useAppSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -44,56 +45,19 @@ export default function CartItem() {
             <span className={s.author}>{book.volumeInfo.authors}</span>
             <div className={s.ratingsContainer}>
               <div className={s.rating}>
-                <Image
-                  src={
-                    book.volumeInfo.averageRating > 0
-                      ? filledStar
-                      : unfilledStar
-                  }
-                  alt="rating"
-                  width="12"
-                  height="12"
-                />
-                <Image
-                  src={
-                    book.volumeInfo.averageRating > 1
-                      ? filledStar
-                      : unfilledStar
-                  }
-                  alt="rating"
-                  width="12"
-                  height="12"
-                />
-                <Image
-                  src={
-                    book.volumeInfo.averageRating > 2
-                      ? filledStar
-                      : unfilledStar
-                  }
-                  alt="rating"
-                  width="12"
-                  height="12"
-                />
-                <Image
-                  src={
-                    book.volumeInfo.averageRating > 3
-                      ? filledStar
-                      : unfilledStar
-                  }
-                  alt="rating"
-                  width="12"
-                  height="12"
-                />
-                <Image
-                  src={
-                    book.volumeInfo.averageRating > 4
-                      ? filledStar
-                      : unfilledStar
-                  }
-                  alt="rating"
-                  width="12"
-                  height="12"
-                />
+                {starsCount.map((star, index) => (
+                  <Image
+                    src={
+                      book.volumeInfo.averageRating >= star
+                        ? filledStar
+                        : unfilledStar
+                    }
+                    key={index}
+                    alt="rating"
+                    width="12"
+                    height="12"
+                  />
+                ))}
               </div>
               <span className={s.ratingAmount}>
                 {book.volumeInfo.ratingsCount
