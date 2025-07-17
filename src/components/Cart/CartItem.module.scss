@@ -17,6 +17,11 @@
   width: 50%;
   justify-content: space-between;
   align-items: center;
+
+  .trash {
+    padding: 5px;
+    cursor: pointer;
+  }
 }
 
 .itemAmountCounter {

@@ -1,6 +1,6 @@
 import {Icon} from '@blueprintjs/core';
 import Image from 'next/image';
-import React, {useState} from 'react';
+import React from 'react';
 import {useDispatch} from 'react-redux';
 import {bookData} from '@/components/Book/Books';
 import {useAppSelector} from '@/pages/hooks';
@@ -34,7 +34,9 @@ export default function CartItem() {
       <div className={s.item} key={cartItem.id}>
         <div className={s.booksContainer}>
           <Image
-            src={book.volumeInfo.imageLinks.thumbnail}
+            src={
+              book.volumeInfo?.imageLinks?.thumbnail || '/assets/no-cover.jpg'
+            }
             alt="book-cover"
             width={103}
             height={145}
@@ -113,7 +115,9 @@ export default function CartItem() {
               ? `$${(book.saleInfo.listPrice.amount * cartItem.number).toFixed(2)}`
               : 'out of stock'}
           </div>
-          <Icon icon="trash" />
+          <div className={s.trash}>
+            <Icon icon="trash" />
+          </div>
         </div>
       </div>
     );

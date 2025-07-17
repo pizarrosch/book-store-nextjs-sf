@@ -8,7 +8,7 @@ export default function CoverImage(data: bookData) {
   return (
     <Image
       src={
-        data.volumeInfo?.imageLinks
+        data.volumeInfo?.imageLinks?.thumbnail
           ? data.volumeInfo.imageLinks.thumbnail
           : noCoverBook
       }
