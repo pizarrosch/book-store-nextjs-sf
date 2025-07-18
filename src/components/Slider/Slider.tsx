@@ -9,7 +9,7 @@ import s from './Slider.module.scss';
 export default function Slider() {
   return (
     <Carousel autoplay style={{width: '1122px', margin: '0 auto'}}>
-      <div className={s.banner}>
+      <div className={s.banner} data-testid="banner">
         <Image src={banner} alt="banner" />
       </div>
       <div className={s.banner}>

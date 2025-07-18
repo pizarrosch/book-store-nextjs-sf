@@ -47,7 +47,7 @@ test.describe('Homepage', () => {
     await expect(page.locator('.ant-carousel')).toBeVisible();
 
     // Check that at least one banner image is visible
-    await expect(page.locator('.banner img')).toBeVisible();
+    await expect(page.getByTestId('banner').first()).toBeVisible();
   });
 
   // Test that books are displayed
