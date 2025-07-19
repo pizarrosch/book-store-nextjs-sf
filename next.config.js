@@ -14,6 +14,24 @@ const nextConfig = {
         hostname: 'covers.openlibrary.org',
         port: '',
         pathname: '**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'm.media-amazon.com',
+        port: '',
+        pathname: '**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.thalia.media',
+        port: '',
+        pathname: '**'
       }
     ]
   }
