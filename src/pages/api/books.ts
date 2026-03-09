@@ -44,7 +44,6 @@ export default async function handler(
         return res.status(200).json(formattedBooks);
       } catch (formatError) {
         console.error('Error formatting books from database:', formatError);
-        console.error('Error details:', formatError.stack);
         return res
           .status(500)
           .json({error: 'Failed to format books from database'});
