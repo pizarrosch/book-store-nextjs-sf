@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Prisma generated client (auto-generated, shouldn't be linted)
+src/generated/
+
+# Test coverage
+coverage/
