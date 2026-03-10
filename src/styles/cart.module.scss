@@ -9,7 +9,8 @@
 
 .cartContainer {
   margin: 0 auto 40px;
-  width: 1120px;
+  width: 100%;
+  max-width: 1120px;
   box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
   padding: 40px;
 }

@@ -1,9 +1,14 @@
-html,
+html {
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+}
+
 body {
     min-height: 100vh;
     font-family: 'Montserrat', sans-serif;
-    width: 1170px;
-    margin: 0 auto;
+    max-width: 1170px;
+    width: 100%;
+    margin: 0 auto !important;
+    padding: 0 !important;
     position: relative;
-    scroll-behavior: smooth;
 }
