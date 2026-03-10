@@ -1,3 +1,4 @@
+import '@blueprintjs/core/lib/css/blueprint.css';
 import '@/styles/globals.css';
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import type {AppProps} from 'next/app';
@@ -22,7 +23,6 @@ import {
   userSlice,
   clickedItemSlice
 } from '@/reducer';
-import '@blueprintjs/core/lib/css/blueprint.css';
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
