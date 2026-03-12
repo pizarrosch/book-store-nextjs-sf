@@ -1,22 +1,27 @@
 .root {
   display: flex;
-  justify-content: center;
-  gap: var(--space-10);
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   max-width: var(--container-max-width);
   margin: 0 auto;
   padding: 0 var(--space-4);
 }
 
-@media (max-width: 1024px) {
-  .root {
-    gap: var(--space-6);
-    flex-direction: column;
-  }
+.filterSection {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-4);
 }
 
 @media (max-width: 768px) {
   .root {
     padding: 0 var(--space-3);
+  }
+
+  .filterSection {
+    margin-top: var(--space-4);
   }
 }

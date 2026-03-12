@@ -14,14 +14,14 @@ function MainContent() {
 
   return (
     <div className={s.root}>
-      <Sidebar chooseCategory={chooseCategory} />
-      <div className={s.root}>
-        <Books
-          category={chosenCategory.title || 'Architecture'}
-          maxResults={maxResults}
-          setMaxResults={setMaxResults}
-        />
+      <div className={s.filterSection}>
+        <Sidebar chooseCategory={chooseCategory} />
       </div>
+      <Books
+        category={chosenCategory.title || 'Architecture'}
+        maxResults={maxResults}
+        setMaxResults={setMaxResults}
+      />
     </div>
   );
 }

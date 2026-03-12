@@ -5,20 +5,19 @@ import noCoverBook from '../../../public/assets/no-cover.jpg';
 import s from './BookCoverImage.module.scss';
 
 export default function CoverImage(data: bookData) {
+  const imageUrl = data.volumeInfo?.imageLinks?.thumbnail
+    ? data.volumeInfo.imageLinks.thumbnail.replace('http:', 'https:').replace('&edge=curl', '').replace('zoom=1', 'zoom=2')
+    : noCoverBook;
+
   return (
     <div className={s.coverWrapper}>
       <Image
-        src={
-          data.volumeInfo?.imageLinks?.thumbnail
-            ? data.volumeInfo.imageLinks.thumbnail
-            : noCoverBook
-        }
+        src={imageUrl}
         alt={data.volumeInfo?.title || 'Book cover'}
         className={s.bookCover}
-        width={400}
-        height={600}
-        placeholder="blur"
-        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        quality={90}
       />
     </div>
   );
