@@ -46,24 +46,23 @@ interface DBBook {
   updatedAt: Date;
 }
 
-// Valid book categories
+// Valid book categories - matching frontend categories from Sidebar.tsx
 const VALID_CATEGORIES = [
-  'fiction',
-  'science',
-  'history',
+  'architecture',
+  'art & fashion',
   'biography',
-  'fantasy',
-  'mystery',
-  'romance',
-  'thriller',
-  'horror',
-  'science_fiction',
-  'non-fiction',
-  'poetry',
+  'business',
   'drama',
-  'children',
-  'young_adult',
-  'classics'
+  'fiction',
+  'food & drink',
+  'health & wellbeing',
+  'history & politics',
+  'humor',
+  'poetry',
+  'psychology',
+  'science',
+  'technology',
+  'travel & maps'
 ];
 
 export default async function handler(
