@@ -1,7 +1,7 @@
 import {hash, compare} from 'bcryptjs';
 import {sign, verify} from 'jsonwebtoken';
 import {NextApiRequest} from 'next';
-import prisma from './prisma';
+import {prisma} from './prisma';
 
 // Secret key for JWT - MUST be set in environment variables
 if (!process.env.JWT_SECRET) {
