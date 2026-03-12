@@ -81,11 +81,11 @@ export default function BookDetails(details: BookDetailsProps) {
           : 'out of stock'}
       </span>
       <Button
-        style={{width: '132px', outlineStyle: 'none'}}
         onClick={!isItemAdded ? handleClick : () => removeFromCart(details)}
         data-id={details.id}
         intent={!isItemAdded ? 'primary' : 'danger'}
         text={!isItemAdded ? 'Add to cart' : 'Remove from cart'}
+        large
       />
     </div>
   );

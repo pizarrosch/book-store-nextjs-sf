@@ -8,16 +8,18 @@ import s from './Slider.module.scss';
 
 export default function Slider() {
   return (
-    <Carousel autoplay style={{width: '1122px', margin: '0 auto'}}>
-      <div className={s.banner}>
-        <Image src={banner} alt="banner" />
-      </div>
-      <div className={s.banner}>
-        <Image src={banner2} alt="banner2" />
-      </div>
-      <div className={s.banner}>
-        <Image src={banner3} alt="banner3" />
-      </div>
-    </Carousel>
+    <div className={s.sliderWrapper}>
+      <Carousel autoplay autoplaySpeed={5000} className={s.carousel}>
+        <div className={s.banner}>
+          <Image src={banner} alt="Bookstore promotional banner" priority />
+        </div>
+        <div className={s.banner}>
+          <Image src={banner2} alt="Featured books collection" />
+        </div>
+        <div className={s.banner}>
+          <Image src={banner3} alt="Special offers and discounts" />
+        </div>
+      </Carousel>
+    </div>
   );
 }

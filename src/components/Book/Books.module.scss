@@ -1,28 +1,83 @@
 .booksContainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 900px;
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-12);
   position: relative;
-  gap: 35px;
-  flex-wrap: wrap;
-  width: 900px;
-  margin-top: 60px;
-  margin-bottom: 100px;
 
   .book {
     display: flex;
-    gap: 36px;
-    align-items: flex-start;
+    flex-direction: column;
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    height: 100%;
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-xl);
+    }
+
+    &:active {
+      transform: translateY(-4px);
+    }
   }
 
   .button {
-    margin: 0 auto;
-    width: 176px;
-    height: 45px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
+    grid-column: 1 / -1;
+    margin: var(--space-8) auto 0;
+    padding: var(--space-3) var(--space-6);
+    height: 48px;
+    font-family: var(--font-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
     text-transform: uppercase;
-    color: #4C3DB2;
+    letter-spacing: 0.5px;
+    color: var(--color-primary);
     background-color: transparent;
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-md);
     cursor: pointer;
+    transition: all var(--transition-base);
+
+    &:hover {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .booksContainer {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--space-5);
+  }
+}
+
+@media (max-width: 768px) {
+  .booksContainer {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-10);
+  }
+}
+
+@media (max-width: 480px) {
+  .booksContainer {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
   }
 }

@@ -16,31 +16,48 @@ export default function Navigation({handleShowLogin}: TShowLogin) {
 
   return (
     <div className={s.root}>
-      <nav>
+      <nav aria-label="Main navigation">
         <ul className={s.nav}>
           <li>
-            <Link href="/">Books</Link>
+            <Link href="/" aria-label="Browse books">
+              Books
+            </Link>
           </li>
           <li>
-            <Link href="/">Audiobooks</Link>
+            <Link href="/" aria-label="Browse audiobooks">
+              Audiobooks
+            </Link>
           </li>
           <li>
-            <Link href="/">Stationery & gifts</Link>
+            <Link href="/" aria-label="Browse stationery and gifts">
+              Stationery & gifts
+            </Link>
           </li>
           <li>
-            <Link href="/">Blog</Link>
+            <Link href="/" aria-label="Read our blog">
+              Blog
+            </Link>
           </li>
         </ul>
       </nav>
-      <div className={s.accountActionsMenu}>
-        <Image src={user} alt="user" id="user-icon" onClick={handleShowLogin} />
-        <Link href={'/cart'} legacyBehavior>
-          <a>
-            <Image src={shopBag} alt={'bag'} />
-          </a>
+      <div className={s.accountActionsMenu} role="toolbar" aria-label="Account actions">
+        <button
+          onClick={handleShowLogin}
+          aria-label="User account"
+          className={s.iconButton}
+        >
+          <Image src={user} alt="" width={24} height={24} />
+        </button>
+        <Link href={'/cart'} aria-label={`Shopping cart with ${cart.length} item${cart.length !== 1 ? 's' : ''}`}>
+          <Image src={shopBag} alt="" width={24} height={24} />
         </Link>
         {cart.length > 0 && (
-          <div className={s.itemsNumber} onClick={() => router.push('/cart')}>
+          <div
+            className={s.itemsNumber}
+            onClick={() => router.push('/cart')}
+            role="status"
+            aria-label={`${cart.length} item${cart.length !== 1 ? 's' : ''} in cart`}
+          >
             {cart.length}
           </div>
         )}

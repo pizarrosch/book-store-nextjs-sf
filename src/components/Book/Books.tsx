@@ -57,8 +57,10 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
   const [books, setBooks] = useState<Array<bookData>>([]);
   const [allBooks, setAllBooks] = useState<Array<bookData>>([]);
   const [error, setError] = useState<string | boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   async function fetchBooks() {
+    setIsLoading(true);
     try {
       const headers: Record<string, string> = {};
 
@@ -102,6 +104,8 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
     } catch (error) {
       console.error('Error fetching books:', error);
       setError('Failed to fetch books. Please try again later.');
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -161,28 +165,32 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
 
   return (
     <div className={s.booksContainer}>
-      {!error && books ? (
-        books.map((book: bookData, id) => {
-          const buyIndex = buyButtonState.find(
-            (item: TClicked) => item.id === String(book.id)
-          );
-          return (
-            <div className={s.book} data-index={book.id} key={id}>
-              <CoverImage {...book} />
-              <BookDetails {...book} onClick={onBuyClick} buyIndex={buyIndex} />
-            </div>
-          );
-        })
+      {isLoading ? (
+        <Backdrop type="loading" />
+      ) : error ? (
+        <Backdrop type="empty" />
       ) : (
-        <Backdrop />
-      )}
-      {allBooks.length > maxResults && (
-        <Button
-          className={s.button}
-          text="Load more"
-          variant="outlined"
-          onClick={loadMoreBooks}
-        />
+        <>
+          {books.map((book: bookData, id) => {
+            const buyIndex = buyButtonState.find(
+              (item: TClicked) => item.id === String(book.id)
+            );
+            return (
+              <div className={s.book} data-index={book.id} key={id}>
+                <CoverImage {...book} />
+                <BookDetails {...book} onClick={onBuyClick} buyIndex={buyIndex} />
+              </div>
+            );
+          })}
+          {allBooks.length > maxResults && (
+            <Button
+              className={s.button}
+              text="Load more"
+              variant="outlined"
+              onClick={loadMoreBooks}
+            />
+          )}
+        </>
       )}
     </div>
   );

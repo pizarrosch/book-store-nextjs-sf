@@ -30,33 +30,55 @@ function Sidebar({chooseCategory}: TCategory) {
   const chosenCategory = useAppSelector((state) => state.category);
 
   return (
-    <div className={s.root}>
-      <h1>Categories</h1>
-      <ul className={s.categoriesList} onClick={chooseCategory}>
-        {CATEGORIES.map((category, index) => (
-          <li
-            className={
-              (chosenCategory.id === index && chosenCategory.title) ||
-              (category === 'Architecture' && !chosenCategory.title)
-                ? s.chosenCategory
-                : ''
-            }
-            key={index}
-            onClick={() =>
-              dispatch(
-                changeCategory({
-                  id: index,
-                  title: category
-                })
-              )
-            }
-            data-id={index}
-          >
-            {category}
-          </li>
-        ))}
+    <aside className={s.root} aria-label="Book categories">
+      <h1 id="categories-heading">Categories</h1>
+      <ul
+        className={s.categoriesList}
+        onClick={chooseCategory}
+        role="listbox"
+        aria-labelledby="categories-heading"
+        aria-activedescendant={`category-${chosenCategory.id}`}
+      >
+        {CATEGORIES.map((category, index) => {
+          const isActive =
+            (chosenCategory.id === index && chosenCategory.title) ||
+            (category === 'Architecture' && !chosenCategory.title);
+
+          return (
+            <li
+              id={`category-${index}`}
+              className={isActive ? s.chosenCategory : ''}
+              key={index}
+              onClick={() =>
+                dispatch(
+                  changeCategory({
+                    id: index,
+                    title: category
+                  })
+                )
+              }
+              role="option"
+              aria-selected={isActive}
+              tabIndex={0}
+              data-id={index}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  dispatch(
+                    changeCategory({
+                      id: index,
+                      title: category
+                    })
+                  );
+                }
+              }}
+            >
+              {category}
+            </li>
+          );
+        })}
       </ul>
-    </div>
+    </aside>
   );
 }
 

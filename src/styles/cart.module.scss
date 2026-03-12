@@ -1,70 +1,148 @@
-@mixin font($size, $weight) {
-  font-size: $size;
-  font-weight: $weight;
-}
-
 .title {
-  margin-left: 25px;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  margin: var(--space-6) 0 var(--space-8);
+  padding-left: var(--space-4);
 }
 
 .cartContainer {
-  margin: 0 auto 40px;
+  margin: 0 auto var(--space-10);
   width: 100%;
-  max-width: 1120px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
-  padding: 40px;
+  max-width: var(--container-max-width);
+  background-color: var(--bg-primary);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
 }
 
 .itemsContainer {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: var(--space-8);
 }
 
 .subscript {
   display: flex;
-  @include font(10px, 700);
-  gap: 200px;
+  gap: var(--space-10);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
-  padding: 20px 0;
-  border-bottom: 1px solid #EEEDF5;
+  letter-spacing: 0.5px;
+  color: var(--color-gray-600);
+  padding: var(--space-4) 0;
+  border-bottom: 2px solid var(--color-gray-200);
 
   .subscript_items {
-    width: 250px;
+    min-width: 250px;
     display: flex;
     justify-content: center;
   }
 
   .subscript_subitems {
     display: flex;
-    width: 50%;
+    flex: 1;
     justify-content: space-between;
+    gap: var(--space-6);
     text-align: start;
   }
-
-
 }
 
 .priceContainer {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 50px;
-  @include font(24px, 700);
-  text-transform: uppercase;
+  align-items: flex-end;
+  gap: var(--space-5);
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 2px solid var(--color-gray-200);
+
+  .totalLabel {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-900);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
 
   .checkoutButton {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 176px;
-    height: 45px;
-    @include font(8px, 700);
-    color: #4C3DB2;
+    padding: var(--space-3) var(--space-8);
+    min-width: 200px;
+    height: 48px;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 1px;
+    color: var(--color-white);
     text-transform: uppercase;
-    background-color: white;
-    border: 1px solid #4C3DB2;
-    margin-bottom: 50px;
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+
+    &:hover {
+      background-color: var(--color-primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      background-color: var(--color-gray-300);
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: var(--font-size-2xl);
+    padding-left: 0;
+  }
+
+  .cartContainer {
+    padding: var(--space-5);
+  }
+
+  .subscript {
+    font-size: 10px;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+
+    .subscript_items {
+      min-width: 100%;
+    }
+
+    .subscript_subitems {
+      width: 100%;
+      gap: var(--space-3);
+    }
+  }
+
+  .priceContainer {
+    align-items: stretch;
+
+    .totalLabel {
+      font-size: var(--font-size-xl);
+      text-align: center;
+    }
+
+    .checkoutButton {
+      width: 100%;
+    }
   }
 }
 

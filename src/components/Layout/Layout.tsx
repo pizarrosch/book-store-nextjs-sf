@@ -13,26 +13,32 @@ export default function Layout({children, handleShowLogin}: Props) {
   return (
     <>
       <Head>
-        <title>Book Store</title>
-        <meta name="description" content="SkillFactory Next.js project" />
+        <title>Bookshop - Discover Your Next Great Read</title>
+        <meta
+          name="description"
+          content="Browse our extensive collection of books across 15 categories. Find your next favorite book with free returns and in-store pickup."
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@500;600;700&display=swap"
           rel="stylesheet"
         />
       </Head>
-      <header className={s.header}>
-        <Link href="/">
+      <a href="#main-content" className="skip-to-main">
+        Skip to main content
+      </a>
+      <header className={s.header} role="banner">
+        <Link href="/" aria-label="Bookshop home page">
           <h2>Bookshop</h2>
         </Link>
         <Navigation handleShowLogin={handleShowLogin} />
       </header>
-      <main className={s.mainContainer}>{children}</main>
-      <footer>
-        <Footer />
-      </footer>
+      <main className={s.mainContainer} id="main-content" role="main">
+        {children}
+      </main>
+      <Footer />
     </>
   );
 }
