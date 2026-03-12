@@ -74,7 +74,9 @@ export default async function handler(
 
   // Validate required parameters
   if (!category || !maxResults) {
-    return res.status(400).json({error: 'Missing required parameters: category and maxResults'});
+    return res
+      .status(400)
+      .json({error: 'Missing required parameters: category and maxResults'});
   }
 
   // Validate category is a string
@@ -166,7 +168,10 @@ export default async function handler(
 }
 
 // Transform Open Library data to our format and save to database
-async function transformAndSaveBooks(books: OpenLibraryBook[], category: string): Promise<DBBook[]> {
+async function transformAndSaveBooks(
+  books: OpenLibraryBook[],
+  category: string
+): Promise<DBBook[]> {
   const transformedBooks = [];
 
   for (const book of books) {
