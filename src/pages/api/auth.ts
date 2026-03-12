@@ -1,5 +1,11 @@
-import {NextApiRequest, NextApiResponse} from 'next';
-import {findUserByEmail, verifyPassword, generateToken} from '@/lib/auth';
+import {NextApiResponse} from 'next';
+import {
+  findUserByEmail,
+  verifyPassword,
+  generateToken,
+  isAuthenticated,
+  NextApiRequestWithAuth
+} from '@/lib/auth';
 
 export type TUserCredentials = {
   error: boolean;
@@ -13,7 +19,7 @@ export type TUserData = {
 };
 
 export default async function handler(
-  req: NextApiRequest,
+  req: NextApiRequestWithAuth,
   res: NextApiResponse
 ) {
   // Handle login (POST request)
@@ -29,7 +35,7 @@ export default async function handler(
 
     try {
       // Find user by email
-      const user = findUserByEmail(email);
+      const user = await findUserByEmail(email);
 
       // Check if user exists
       if (!user) {
@@ -71,14 +77,21 @@ export default async function handler(
       });
     }
   }
-  // Handle user info (GET request)
+  // Handle user info (GET request) - requires authentication
   else if (req.method === 'GET') {
-    // This endpoint should be protected, but for backward compatibility
-    // we'll return minimal user info without sensitive data
+    // Check if user is authenticated
+    if (!isAuthenticated(req)) {
+      return res.status(401).json({
+        error: true,
+        message: 'Unauthorized'
+      });
+    }
+
+    // Return authenticated user info
     return res.status(200).json({
       error: false,
-      name: 'Zaur Shomakhov',
-      email: 'shomakhov@skillfactory.ru'
+      name: req.user!.name,
+      email: req.user!.email
     });
   }
   // Handle other methods

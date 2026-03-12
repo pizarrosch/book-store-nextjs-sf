@@ -1,8 +1,13 @@
 import {hash, compare} from 'bcryptjs';
 import {sign, verify} from 'jsonwebtoken';
+import {NextApiRequest} from 'next';
+import prisma from './prisma';
 
-// Secret key for JWT - in production, this should be in environment variables
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+// Secret key for JWT - MUST be set in environment variables
+if (!process.env.JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is not set');
+}
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // User data structure
 export type User = {
@@ -11,18 +16,6 @@ export type User = {
   email: string;
   password: string; // This will be hashed
 };
-
-// Mock database - in a real app, this would be a database
-// For demo purposes, we'll use a hardcoded user with a hashed password
-export const users: User[] = [
-  {
-    id: '1',
-    name: 'Zaur Shomakhov',
-    email: 'shomakhov@skillfactory.ru',
-    // This is a hashed version of 'Zaurskillfactory'
-    password: '$2b$12$th9YygP3xnMPRAcw9nqgKu8DvzIiSiHR4DFvas8YQwgPob/rpaJd2'
-  }
-];
 
 // Function to hash a password
 export async function hashPassword(password: string): Promise<string> {
@@ -37,9 +30,12 @@ export async function verifyPassword(
   return await compare(password, hashedPassword);
 }
 
-// Function to find a user by email
-export function findUserByEmail(email: string): User | undefined {
-  return users.find((user) => user.email.toLowerCase() === email.toLowerCase());
+// Function to find a user by email from database
+export async function findUserByEmail(email: string): Promise<User | null> {
+  const user = await prisma.user.findUnique({
+    where: {email: email.toLowerCase()}
+  });
+  return user;
 }
 
 // Function to generate a JWT token
@@ -69,8 +65,13 @@ export function verifyToken(
   }
 }
 
+// Extended NextApiRequest with user property
+export interface NextApiRequestWithAuth extends NextApiRequest {
+  user?: {id: string; email: string; name: string};
+}
+
 // Middleware to check if a request is authenticated
-export function isAuthenticated(req: any): boolean {
+export function isAuthenticated(req: NextApiRequestWithAuth): boolean {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {

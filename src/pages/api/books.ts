@@ -1,14 +1,101 @@
 import {NextApiRequest, NextApiResponse} from 'next';
 import {prisma} from '@/lib/prisma';
 
+// TypeScript interfaces
+interface OpenLibraryBook {
+  key: string;
+  title: string;
+  author_name?: string[];
+  description?: string;
+  ratings_average?: number;
+  ratings_count?: number;
+  cover_i?: number;
+  first_publish_year?: number;
+}
+
+interface FormattedBook {
+  id: string;
+  volumeInfo: {
+    title: string;
+    authors: string[];
+    description: string;
+    averageRating: number;
+    ratingsCount: number;
+    imageLinks: {
+      thumbnail: string | null;
+    };
+  };
+  saleInfo: {
+    listPrice: {
+      amount: number;
+    };
+  };
+}
+
+interface DBBook {
+  id: string;
+  title: string;
+  authors: string;
+  description: string | null;
+  averageRating: number | null;
+  ratingsCount: number | null;
+  thumbnailUrl: string | null;
+  price: number | null;
+  category: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// Valid book categories
+const VALID_CATEGORIES = [
+  'fiction',
+  'science',
+  'history',
+  'biography',
+  'fantasy',
+  'mystery',
+  'romance',
+  'thriller',
+  'horror',
+  'science_fiction',
+  'non-fiction',
+  'poetry',
+  'drama',
+  'children',
+  'young_adult',
+  'classics'
+];
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const {category, maxResults} = req.query;
 
+  // Validate required parameters
   if (!category || !maxResults) {
-    return res.status(400).json({error: 'Missing required parameters'});
+    return res.status(400).json({error: 'Missing required parameters: category and maxResults'});
+  }
+
+  // Validate category is a string
+  if (typeof category !== 'string') {
+    return res.status(400).json({error: 'Category must be a string'});
+  }
+
+  // Validate category value (optional: can be removed if you want to allow any category)
+  const categoryLower = category.toLowerCase();
+  if (!VALID_CATEGORIES.includes(categoryLower)) {
+    return res.status(400).json({
+      error: `Invalid category. Valid categories: ${VALID_CATEGORIES.join(', ')}`
+    });
+  }
+
+  // Validate maxResults is a valid number
+  const maxResultsNum = Number(maxResults);
+  if (isNaN(maxResultsNum) || maxResultsNum < 1 || maxResultsNum > 100) {
+    return res.status(400).json({
+      error: 'maxResults must be a number between 1 and 100'
+    });
   }
 
   try {
@@ -22,21 +109,21 @@ export default async function handler(
     // First, try to get books from our database
     const dbBooks = await prisma.book.findMany({
       where: {
-        category: String(category)
+        category: categoryLower
       },
-      take: Number(maxResults)
+      take: maxResultsNum
     });
 
     console.log(
       'Books from database length:',
       dbBooks.length,
       'maxResults:',
-      Number(maxResults)
+      maxResultsNum
     );
-    console.log('Condition check:', dbBooks.length >= Number(maxResults));
+    console.log('Condition check:', dbBooks.length >= maxResultsNum);
 
     // If we have enough books in the database, return them
-    if (dbBooks.length >= Number(maxResults)) {
+    if (dbBooks.length >= maxResultsNum) {
       try {
         console.log('Books from database:', JSON.stringify(dbBooks));
         const formattedBooks = formatBooksForResponse(dbBooks);
@@ -52,7 +139,7 @@ export default async function handler(
 
     // Otherwise, fetch from Open Library API
     const response = await fetch(
-      `https://openlibrary.org/search.json?q=subject:${category}&limit=${maxResults}`
+      `https://openlibrary.org/search.json?q=subject:${categoryLower}&limit=${maxResultsNum}`
     );
 
     if (!response.ok) {
@@ -66,7 +153,7 @@ export default async function handler(
     // Transform Open Library data to our format and save to database
     const transformedBooks = await transformAndSaveBooks(
       data.docs,
-      String(category)
+      categoryLower
     );
 
     // Return the transformed books
@@ -79,7 +166,7 @@ export default async function handler(
 }
 
 // Transform Open Library data to our format and save to database
-async function transformAndSaveBooks(books: any[], category: string) {
+async function transformAndSaveBooks(books: OpenLibraryBook[], category: string): Promise<DBBook[]> {
   const transformedBooks = [];
 
   for (const book of books) {
@@ -124,23 +211,23 @@ async function transformAndSaveBooks(books: any[], category: string) {
 }
 
 // Format books from database to match the expected response format
-function formatBooksForResponse(books: any[]) {
+function formatBooksForResponse(books: DBBook[]): {items: FormattedBook[]} {
   return {
     items: books.map((book) => ({
       id: book.id,
       volumeInfo: {
         title: book.title,
         authors: book.authors.split(', '),
-        description: book.description,
-        averageRating: book.averageRating,
-        ratingsCount: book.ratingsCount,
+        description: book.description || '',
+        averageRating: book.averageRating || 0,
+        ratingsCount: book.ratingsCount || 0,
         imageLinks: {
           thumbnail: book.thumbnailUrl
         }
       },
       saleInfo: {
         listPrice: {
-          amount: book.price
+          amount: book.price || 9.99
         }
       }
     }))

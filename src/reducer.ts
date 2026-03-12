@@ -64,22 +64,28 @@ export const cartSlice = createSlice({
       });
     },
     removeCartItem: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
-      let itemIndex = state.findIndex(
+      const itemIndex = state.findIndex(
         (item: TCartItem) => item.id === action.payload.id
       );
-      state.splice(itemIndex, 1);
+      if (itemIndex !== -1) {
+        state.splice(itemIndex, 1);
+      }
     },
     increase: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
-      let itemIndex = state.find(
+      const item = state.find(
         (item: TCartItem) => item.id === action.payload.id
       );
-      itemIndex!.number += 1;
+      if (item) {
+        item.number += 1;
+      }
     },
     decrease: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
-      let itemIndex = state.find(
+      const item = state.find(
         (item: TCartItem) => item.id === action.payload.id
       );
-      itemIndex!.number -= 1;
+      if (item) {
+        item.number -= 1;
+      }
     }
   }
 });
@@ -150,12 +156,14 @@ export const clickedItemSlice = createSlice({
         isClicked: action.payload.isClicked
       });
 
-      const item = state.findIndex(
+      const itemIndex = state.findIndex(
         (chosenItem) =>
           chosenItem.id === action.payload.id &&
           chosenItem.isClicked !== 'buy now'
       );
-      state.splice(item, 1);
+      if (itemIndex !== -1) {
+        state.splice(itemIndex, 1);
+      }
     }
   }
 });
