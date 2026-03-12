@@ -11,7 +11,8 @@
     "test:watch": "jest --watch",
     "postinstall": "prisma generate",
     "seed": "tsx prisma/seed.ts",
-    "fetch-seed": "tsx prisma/fetch-and-seed.ts"
+    "fetch-seed": "tsx prisma/fetch-and-seed.ts",
+    "update-books": "tsx prisma/update-books.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
