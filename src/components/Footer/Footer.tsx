@@ -29,11 +29,36 @@ export default function Footer() {
           role="list"
           aria-label="Accepted payment methods"
         >
-          <Image src={visa} alt="Visa" width={50} height={32} />
-          <Image src={mastercard} alt="Mastercard" width={50} height={32} />
-          <Image src={gpay} alt="Google Pay" width={50} height={32} />
-          <Image src={applepay} alt="Apple Pay" width={50} height={32} />
-          <Image src={paypal} alt="PayPal" width={50} height={32} />
+          <Image
+            src={visa}
+            alt="Visa"
+            height={32}
+            style={{ width: 'auto', height: '32px', objectFit: 'contain' }}
+          />
+          <Image
+            src={mastercard}
+            alt="Mastercard"
+            height={32}
+            style={{ width: 'auto', height: '32px', objectFit: 'contain' }}
+          />
+          <Image
+            src={gpay}
+            alt="Google Pay"
+            height={32}
+            style={{ width: 'auto', height: '32px', objectFit: 'contain' }}
+          />
+          <Image
+            src={applepay}
+            alt="Apple Pay"
+            height={32}
+            style={{ width: 'auto', height: '32px', objectFit: 'contain' }}
+          />
+          <Image
+            src={paypal}
+            alt="PayPal"
+            height={32}
+            style={{ width: 'auto', height: '32px', objectFit: 'contain' }}
+          />
         </div>
       </div>
     </footer>
