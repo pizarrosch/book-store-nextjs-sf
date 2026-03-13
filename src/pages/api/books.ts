@@ -46,7 +46,7 @@ interface DBBook {
   updatedAt: Date;
 }
 
-// Valid book categories - matching frontend categories from Sidebar.tsx
+// Valid book categories - matching frontend categories from CategoryDropdown.tsx
 const VALID_CATEGORIES = [
   'architecture',
   'art & fashion',

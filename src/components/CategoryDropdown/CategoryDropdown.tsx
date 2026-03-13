@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useAppSelector} from '@/pages/hooks';
 import {changeCategory} from '@/reducer';
-import s from './Sidebar.module.scss';
+import s from './CategoryDropdown.module.scss';
 
 export const CATEGORIES = [
   'Architecture',
@@ -26,7 +26,7 @@ type TCategory = {
   chooseCategory: () => void;
 };
 
-function Sidebar({chooseCategory}: TCategory) {
+function CategoryDropdown({chooseCategory}: TCategory) {
   const dispatch = useDispatch();
   const chosenCategory = useAppSelector((state) => state.category);
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +41,10 @@ function Sidebar({chooseCategory}: TCategory) {
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
         setSearchQuery('');
       }
@@ -93,13 +96,20 @@ function Sidebar({chooseCategory}: TCategory) {
           <span className={s.labelText}>Category:</span>
           <span className={s.selectedCategory}>{currentCategory}</span>
         </span>
-        <span className={`${s.chevron} ${isOpen ? s.chevronOpen : ''}`} aria-hidden="true">
+        <span
+          className={`${s.chevron} ${isOpen ? s.chevronOpen : ''}`}
+          aria-hidden="true"
+        >
           ▼
         </span>
       </button>
 
       {isOpen && (
-        <div className={s.dropdownMenu} role="listbox" aria-label="Book categories">
+        <div
+          className={s.dropdownMenu}
+          role="listbox"
+          aria-label="Book categories"
+        >
           <div className={s.dropdownSearch}>
             <input
               type="text"
@@ -150,4 +160,4 @@ function Sidebar({chooseCategory}: TCategory) {
   );
 }
 
-export default Sidebar;
+export default CategoryDropdown;

@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import Books from '@/components/Book/Books';
-import Sidebar from '@/components/Drawer/Sidebar';
+import CategoryDropdown from '@/components/CategoryDropdown/CategoryDropdown';
 import Pagination from '@/components/Pagination/Pagination';
 import {useAppSelector} from '@/pages/hooks';
 import s from './Main.module.scss';
@@ -17,7 +17,7 @@ function MainContent() {
   return (
     <div className={s.root}>
       <div className={s.filterSection}>
-        <Sidebar chooseCategory={chooseCategory} />
+        <CategoryDropdown chooseCategory={chooseCategory} />
         <Pagination
           currentPage={page}
           totalPages={totalPages}
