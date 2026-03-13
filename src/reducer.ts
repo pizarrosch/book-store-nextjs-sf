@@ -11,12 +11,26 @@ export type TCategory = {
   title: string;
 };
 
+type TShippingAddress = {
+  street: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+};
+
 type TUserCredentials = {
   email: string;
   name: string;
   isAuthenticated: boolean;
   token: string | null;
   showLogin: boolean;
+  id: string | null;
+  bio: string;
+  profilePicture: string | null;
+  phone: string;
+  shippingAddress: TShippingAddress | null;
+  createdAt: string | null;
 };
 
 const userCredentialsInitialState = {
@@ -24,7 +38,13 @@ const userCredentialsInitialState = {
   name: '',
   isAuthenticated: false,
   token: null,
-  showLogin: false
+  showLogin: false,
+  id: null,
+  bio: '',
+  profilePicture: null,
+  phone: '',
+  shippingAddress: null,
+  createdAt: null
 };
 
 export const userSlice = createSlice({
@@ -52,11 +72,32 @@ export const userSlice = createSlice({
     setShowLogin: (state: TUserCredentials, action: PayloadAction<boolean>) => {
       state.showLogin = action.payload;
     },
+    updateProfile: (
+      state: TUserCredentials,
+      action: PayloadAction<Partial<TUserCredentials>>
+    ) => {
+      Object.assign(state, action.payload);
+    },
+    setProfilePicture: (
+      state: TUserCredentials,
+      action: PayloadAction<string>
+    ) => {
+      state.profilePicture = action.payload;
+    },
+    setBio: (state: TUserCredentials, action: PayloadAction<string>) => {
+      state.bio = action.payload;
+    },
     logout: (state: TUserCredentials) => {
       state.email = '';
       state.name = '';
       state.isAuthenticated = false;
       state.token = null;
+      state.id = null;
+      state.bio = '';
+      state.profilePicture = null;
+      state.phone = '';
+      state.shippingAddress = null;
+      state.createdAt = null;
     }
   }
 });
@@ -190,6 +231,9 @@ export const {
   setAuthenticated,
   setToken,
   setShowLogin,
+  updateProfile,
+  setProfilePicture,
+  setBio,
   logout
 } = userSlice.actions;
 export const {isUnavailable, addedToCart, removedFromCart} =

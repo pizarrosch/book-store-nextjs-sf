@@ -15,12 +15,20 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String   @id @default(cuid())
+  email           String   @unique
+  name            String
+  password        String
+  bio             String?  @db.Text
+  profilePicture  String?  @db.Text
+  phone           String?
+  addressStreet   String?
+  addressCity     String?
+  addressState    String?
+  addressPostal   String?
+  addressCountry  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model Book {
