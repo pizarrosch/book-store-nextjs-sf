@@ -19,13 +19,47 @@ type TUserCredentials = {
   showLogin: boolean;
 };
 
-const userCredentials = {
+const userCredentialsInitialState = {
   email: '',
   name: '',
   isAuthenticated: false,
   token: null,
   showLogin: false
 };
+
+export const userSlice = createSlice({
+  name: 'user',
+  initialState: userCredentialsInitialState as TUserCredentials,
+  reducers: {
+    setEmail: (state: TUserCredentials, action: PayloadAction<string>) => {
+      state.email = action.payload;
+    },
+    setName: (state: TUserCredentials, action: PayloadAction<string>) => {
+      state.name = action.payload;
+    },
+    setAuthenticated: (
+      state: TUserCredentials,
+      action: PayloadAction<boolean>
+    ) => {
+      state.isAuthenticated = action.payload;
+    },
+    setToken: (
+      state: TUserCredentials,
+      action: PayloadAction<string | null>
+    ) => {
+      state.token = action.payload;
+    },
+    setShowLogin: (state: TUserCredentials, action: PayloadAction<boolean>) => {
+      state.showLogin = action.payload;
+    },
+    logout: (state: TUserCredentials) => {
+      state.email = '';
+      state.name = '';
+      state.isAuthenticated = false;
+      state.token = null;
+    }
+  }
+});
 
 export type TClicked = {
   id: string;
@@ -39,6 +73,9 @@ export const bookSlice = createSlice({
     addBook: (state: bookData[], action: PayloadAction<bookData>) => {
       state.push(action.payload);
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(userSlice.actions.logout, () => []);
   }
 });
 
@@ -52,6 +89,9 @@ export const priceSlice = createSlice({
     subtractPrice: (state: number, action: PayloadAction<number>) => {
       return Math.abs(state - action.payload);
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(userSlice.actions.logout, () => 0);
   }
 });
 
@@ -89,6 +129,9 @@ export const cartSlice = createSlice({
         item.number -= 1;
       }
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(userSlice.actions.logout, () => []);
   }
 });
 
@@ -101,40 +144,6 @@ export const categorySlice = createSlice({
         id: action.payload.id,
         title: action.payload.title
       };
-    }
-  }
-});
-
-export const userSlice = createSlice({
-  name: 'user',
-  initialState: userCredentials as TUserCredentials,
-  reducers: {
-    setEmail: (state: TUserCredentials, action: PayloadAction<string>) => {
-      state.email = action.payload;
-    },
-    setName: (state: TUserCredentials, action: PayloadAction<string>) => {
-      state.name = action.payload;
-    },
-    setAuthenticated: (
-      state: TUserCredentials,
-      action: PayloadAction<boolean>
-    ) => {
-      state.isAuthenticated = action.payload;
-    },
-    setToken: (
-      state: TUserCredentials,
-      action: PayloadAction<string | null>
-    ) => {
-      state.token = action.payload;
-    },
-    setShowLogin: (state: TUserCredentials, action: PayloadAction<boolean>) => {
-      state.showLogin = action.payload;
-    },
-    logout: (state: TUserCredentials) => {
-      state.email = '';
-      state.name = '';
-      state.isAuthenticated = false;
-      state.token = null;
     }
   }
 });
@@ -170,6 +179,9 @@ export const clickedItemSlice = createSlice({
         state.splice(itemIndex, 1);
       }
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(userSlice.actions.logout, () => []);
   }
 });
 
