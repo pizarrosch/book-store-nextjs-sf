@@ -16,13 +16,15 @@ type TUserCredentials = {
   name: string;
   isAuthenticated: boolean;
   token: string | null;
+  showLogin: boolean;
 };
 
 const userCredentials = {
   email: '',
   name: '',
   isAuthenticated: false,
-  token: null
+  token: null,
+  showLogin: false
 };
 
 export type TClicked = {
@@ -125,6 +127,9 @@ export const userSlice = createSlice({
     ) => {
       state.token = action.payload;
     },
+    setShowLogin: (state: TUserCredentials, action: PayloadAction<boolean>) => {
+      state.showLogin = action.payload;
+    },
     logout: (state: TUserCredentials) => {
       state.email = '';
       state.name = '';
@@ -173,7 +178,13 @@ export const {addPrice, subtractPrice} = priceSlice.actions;
 export const {addCartItem, removeCartItem, increase, decrease} =
   cartSlice.actions;
 export const {changeCategory} = categorySlice.actions;
-export const {setEmail, setName, setAuthenticated, setToken, logout} =
-  userSlice.actions;
+export const {
+  setEmail,
+  setName,
+  setAuthenticated,
+  setToken,
+  setShowLogin,
+  logout
+} = userSlice.actions;
 export const {isUnavailable, addedToCart, removedFromCart} =
   clickedItemSlice.actions;

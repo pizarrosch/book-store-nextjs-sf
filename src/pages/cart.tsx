@@ -4,22 +4,20 @@ import Layout from '@/components/Layout/Layout';
 import {useAppSelector} from '@/pages/hooks';
 import s from '../styles/cart.module.scss';
 
-type TShowLogin = {
-  handleShowLogin: () => void;
-};
-
-export default function Cart({handleShowLogin}: TShowLogin) {
+export default function Cart() {
   const totalPrice = useAppSelector((state) => state.price);
 
   return (
-    <Layout handleShowLogin={handleShowLogin}>
+    <Layout>
       <h1 className={s.title}>Shopping cart</h1>
       <div className={s.cartContainer}>
         <div className={s.itemsContainer}>
           <CartItem />
         </div>
         <div className={s.priceContainer}>
-          <span>TOTAL PRICE: ${totalPrice.toFixed(2)}</span>
+          <span className={s.totalLabel}>
+            TOTAL PRICE: ${totalPrice.toFixed(2)}
+          </span>
           <button className={s.checkoutButton}>CHECKOUT</button>
         </div>
       </div>

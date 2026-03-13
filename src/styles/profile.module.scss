@@ -13,25 +13,79 @@
     display: flex;
     gap: 15px;
 
+    .profileHeader {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .sectionTitle {
+        @include font(18px, 700);
+        margin: 0;
+      }
+
+      .imageWrapper {
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 4px;
+
+        .profileImage {
+          object-fit: cover;
+        }
+      }
+    }
+
     .contactData {
       display: flex;
       flex-direction: column;
       gap: 25px;
       margin-bottom: 25px;
 
-      .name, .email {
-        margin-top: 5px;
+      .infoGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .infoLabel {
+        @include font(12px, 700);
+        text-transform: uppercase;
+        color: rgba(92, 106, 121, 1);
+      }
+
+      .infoValue {
+        margin: 0;
+        @include font(14px, 600);
+      }
+    }
+
+    .actions {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .logoutButton {
+        width: 176px;
+        height: 45px;
+        border: 1px solid var(--color-secondary);
+        @include font(8px, 700);
+        text-transform: uppercase;
+        background-color: white;
+        color: var(--color-secondary);
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+          background-color: var(--color-secondary);
+          color: white;
+        }
       }
     }
   }
 
   .userDataContainer:nth-child(1) {
     align-items: end;
-  }
-
-  .infoSuperscript {
-    @include font(12px, 700);
-    text-transform: uppercase;
   }
 
   .editButton {
@@ -41,6 +95,12 @@
     @include font(8px, 700);
     text-transform: uppercase;
     background-color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(76, 61, 178, 0.05);
+    }
   }
 
   .description {
@@ -56,9 +116,16 @@
     box-shadow: rgba(0, 0, 0, 0.45) 0 25px 20px -20px;
     margin-bottom: -150px;
 
+    .infoLabel {
+      @include font(12px, 700);
+      text-transform: uppercase;
+      color: rgba(92, 106, 121, 1);
+    }
+
     .paragraph {
       @include font(12px, 600);
       color: rgba(92, 106, 121, 1);
+      text-align: center;
     }
   }
 }

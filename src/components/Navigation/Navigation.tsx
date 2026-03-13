@@ -1,19 +1,18 @@
 import {Icon} from '@blueprintjs/core';
 import Link from 'next/link';
 import {usePathname, useRouter} from 'next/navigation';
-import {useState} from 'react';
+import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {useAppSelector} from '@/pages/hooks';
+import {setShowLogin} from '@/reducer';
 import s from './Navigation.module.scss';
 
-type TShowLogin = {
-  handleShowLogin: () => void;
-};
-
-export default function Navigation({handleShowLogin}: TShowLogin) {
+export default function Navigation() {
   const cart = useAppSelector((state) => state.cart);
   const userCredentials = useAppSelector((state) => state.userCredentials);
   const router = useRouter();
   const pathname = usePathname();
+  const dispatch = useDispatch();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,7 +39,7 @@ export default function Navigation({handleShowLogin}: TShowLogin) {
     if (userCredentials.isAuthenticated) {
       router.push('/profile');
     } else {
-      handleShowLogin();
+      dispatch(setShowLogin(true));
     }
   };
 

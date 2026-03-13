@@ -22,32 +22,6 @@
   gap: var(--space-8);
 }
 
-.subscript {
-  display: flex;
-  gap: var(--space-10);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--color-gray-600);
-  padding: var(--space-4) 0;
-  border-bottom: 2px solid var(--color-gray-200);
-
-  .subscript_items {
-    min-width: 250px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .subscript_subitems {
-    display: flex;
-    flex: 1;
-    justify-content: space-between;
-    gap: var(--space-6);
-    text-align: start;
-  }
-}
-
 .priceContainer {
   display: flex;
   flex-direction: column;
@@ -115,21 +89,6 @@
 
   .cartContainer {
     padding: var(--space-5);
-  }
-
-  .subscript {
-    font-size: 10px;
-    gap: var(--space-4);
-    flex-wrap: wrap;
-
-    .subscript_items {
-      min-width: 100%;
-    }
-
-    .subscript_subitems {
-      width: 100%;
-      gap: var(--space-3);
-    }
   }
 
   .priceContainer {
