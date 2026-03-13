@@ -1,10 +1,10 @@
-import {Button} from '@blueprintjs/core';
 import {useRouter} from 'next/navigation';
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import Backdrop from '@/components/Backdrop/Backdrop';
 import BookDetails from '@/components/Book/BookDetails';
 import CoverImage from '@/components/Book/CoverImage';
+import Pagination from '@/components/Pagination/Pagination';
 import {useAppSelector} from '@/pages/hooks';
 import {addBook, addPrice, addCartItem, TClicked} from '@/reducer';
 import s from './Books.module.scss';
@@ -36,16 +36,18 @@ export type bookData = {
   saleInfo: TSaleInfo;
 };
 
-type TMaxResults = {
-  maxResults: number;
-  setMaxResults: Dispatch<SetStateAction<number>>;
+type TPageInfo = {
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
 };
 
 type TBookCategory = {
   category: string;
-} & TMaxResults;
+} & TPageInfo;
 
-function Books({category, maxResults, setMaxResults}: TBookCategory) {
+const PAGE_SIZE = 6;
+
+function Books({category, page, setPage}: TBookCategory) {
   const dispatch = useDispatch();
 
   const buyButtonState = useAppSelector((state) => state.clickedItem);
@@ -55,7 +57,7 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
   const router = useRouter();
 
   const [books, setBooks] = useState<Array<bookData>>([]);
-  const [allBooks, setAllBooks] = useState<Array<bookData>>([]);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const [error, setError] = useState<string | boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -64,15 +66,12 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
     try {
       const headers: Record<string, string> = {};
 
-      // Add authorization header if user is authenticated
       if (userCredentials.isAuthenticated && userCredentials.token) {
         headers['Authorization'] = `Bearer ${userCredentials.token}`;
       }
 
-      // Fetch more books initially to ensure we have enough with prices
-      const initialFetchCount = Math.max(30, maxResults * 5); // Fetch at least 30 books or 5x maxResults
       const response = await fetch(
-        `/api/books?category=${encodeURIComponent(category)}&maxResults=${initialFetchCount}`,
+        `/api/books?category=${encodeURIComponent(category)}&maxResults=${PAGE_SIZE}&page=${page}`,
         {
           headers
         }
@@ -83,24 +82,9 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
       }
 
       const data = await response.json();
-      const booksInStock = data.items.filter(
-        (book: bookData) =>
-          book.saleInfo.listPrice &&
-          book.saleInfo.listPrice.amount &&
-          !isNaN(book.saleInfo.listPrice.amount) &&
-          book.saleInfo.listPrice.amount > 0
-      );
-      setAllBooks(booksInStock || []);
-
-      // If there are books with prices, display up to maxResults of them
-      // Otherwise, set books to an empty array and show an error message
-      if (booksInStock && booksInStock.length > 0) {
-        setBooks(booksInStock.slice(0, maxResults));
-        setError(false);
-      } else {
-        setBooks([]);
-        setError(true);
-      }
+      setBooks(data.items || []);
+      setTotalPages(data.totalPages || 0);
+      setError(!data.items || data.items.length === 0);
     } catch (error) {
       console.error('Error fetching books:', error);
       setError('Failed to fetch books. Please try again later.');
@@ -109,22 +93,9 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
     }
   }
 
-  function loadMoreBooks() {
-    // Only increase maxResults if there are more books to load
-    if (allBooks.length > maxResults) {
-      setMaxResults((prev) => prev + 6);
-    }
-  }
-
   useEffect(() => {
     fetchBooks();
-  }, [category, userCredentials.isAuthenticated, userCredentials.token]);
-
-  useEffect(() => {
-    if (allBooks.length > 0) {
-      setBooks(allBooks.slice(0, maxResults));
-    }
-  }, [maxResults, allBooks]);
+  }, [category, page, userCredentials.isAuthenticated, userCredentials.token]);
 
   function onBuyClick(e: React.MouseEvent) {
     // Check if user is authenticated
@@ -171,25 +142,29 @@ function Books({category, maxResults, setMaxResults}: TBookCategory) {
         <Backdrop type="empty" />
       ) : (
         <>
-          {books.map((book: bookData, id) => {
-            const buyIndex = buyButtonState.find(
-              (item: TClicked) => item.id === String(book.id)
-            );
-            return (
-              <div className={s.book} data-index={book.id} key={id}>
-                <CoverImage {...book} />
-                <BookDetails {...book} onClick={onBuyClick} buyIndex={buyIndex} />
-              </div>
-            );
-          })}
-          {allBooks.length > maxResults && (
-            <Button
-              className={s.button}
-              text="Load more"
-              variant="outlined"
-              onClick={loadMoreBooks}
-            />
-          )}
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+          <div className={s.booksGrid}>
+            {books.map((book: bookData, id) => {
+              const buyIndex = buyButtonState.find(
+                (item: TClicked) => item.id === String(book.id)
+              );
+              return (
+                <div className={s.book} data-index={book.id} key={id}>
+                  <CoverImage {...book} />
+                  <BookDetails {...book} onClick={onBuyClick} buyIndex={buyIndex} />
+                </div>
+              );
+            })}
+          </div>
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
         </>
       )}
     </div>

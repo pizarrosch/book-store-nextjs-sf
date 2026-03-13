@@ -5,11 +5,11 @@ import {useAppSelector} from '@/pages/hooks';
 import s from './Main.module.scss';
 
 function MainContent() {
-  const [maxResults, setMaxResults] = useState(6);
+  const [page, setPage] = useState(1);
   const chosenCategory = useAppSelector((state) => state.category);
 
   function chooseCategory() {
-    setMaxResults(6);
+    setPage(1);
   }
 
   return (
@@ -19,8 +19,8 @@ function MainContent() {
       </div>
       <Books
         category={chosenCategory.title || 'Architecture'}
-        maxResults={maxResults}
-        setMaxResults={setMaxResults}
+        page={page}
+        setPage={setPage}
       />
     </div>
   );

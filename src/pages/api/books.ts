@@ -65,17 +65,26 @@ const VALID_CATEGORIES = [
   'travel & maps'
 ];
 
+interface FormattedBookResponse {
+  items: FormattedBook[];
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+}
+
+// ... existing code ...
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const {category, maxResults} = req.query;
+  const {category, maxResults, page} = req.query;
 
   // Validate required parameters
-  if (!category || !maxResults) {
+  if (!category) {
     return res
       .status(400)
-      .json({error: 'Missing required parameters: category and maxResults'});
+      .json({error: 'Missing required parameter: category'});
   }
 
   // Validate category is a string
@@ -83,7 +92,7 @@ export default async function handler(
     return res.status(400).json({error: 'Category must be a string'});
   }
 
-  // Validate category value (optional: can be removed if you want to allow any category)
+  // Validate category value
   const categoryLower = category.toLowerCase();
   if (!VALID_CATEGORIES.includes(categoryLower)) {
     return res.status(400).json({
@@ -91,56 +100,56 @@ export default async function handler(
     });
   }
 
-  // Validate maxResults is a valid number
-  const maxResultsNum = Number(maxResults);
-  if (isNaN(maxResultsNum) || maxResultsNum < 1 || maxResultsNum > 100) {
+  // Pagination parameters
+  const pageSize = Number(maxResults) || 6;
+  const currentPage = Number(page) || 1;
+
+  if (isNaN(pageSize) || pageSize < 1 || pageSize > 100) {
     return res.status(400).json({
-      error: 'maxResults must be a number between 1 and 100'
+      error: 'maxResults (pageSize) must be a number between 1 and 100'
+    });
+  }
+
+  if (isNaN(currentPage) || currentPage < 1) {
+    return res.status(400).json({
+      error: 'page must be a number greater than 0'
     });
   }
 
   try {
-    console.log(
-      'API handler called with category:',
-      category,
-      'maxResults:',
-      maxResults
-    );
+    const skip = (currentPage - 1) * pageSize;
 
-    // First, try to get books from our database
+    // Get total count for the category
+    const totalCount = await prisma.book.count({
+      where: {
+        category: categoryLower
+      }
+    });
+
+    // Try to get books from our database with pagination
     const dbBooks = await prisma.book.findMany({
       where: {
         category: categoryLower
       },
-      take: maxResultsNum
+      skip: skip,
+      take: pageSize
     });
 
-    console.log(
-      'Books from database length:',
-      dbBooks.length,
-      'maxResults:',
-      maxResultsNum
-    );
-    console.log('Condition check:', dbBooks.length >= maxResultsNum);
-
-    // If we have enough books in the database, return them
-    if (dbBooks.length >= maxResultsNum) {
-      try {
-        console.log('Books from database:', JSON.stringify(dbBooks));
-        const formattedBooks = formatBooksForResponse(dbBooks);
-        console.log('Formatted books:', JSON.stringify(formattedBooks));
-        return res.status(200).json(formattedBooks);
-      } catch (formatError) {
-        console.error('Error formatting books from database:', formatError);
-        return res
-          .status(500)
-          .json({error: 'Failed to format books from database'});
-      }
+    // If we have books in the database, return them (even if not a full page)
+    if (dbBooks.length > 0) {
+      const formattedBooks = formatBooksForResponse(dbBooks);
+      return res.status(200).json({
+        ...formattedBooks,
+        totalCount,
+        totalPages: Math.ceil(totalCount / pageSize),
+        currentPage
+      });
     }
 
-    // Otherwise, fetch from Open Library API
+    // Otherwise, fetch from Open Library API (fallback)
+    // For simplicity, we fetch maxResults from Open Library if DB is empty for this category
     const response = await fetch(
-      `https://openlibrary.org/search.json?q=subject:${categoryLower}&limit=${maxResultsNum}`
+      `https://openlibrary.org/search.json?q=subject:${categoryLower}&limit=${pageSize}&page=${currentPage}`
     );
 
     if (!response.ok) {
@@ -157,9 +166,21 @@ export default async function handler(
       categoryLower
     );
 
+    // Get updated total count after fetching from API
+    const updatedTotalCount = await prisma.book.count({
+      where: {
+        category: categoryLower
+      }
+    });
+
     // Return the transformed books
     const formattedBooks = formatBooksForResponse(transformedBooks);
-    return res.status(200).json(formattedBooks);
+    return res.status(200).json({
+      ...formattedBooks,
+      totalCount: updatedTotalCount,
+      totalPages: Math.ceil(updatedTotalCount / pageSize),
+      currentPage
+    });
   } catch (error) {
     console.error('Error fetching books:', error);
     return res.status(500).json({error: 'Failed to fetch books'});
