@@ -1,6 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {render, screen, fireEvent} from '@testing-library/react';
-import {useRouter} from 'next/navigation';
+import {useRouter, usePathname} from 'next/navigation';
 import React from 'react';
 import {Provider} from 'react-redux';
 import Navigation from './Navigation';
@@ -9,13 +9,15 @@ import Navigation from './Navigation';
 jest.mock('next/link', () => {
   return function MockLink({
     children,
-    href
+    href,
+    ...props
   }: {
     children: React.ReactNode;
     href: string;
+    [key: string]: any;
   }) {
     return (
-      <a href={href} data-testid="link-mock">
+      <a href={href} data-testid="link-mock" {...props}>
         {children}
       </a>
     );
@@ -24,7 +26,8 @@ jest.mock('next/link', () => {
 
 // Mock next/navigation
 jest.mock('next/navigation', () => ({
-  useRouter: jest.fn()
+  useRouter: jest.fn(),
+  usePathname: jest.fn()
 }));
 
 describe('Navigation', () => {
@@ -60,6 +63,7 @@ describe('Navigation', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
+    (usePathname as jest.Mock).mockReturnValue('/');
   });
 
   it('renders navigation links', () => {
@@ -84,7 +88,7 @@ describe('Navigation', () => {
       </Provider>
     );
 
-    const userIcon = screen.getByAltText('user');
+    const userIcon = screen.getByLabelText('User account');
     expect(userIcon).toBeInTheDocument();
 
     // Click the user icon
@@ -99,7 +103,7 @@ describe('Navigation', () => {
       </Provider>
     );
 
-    const bagIcon = screen.getByAltText('bag');
+    const bagIcon = screen.getByLabelText(/Shopping cart/);
     expect(bagIcon).toBeInTheDocument();
   });
 });
