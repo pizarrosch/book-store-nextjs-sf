@@ -1,21 +1,18 @@
-import {Icon} from '@blueprintjs/core';
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {
-  setName,
-  setEmail,
-  setAuthenticated,
-  setToken,
-  setShowLogin
-} from '@/reducer';
+import {setName, setEmail, setAuthenticated, setToken, setShowLogin} from '@/reducer';
+import {Icon} from '@blueprintjs/core';
 import s from './Login.module.scss';
 
 function Login() {
+  const [isSignup, setIsSignup] = useState(false);
+  const [name, setUserName] = useState('');
   const [email, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [nameIsValid, setNameIsValid] = useState(true);
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [passwordIsValid, setPasswordIsValid] = useState(true);
-  const [areCredentialsCorrect, setAreCredentialsCorrect] = useState(true);
+  const [authError, setAuthError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -31,25 +28,47 @@ function Login() {
     return () => window.removeEventListener('keydown', handleEsc);
   }, [dispatch]);
 
-  async function logIn(e?: React.FormEvent) {
+  // Reset errors when switching modes
+  useEffect(() => {
+    setAuthError('');
+    setNameIsValid(true);
+    setEmailIsValid(true);
+    setPasswordIsValid(true);
+  }, [isSignup]);
+
+  async function handleSubmit(e?: React.FormEvent) {
     if (e) e.preventDefault();
 
-    if (!emailIsValid || !passwordIsValid || !email || !password) {
-      if (!email) setEmailIsValid(false);
-      if (!password) setPasswordIsValid(false);
-      return;
+    // Validation
+    let isValid = true;
+    if (isSignup && !name.trim()) {
+      setNameIsValid(false);
+      isValid = false;
+    }
+    if (!email || !email.includes('@')) {
+      setEmailIsValid(false);
+      isValid = false;
+    }
+    if (!password || password.length < 6) {
+      setPasswordIsValid(false);
+      isValid = false;
     }
 
+    if (!isValid) return;
+
     setIsLoading(true);
-    setAreCredentialsCorrect(true);
+    setAuthError('');
+
+    const endpoint = isSignup ? '/api/signup' : '/api/auth';
+    const payload = isSignup ? {name, email, password} : {email, password};
 
     try {
-      const response = await fetch('/api/auth', {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({email, password})
+        body: JSON.stringify(payload)
       });
 
       const data = await response.json();
@@ -61,59 +80,84 @@ function Login() {
         dispatch(setAuthenticated(true));
         dispatch(setShowLogin(false));
       } else {
-        setAreCredentialsCorrect(false);
+        setAuthError(data.message || 'Authentication failed');
       }
     } catch (error) {
-      console.error('Login error:', error);
-      setAreCredentialsCorrect(false);
+      console.error('Auth error:', error);
+      setAuthError('An unexpected error occurred');
     } finally {
       setIsLoading(false);
     }
   }
 
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleNameChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    setUserName(value);
+    setNameIsValid(true);
+    setAuthError('');
+  }
+
+  function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     setUserEmail(value);
-    setAreCredentialsCorrect(true);
-    if (value && !value.includes('@')) {
-      setEmailIsValid(false);
-    } else {
-      setEmailIsValid(true);
-    }
+    setEmailIsValid(true);
+    setAuthError('');
   }
 
   function handlePasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     setPassword(value);
-    setAreCredentialsCorrect(true);
-    if (value && value.length < 6) {
-      setPasswordIsValid(false);
-    } else {
-      setPasswordIsValid(true);
-    }
+    setPasswordIsValid(true);
+    setAuthError('');
   }
 
   const handleClose = () => {
     dispatch(setShowLogin(false));
   };
 
+  const toggleMode = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsSignup(!isSignup);
+  };
+
   return (
     <div className={s.modalOverlay} onClick={handleClose}>
       <div className={s.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button
-          className={s.closeButton}
-          onClick={handleClose}
-          aria-label="Close login modal"
-        >
+        <button className={s.closeButton} onClick={handleClose} aria-label="Close modal">
           <Icon icon="cross" size={20} />
         </button>
-
+        
         <div className={s.header}>
-          <h2 className={s.title}>Welcome Back</h2>
-          <p className={s.subtitle}>Log in to access your account</p>
+          <h2 className={s.title}>{isSignup ? 'Create Account' : 'Welcome Back'}</h2>
+          <p className={s.subtitle}>
+            {isSignup ? 'Join our community of book lovers' : 'Log in to access your account'}
+          </p>
         </div>
 
-        <form className={s.form} onSubmit={logIn}>
+        <form className={s.form} onSubmit={handleSubmit}>
+          {isSignup && (
+            <div className={s.inputGroup}>
+              <label htmlFor="name" className={s.label}>
+                Full Name
+              </label>
+              <div className={s.inputWrapper}>
+                <Icon icon="user" className={s.inputIcon} />
+                <input
+                  type="text"
+                  id="name"
+                  placeholder="John Doe"
+                  className={`${s.input} ${!nameIsValid ? s.invalid : ''}`}
+                  value={name}
+                  onChange={handleNameChange}
+                  autoFocus
+                />
+              </div>
+              {!nameIsValid && (
+                <span className={s.errorText}>Please enter your full name</span>
+              )}
+            </div>
+          )}
+
           <div className={s.inputGroup}>
             <label htmlFor="email" className={s.label}>
               Email Address
@@ -126,14 +170,12 @@ function Login() {
                 placeholder="you@example.com"
                 className={`${s.input} ${!emailIsValid ? s.invalid : ''}`}
                 value={email}
-                onChange={handleInputChange}
-                autoFocus
+                onChange={handleEmailChange}
+                autoFocus={!isSignup}
               />
             </div>
             {!emailIsValid && (
-              <span className={s.errorText}>
-                Please enter a valid email address
-              </span>
+              <span className={s.errorText}>Please enter a valid email address</span>
             )}
           </div>
 
@@ -147,7 +189,7 @@ function Login() {
                 type="password"
                 id="password"
                 placeholder="••••••••"
-                className={`${s.input} ${!passwordIsValid || !areCredentialsCorrect ? s.invalid : ''}`}
+                className={`${s.input} ${!passwordIsValid ? s.invalid : ''}`}
                 value={password}
                 onChange={handlePasswordChange}
               />
@@ -157,33 +199,34 @@ function Login() {
                 Password must be at least 6 characters long
               </span>
             )}
-            {!areCredentialsCorrect && (
-              <span className={s.errorText}>Invalid email or password</span>
+            {authError && (
+              <span className={s.errorText}>{authError}</span>
             )}
           </div>
 
-          <div className={s.forgotPassword}>
-            <a href="#">Forgot password?</a>
-          </div>
+          {!isSignup && (
+            <div className={s.forgotPassword}>
+              <a href="#">Forgot password?</a>
+            </div>
+          )}
 
           <button
             type="submit"
             className={s.loginButton}
-            disabled={
-              isLoading ||
-              !email ||
-              !password ||
-              !emailIsValid ||
-              !passwordIsValid
-            }
+            disabled={isLoading}
           >
-            {isLoading ? 'Logging in...' : 'Log In'}
+            {isLoading 
+              ? (isSignup ? 'Creating account...' : 'Logging in...') 
+              : (isSignup ? 'Sign Up' : 'Log In')}
           </button>
         </form>
 
         <div className={s.footer}>
           <p>
-            Don&apos;t have an account? <a href="#">Sign up</a>
+            {isSignup ? 'Already have an account?' : "Don't have an account?"}{' '}
+            <a href="#" onClick={toggleMode}>
+              {isSignup ? 'Log in' : 'Sign up'}
+            </a>
           </p>
         </div>
       </div>
