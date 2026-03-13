@@ -36,6 +36,12 @@
   }
 }
 
+.bottomPagination {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
 @media (max-width: 1024px) {
   .booksGrid {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));

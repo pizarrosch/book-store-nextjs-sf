@@ -39,6 +39,7 @@ export type bookData = {
 type TPageInfo = {
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
+  setTotalPages: (total: number) => void;
 };
 
 type TBookCategory = {
@@ -47,7 +48,7 @@ type TBookCategory = {
 
 const PAGE_SIZE = 6;
 
-function Books({category, page, setPage}: TBookCategory) {
+function Books({category, page, setPage, setTotalPages}: TBookCategory) {
   const dispatch = useDispatch();
 
   const buyButtonState = useAppSelector((state) => state.clickedItem);
@@ -57,7 +58,7 @@ function Books({category, page, setPage}: TBookCategory) {
   const router = useRouter();
 
   const [books, setBooks] = useState<Array<bookData>>([]);
-  const [totalPages, setTotalPages] = useState<number>(0);
+  const [localTotalPages, setLocalTotalPages] = useState<number>(0);
   const [error, setError] = useState<string | boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -83,7 +84,9 @@ function Books({category, page, setPage}: TBookCategory) {
 
       const data = await response.json();
       setBooks(data.items || []);
-      setTotalPages(data.totalPages || 0);
+      const total = data.totalPages || 0;
+      setLocalTotalPages(total);
+      setTotalPages(total);
       setError(!data.items || data.items.length === 0);
     } catch (error) {
       console.error('Error fetching books:', error);
@@ -142,11 +145,6 @@ function Books({category, page, setPage}: TBookCategory) {
         <Backdrop type="empty" />
       ) : (
         <>
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
-          />
           <div className={s.booksGrid}>
             {books.map((book: bookData, id) => {
               const buyIndex = buyButtonState.find(
@@ -160,11 +158,13 @@ function Books({category, page, setPage}: TBookCategory) {
               );
             })}
           </div>
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
-          />
+          <div className={s.bottomPagination}>
+            <Pagination
+              currentPage={page}
+              totalPages={localTotalPages}
+              onPageChange={setPage}
+            />
+          </div>
         </>
       )}
     </div>
