@@ -1,15 +1,27 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import {PropsWithChildren} from 'react';
+import {PropsWithChildren, useEffect, useState} from 'react';
 import Footer from '@/components/Footer/Footer';
 import Navigation from '@/components/Navigation/Navigation';
 import s from './Layout.module.scss';
+import classNames from 'classnames';
 
 type Props = {
   handleShowLogin: () => void;
 } & PropsWithChildren;
 
 export default function Layout({children, handleShowLogin}: Props) {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <>
       <Head>
@@ -29,8 +41,8 @@ export default function Layout({children, handleShowLogin}: Props) {
       <a href="#main-content" className="skip-to-main">
         Skip to main content
       </a>
-      <header className={s.header} role="banner">
-        <Link href="/" aria-label="Bookshop home page">
+      <header className={classNames(s.header, {[s.scrolled]: isScrolled})} role="banner">
+        <Link href="/" className={s.logo} aria-label="Bookshop home page">
           <h2>Bookshop</h2>
         </Link>
         <Navigation handleShowLogin={handleShowLogin} />

@@ -1,7 +1,9 @@
 .root {
   display: flex;
   align-items: center;
-  gap: var(--space-12);
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--space-6);
 
   .nav {
     font-size: var(--font-size-sm);
@@ -12,6 +14,7 @@
     gap: var(--space-6);
     margin: 0;
     padding: 0;
+    flex-shrink: 0; // Prevent nav from shrinking and overlapping
 
     li {
       list-style-type: none;
@@ -25,8 +28,10 @@
         color: var(--color-gray-700);
         position: relative;
         padding-bottom: var(--space-1);
+        text-decoration: none;
+        white-space: nowrap;
 
-        &:hover {
+        &:hover, &.active {
           color: var(--color-primary);
         }
 
@@ -41,7 +46,7 @@
           transition: width var(--transition-base);
         }
 
-        &:hover::after {
+        &:hover::after, &.active::after {
           width: 100%;
         }
 
@@ -54,131 +59,246 @@
     }
   }
 
-  .accountActionsMenu {
+  .searchContainer {
+    flex: 1;
+    max-width: 400px;
     position: relative;
     display: flex;
     align-items: center;
-    gap: var(--space-5);
+    height: 40px; // Explicit height for centering
+
+    .searchInput {
+      width: 100%;
+      height: 100%;
+      padding: 0 var(--space-4) 0 var(--space-10); // Use 0 for top/bottom padding with explicit height
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-sm);
+      transition: all var(--transition-base);
+      background-color: var(--bg-secondary);
+      line-height: 40px; // Match height for vertical centering
+
+      &:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        background-color: var(--bg-primary);
+        box-shadow: 0 0 0 3px rgba(76, 61, 178, 0.1);
+      }
+    }
+
+    .searchIcon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-gray-400);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-shrink: 0;
 
     .iconButton {
       background: none;
       border: none;
-      padding: 0;
+      width: 40px;
+      height: 40px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      transition: transform var(--transition-fast);
-
-      &:hover {
-        transform: scale(1.1);
-      }
-
-      &:focus {
-        outline: 2px solid var(--color-primary);
-        outline-offset: 4px;
-        border-radius: var(--radius-sm);
-      }
-
-      &:active {
-        transform: scale(0.95);
-      }
-
-      img {
-        transition: filter var(--transition-fast);
-
-        &:hover {
-          filter: brightness(0) saturate(100%) invert(29%) sepia(76%) saturate(1844%) hue-rotate(237deg) brightness(87%) contrast(91%);
-        }
-      }
-    }
-
-    a {
-      display: flex;
-      align-items: center;
-      transition: transform var(--transition-fast);
-
-      &:hover {
-        transform: scale(1.1);
-      }
-
-      &:focus {
-        outline: 2px solid var(--color-primary);
-        outline-offset: 4px;
-        border-radius: var(--radius-sm);
-      }
-
-      &:active {
-        transform: scale(0.95);
-      }
-    }
-
-    img {
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      filter: grayscale(0%);
-
-      &:hover {
-        filter: brightness(0) saturate(100%) invert(29%) sepia(76%) saturate(1844%) hue-rotate(237deg) brightness(87%) contrast(91%);
-      }
-    }
-
-    .itemsNumber {
       display: flex;
       align-items: center;
       justify-content: center;
-      position: absolute;
-      background-color: var(--color-secondary);
       border-radius: var(--radius-full);
-      width: 20px;
-      height: 20px;
-      font-size: var(--font-size-xs);
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-white);
-      right: -8px;
-      top: -8px;
-      cursor: pointer;
-      box-shadow: var(--shadow-md);
-      animation: pulse 2s infinite;
-      transition: transform var(--transition-fast);
+      color: var(--color-gray-700);
+      transition: all var(--transition-fast);
+      position: relative;
+      padding: 0; // Reset padding to avoid stretching
 
       &:hover {
-        transform: scale(1.15);
+        background-color: var(--bg-hover);
+        color: var(--color-primary);
+      }
+
+      img {
+        width: 24px !important;
+        height: 24px !important;
+        object-fit: contain;
+      }
+
+      .badge {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        background-color: var(--color-secondary);
+        color: white;
+        font-size: 10px;
+        font-weight: bold;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--bg-primary);
+      }
+    }
+
+    .userProfile {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 0 var(--space-3) 0 var(--space-1);
+      height: 40px;
+      border-radius: var(--radius-full);
+      background-color: var(--bg-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+      color: var(--color-gray-800);
+
+      &:hover {
+        background-color: var(--bg-hover);
+        color: var(--color-primary);
+      }
+
+      .userIconWrapper {
+        width: 32px;
+        height: 32px;
+        background-color: var(--color-white);
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        img {
+          width: 20px !important;
+          height: 20px !important;
+          object-fit: contain;
+        }
+      }
+
+      .userName {
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-semibold);
+      }
+    }
+  }
+
+  .mobileMenuButton {
+    display: none;
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    color: var(--color-gray-700);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+
+    &:hover {
+      background-color: var(--bg-hover);
+    }
+  }
+}
+
+.mobileMenu {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  width: 100%;
+  background-color: var(--bg-primary);
+  border-bottom: 1px solid var(--color-gray-200);
+  padding: var(--space-4);
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  animation: slideDown 0.3s ease-out;
+
+  .mobileNav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+
+    a {
+      display: block;
+      padding: var(--space-2) 0;
+      text-decoration: none;
+      color: var(--color-gray-800);
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-base);
+
+      &.active {
+        color: var(--color-primary);
       }
     }
   }
 }
 
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(255, 53, 58, 0.7);
+@keyframes slideDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
   }
-  50% {
-    box-shadow: 0 0 0 4px rgba(255, 53, 58, 0);
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1200px) {
+  .root {
+    gap: var(--space-4);
+    
+    .nav {
+      gap: var(--space-4);
+    }
   }
 }
 
 @media (max-width: 1024px) {
   .root {
-    gap: var(--space-8);
-
     .nav {
-      gap: var(--space-4);
+      gap: var(--space-3);
       font-size: var(--font-size-xs);
     }
+    
+    .searchContainer {
+      max-width: 200px;
+    }
+  }
+}
 
-    .accountActionsMenu {
-      gap: var(--space-4);
+@media (max-width: 900px) {
+  .root {
+    .nav {
+      display: none;
+    }
+    
+    .mobileMenuButton {
+      display: flex;
     }
   }
 }
 
 @media (max-width: 768px) {
   .root {
-    gap: var(--space-4);
-
-    .nav {
+    .searchContainer {
       display: none;
+    }
+
+    .actions {
+      gap: var(--space-1);
     }
   }
 }
-
