@@ -93,20 +93,13 @@ html {
 body {
     min-height: 100vh;
     font-family: var(--font-primary);
-    max-width: var(--container-max-width);
     width: 100%;
-    margin: 0 auto !important;
-    padding: 0 var(--space-4) !important;
+    margin: 0;
+    padding: 0;
     position: relative;
     background-color: var(--bg-secondary);
     color: var(--color-gray-900);
     line-height: 1.6;
-}
-
-@media (max-width: 768px) {
-    body {
-        padding: 0 var(--space-3) !important;
-    }
 }
 
 /* Utility classes for animations */

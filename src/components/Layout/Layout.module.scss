@@ -1,20 +1,27 @@
 .header {
   height: var(--header-height);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 var(--space-4);
   position: sticky;
   top: 0;
   z-index: 1000;
   background-color: var(--bg-primary);
   border-bottom: 1px solid var(--color-gray-100);
   transition: all var(--transition-base);
-  gap: var(--space-6);
+  width: 100%;
 
   &.scrolled {
     box-shadow: var(--shadow-md);
     height: 70px; // Slightly smaller when scrolled
+  }
+
+  .headerContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+    gap: var(--space-6);
   }
 
   .logo {
@@ -34,27 +41,30 @@
 
 .mainContainer {
   min-height: calc(100vh - var(--header-height));
-  padding: var(--space-8) 0;
+  max-width: var(--container-max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-4);
   animation: fadeIn 0.5s ease-out;
 }
 
 @media (max-width: 1024px) {
-  .header {
+  .header .headerContent {
     gap: var(--space-4);
   }
 }
 
 @media (max-width: 768px) {
-  .header {
+  .header .headerContent {
     padding: 0 var(--space-4);
     gap: var(--space-2);
-    
-    .logo h2 {
-      font-size: var(--font-size-xl);
-    }
+  }
+
+  .header .logo h2 {
+    font-size: var(--font-size-xl);
   }
 
   .mainContainer {
-    padding: var(--space-4) 0;
+    padding: var(--space-4) var(--space-3);
   }
 }

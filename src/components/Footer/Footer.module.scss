@@ -1,17 +1,19 @@
 .root {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-8);
   margin-top: auto;
-  padding: var(--space-8) var(--space-6);
   background-color: var(--bg-primary);
   border-top: 1px solid var(--color-gray-200);
   width: 100%;
-  max-width: var(--container-max-width);
-  margin-left: auto;
-  margin-right: auto;
+
+  .footerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-6);
+  }
 
   .options-container {
     display: flex;
@@ -62,18 +64,18 @@
 }
 
 @media (max-width: 768px) {
-  .root {
+  .root .footerContent {
     flex-direction: column;
     text-align: center;
     padding: var(--space-6) var(--space-4);
     gap: var(--space-6);
+  }
 
-    .options-container {
-      justify-content: center;
-    }
+  .root .options-container {
+    justify-content: center;
+  }
 
-    .payment-container {
-      justify-content: center;
-    }
+  .root .payment-container {
+    justify-content: center;
   }
 }

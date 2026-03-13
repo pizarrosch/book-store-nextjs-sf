@@ -48,10 +48,12 @@ export default function Layout({children}: PropsWithChildren) {
         className={classNames(s.header, {[s.scrolled]: isScrolled})}
         role="banner"
       >
-        <Link href="/" className={s.logo} aria-label="Bookshop home page">
-          <h2>Bookshop</h2>
-        </Link>
-        <Navigation />
+        <div className={s.headerContent}>
+          <Link href="/" className={s.logo} aria-label="Bookshop home page">
+            <h2>Bookshop</h2>
+          </Link>
+          <Navigation />
+        </div>
       </header>
       {showLogin && <Login />}
       <main className={s.mainContainer} id="main-content" role="main">
