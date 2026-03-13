@@ -2,7 +2,8 @@ import {configureStore} from '@reduxjs/toolkit';
 import {render, screen, fireEvent} from '@testing-library/react';
 import {useRouter} from 'next/navigation';
 import React from 'react';
-import {Provider} from 'react-redux';
+import {Provider, useDispatch} from 'react-redux';
+import {setShowLogin} from '@/reducer';
 import Books from './Books';
 
 // Mock the components used by Books
@@ -24,6 +25,12 @@ jest.mock('./CoverImage', () => {
   };
 });
 
+// Mock react-redux
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn()
+}));
+
 // Mock next/navigation
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn()
@@ -43,6 +50,7 @@ describe('Books', () => {
   const mockRouter = {
     push: jest.fn()
   };
+  const mockDispatch = jest.fn();
 
   // Mock Redux store
   const mockStore = configureStore({
@@ -51,13 +59,15 @@ describe('Books', () => {
       userCredentials: () => ({
         isAuthenticated: true,
         token: 'mock-token'
-      })
+      }),
+      cart: () => []
     }
   });
 
   beforeEach(() => {
     jest.clearAllMocks();
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => ({
@@ -96,18 +106,21 @@ describe('Books', () => {
   it('renders books when data is loaded', async () => {
     render(
       <Provider store={mockStore}>
-        <Books category="fiction" maxResults={6} setMaxResults={jest.fn()} />
+        <Books category="fiction" page={1} setPage={jest.fn()} setTotalPages={jest.fn()} />
       </Provider>
     );
 
     // Initially it should show the loading state
-    expect(screen.queryByTestId('backdrop-mock')).not.toBeInTheDocument();
+    expect(screen.getByTestId('backdrop-mock')).toBeInTheDocument();
 
     // After data is loaded, it should show the books
     expect(await screen.findAllByTestId('book-details-mock')).toHaveLength(2);
     expect(await screen.findAllByTestId('book-cover-image-mock')).toHaveLength(
       2
     );
+
+    // And the loading state should be gone
+    expect(screen.queryByTestId('backdrop-mock')).not.toBeInTheDocument();
   });
 
   it('shows loading state when there are no books', async () => {
@@ -118,7 +131,7 @@ describe('Books', () => {
 
     render(
       <Provider store={mockStore}>
-        <Books category="fiction" maxResults={6} setMaxResults={jest.fn()} />
+        <Books category="fiction" page={1} setPage={jest.fn()} setTotalPages={jest.fn()} />
       </Provider>
     );
 
@@ -126,20 +139,21 @@ describe('Books', () => {
     expect(await screen.findByTestId('backdrop-mock')).toBeInTheDocument();
   });
 
-  it('redirects to login page when user is not authenticated', async () => {
+  it('shows login modal when user is not authenticated', async () => {
     const unauthenticatedStore = configureStore({
       reducer: {
         clickedItem: () => [],
         userCredentials: () => ({
           isAuthenticated: false,
           token: null
-        })
+        }),
+        cart: () => []
       }
     });
 
     render(
       <Provider store={unauthenticatedStore}>
-        <Books category="fiction" maxResults={6} setMaxResults={jest.fn()} />
+        <Books category="fiction" page={1} setPage={jest.fn()} setTotalPages={jest.fn()} />
       </Provider>
     );
 
@@ -147,9 +161,7 @@ describe('Books', () => {
     const addToCartButtons = await screen.findAllByText('Add to cart');
     fireEvent.click(addToCartButtons[0]);
 
-    // It should redirect to the login page
-    expect(mockRouter.push).toHaveBeenCalledWith(
-      expect.stringContaining('/login')
-    );
+    // It should dispatch setShowLogin(true)
+    expect(mockDispatch).toHaveBeenCalledWith(setShowLogin(true));
   });
 });

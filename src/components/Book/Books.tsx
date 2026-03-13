@@ -6,7 +6,7 @@ import BookDetails from '@/components/Book/BookDetails';
 import CoverImage from '@/components/Book/CoverImage';
 import Pagination from '@/components/Pagination/Pagination';
 import {useAppSelector} from '@/pages/hooks';
-import {addBook, addPrice, addCartItem, TClicked} from '@/reducer';
+import {addBook, addPrice, addCartItem, TClicked, setShowLogin} from '@/reducer';
 import s from './Books.module.scss';
 
 type imageAddress = {
@@ -103,8 +103,7 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
   function onBuyClick(e: React.MouseEvent) {
     // Check if user is authenticated
     if (!userCredentials.isAuthenticated || !userCredentials.token) {
-      const currentPath = window.location.pathname + window.location.search;
-      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
+      dispatch(setShowLogin(true));
       return;
     }
 
