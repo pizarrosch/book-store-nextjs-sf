@@ -13,6 +13,15 @@ export default function CoverImage(data: bookData) {
     <div className={s.coverWrapper}>
       <Image
         src={imageUrl}
+        alt=""
+        className={s.blurredBackground}
+        fill
+        sizes="10px"
+        quality={10}
+        priority={false}
+      />
+      <Image
+        src={imageUrl}
         alt={data.volumeInfo?.title || 'Book cover'}
         className={s.bookCover}
         fill

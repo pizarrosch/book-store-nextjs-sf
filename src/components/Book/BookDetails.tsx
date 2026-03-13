@@ -21,55 +21,33 @@ export default function BookDetails(details: BookDetailsProps) {
 
   return (
     <div className={s.bookInformation}>
-      <span className={s.author}>{details.volumeInfo?.authors}</span>
+      <span className={s.author}>
+        {details.volumeInfo?.authors?.join(', ') || 'Unknown Author'}
+      </span>
       <h2 className={s.title}>{details.volumeInfo?.title}</h2>
-      <div className={s.ratingsWrapper}>
-        <div className={s.rating}>
-          <Image
-            src={
-              details.volumeInfo?.averageRating > 0 ? filledStar : unfilledStar
-            }
-            alt="rating"
-            width="12"
-            height="12"
-          />
-          <Image
-            src={
-              details.volumeInfo?.averageRating > 1 ? filledStar : unfilledStar
-            }
-            alt="rating"
-            width="12"
-            height="12"
-          />
-          <Image
-            src={
-              details.volumeInfo?.averageRating > 2 ? filledStar : unfilledStar
-            }
-            alt="rating"
-            width="12"
-            height="12"
-          />
-          <Image
-            src={
-              details.volumeInfo?.averageRating > 3 ? filledStar : unfilledStar
-            }
-            alt="rating"
-            width="12"
-            height="12"
-          />
-          <Image
-            src={
-              details.volumeInfo?.averageRating > 4 ? filledStar : unfilledStar
-            }
-            alt="rating"
-            width="12"
-            height="12"
-          />
+      <div
+        className={s.ratingsWrapper}
+        aria-label={`Rated ${details.volumeInfo?.averageRating || 0} out of 5 stars`}
+      >
+        <div className={s.rating} aria-hidden="true">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <Image
+              key={star}
+              src={
+                details.volumeInfo?.averageRating >= star
+                  ? filledStar
+                  : unfilledStar
+              }
+              alt=""
+              width="12"
+              height="12"
+            />
+          ))}
         </div>
         <span>
           {details.volumeInfo?.ratingsCount
             ? `${details.volumeInfo.ratingsCount} ${details.volumeInfo.ratingsCount === 1 ? 'review' : 'reviews'}`
-            : 'N/A'}
+            : 'No reviews yet'}
         </span>
       </div>
       <p className={s.bookDescription}>

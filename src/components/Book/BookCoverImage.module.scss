@@ -3,21 +3,32 @@
   width: 100%;
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+  background-color: var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.blurredBackground {
+  object-fit: cover !important;
+  filter: blur(20px) saturate(1.2) brightness(1.05);
+  opacity: 0.5;
+  transform: scale(1.1);
+  pointer-events: none;
 }
 
 .bookCover {
   object-fit: contain !important;
-  transition: transform var(--transition-slow);
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  padding: var(--space-4);
+  transition: transform var(--transition-slow), filter var(--transition-base);
+  z-index: 1;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25));
 }
 
 .book:hover .bookCover {
-  transform: scale(1.05);
+  transform: scale(1.04) translateY(-4px);
+  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.5));
 }
 
 @media (max-width: 768px) {
