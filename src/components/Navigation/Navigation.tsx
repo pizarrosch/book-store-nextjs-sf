@@ -75,28 +75,31 @@ export default function Navigation() {
         </form>
 
         <div className={s.actions} role="toolbar" aria-label="Account actions">
-          <button
-            onClick={handleUserClick}
-            aria-label={
-              userCredentials.isAuthenticated
-                ? `Profile: ${userCredentials.name}`
-                : 'User account'
-            }
-            className={s.iconButton}
-          >
-            {userCredentials.isAuthenticated ? (
-              <div className={s.userProfile}>
-                <div className={s.userIconWrapper}>
-                  <Icon icon="log-out" size={20} />
-                </div>
-                <span className={s.userName}>
-                  {userCredentials.name.split(' ')[0]}
-                </span>
+          {userCredentials.isAuthenticated ? (
+            <div
+              className={s.userProfile}
+              onClick={handleUserClick}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && handleUserClick()}
+              aria-label={`Profile: ${userCredentials.name}`}
+            >
+              <div className={s.userIconWrapper}>
+                <Icon icon="user" size={18} />
               </div>
-            ) : (
+              <span className={s.userName}>
+                {userCredentials.name.split(' ')[0]}
+              </span>
+            </div>
+          ) : (
+            <button
+              onClick={handleUserClick}
+              aria-label="User account"
+              className={s.iconButton}
+            >
               <Icon icon="log-in" size={20} />
-            )}
-          </button>
+            </button>
+          )}
 
           <Link
             href="/cart"
