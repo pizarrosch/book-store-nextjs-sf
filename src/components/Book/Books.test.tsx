@@ -106,7 +106,12 @@ describe('Books', () => {
   it('renders books when data is loaded', async () => {
     render(
       <Provider store={mockStore}>
-        <Books category="fiction" page={1} setPage={jest.fn()} setTotalPages={jest.fn()} />
+        <Books
+          category="fiction"
+          page={1}
+          setPage={jest.fn()}
+          setTotalPages={jest.fn()}
+        />
       </Provider>
     );
 
@@ -131,7 +136,12 @@ describe('Books', () => {
 
     render(
       <Provider store={mockStore}>
-        <Books category="fiction" page={1} setPage={jest.fn()} setTotalPages={jest.fn()} />
+        <Books
+          category="fiction"
+          page={1}
+          setPage={jest.fn()}
+          setTotalPages={jest.fn()}
+        />
       </Provider>
     );
 
@@ -153,7 +163,12 @@ describe('Books', () => {
 
     render(
       <Provider store={unauthenticatedStore}>
-        <Books category="fiction" page={1} setPage={jest.fn()} setTotalPages={jest.fn()} />
+        <Books
+          category="fiction"
+          page={1}
+          setPage={jest.fn()}
+          setTotalPages={jest.fn()}
+        />
       </Provider>
     );
 

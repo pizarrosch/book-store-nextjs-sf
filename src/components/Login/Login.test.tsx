@@ -57,10 +57,12 @@ describe('Login', () => {
       </Provider>
     );
 
-    expect(screen.getByRole('heading', {name: 'Log in'})).toBeInTheDocument();
-    expect(screen.getByLabelText('Email')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', {name: 'Welcome Back'})
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText('Email Address')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
-    expect(screen.getByRole('button', {name: 'Log in'})).toBeInTheDocument();
+    expect(screen.getByRole('button', {name: 'Log In'})).toBeInTheDocument();
   });
 
   it('validates email input', () => {
@@ -70,7 +72,7 @@ describe('Login', () => {
       </Provider>
     );
 
-    const emailInput = screen.getByLabelText('Email');
+    const emailInput = screen.getByLabelText('Email Address');
 
     // Enter invalid email
     fireEvent.change(emailInput, {target: {value: 'invalid-email'}});
@@ -125,7 +127,7 @@ describe('Login', () => {
     );
 
     // Fill in valid credentials
-    fireEvent.change(screen.getByLabelText('Email'), {
+    fireEvent.change(screen.getByLabelText('Email Address'), {
       target: {value: 'test@example.com'}
     });
     fireEvent.change(screen.getByLabelText('Password'), {
@@ -133,7 +135,7 @@ describe('Login', () => {
     });
 
     // Submit the form
-    fireEvent.click(screen.getByRole('button', {name: 'Log in'}));
+    fireEvent.click(screen.getByRole('button', {name: 'Log In'}));
 
     // Check that fetch was called with the right arguments
     expect(global.fetch).toHaveBeenCalledWith(

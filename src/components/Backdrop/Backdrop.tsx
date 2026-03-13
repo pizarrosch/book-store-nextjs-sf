@@ -15,7 +15,12 @@ export default function Backdrop({
       : 'No books available for this category. Please try later.';
 
   return (
-    <div className={s.backdrop} data-testid="backdrop" role="status" aria-live="polite">
+    <div
+      className={s.backdrop}
+      data-testid="backdrop"
+      role="status"
+      aria-live="polite"
+    >
       <div className={s.content} data-testid="spinner">
         {type === 'loading' ? (
           <>

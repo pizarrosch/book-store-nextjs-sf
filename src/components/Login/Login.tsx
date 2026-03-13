@@ -1,7 +1,13 @@
+import {Icon} from '@blueprintjs/core';
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {setName, setEmail, setAuthenticated, setToken, setShowLogin} from '@/reducer';
-import {Icon} from '@blueprintjs/core';
+import {
+  setName,
+  setEmail,
+  setAuthenticated,
+  setToken,
+  setShowLogin
+} from '@/reducer';
 import s from './Login.module.scss';
 
 function Login() {
@@ -123,14 +129,22 @@ function Login() {
   return (
     <div className={s.modalOverlay} onClick={handleClose}>
       <div className={s.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button className={s.closeButton} onClick={handleClose} aria-label="Close modal">
+        <button
+          className={s.closeButton}
+          onClick={handleClose}
+          aria-label="Close modal"
+        >
           <Icon icon="cross" size={20} />
         </button>
-        
+
         <div className={s.header}>
-          <h2 className={s.title}>{isSignup ? 'Create Account' : 'Welcome Back'}</h2>
+          <h2 className={s.title}>
+            {isSignup ? 'Create Account' : 'Welcome Back'}
+          </h2>
           <p className={s.subtitle}>
-            {isSignup ? 'Join our community of book lovers' : 'Log in to access your account'}
+            {isSignup
+              ? 'Join our community of book lovers'
+              : 'Log in to access your account'}
           </p>
         </div>
 
@@ -175,7 +189,9 @@ function Login() {
               />
             </div>
             {!emailIsValid && (
-              <span className={s.errorText}>Please enter a valid email address</span>
+              <span className={s.errorText}>
+                Please enter a valid email address
+              </span>
             )}
           </div>
 
@@ -199,9 +215,7 @@ function Login() {
                 Password must be at least 6 characters long
               </span>
             )}
-            {authError && (
-              <span className={s.errorText}>{authError}</span>
-            )}
+            {authError && <span className={s.errorText}>{authError}</span>}
           </div>
 
           {!isSignup && (
@@ -210,14 +224,14 @@ function Login() {
             </div>
           )}
 
-          <button
-            type="submit"
-            className={s.loginButton}
-            disabled={isLoading}
-          >
-            {isLoading 
-              ? (isSignup ? 'Creating account...' : 'Logging in...') 
-              : (isSignup ? 'Sign Up' : 'Log In')}
+          <button type="submit" className={s.loginButton} disabled={isLoading}>
+            {isLoading
+              ? isSignup
+                ? 'Creating account...'
+                : 'Logging in...'
+              : isSignup
+                ? 'Sign Up'
+                : 'Log In'}
           </button>
         </form>
 

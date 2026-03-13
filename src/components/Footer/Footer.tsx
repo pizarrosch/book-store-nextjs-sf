@@ -23,7 +23,11 @@ export default function Footer() {
           <span>In-store pickup</span>
         </div>
       </div>
-      <div className={s['payment-container']} role="list" aria-label="Accepted payment methods">
+      <div
+        className={s['payment-container']}
+        role="list"
+        aria-label="Accepted payment methods"
+      >
         <Image src={visa} alt="Visa" width={50} height={32} />
         <Image src={mastercard} alt="Mastercard" width={50} height={32} />
         <Image src={gpay} alt="Google Pay" width={50} height={32} />

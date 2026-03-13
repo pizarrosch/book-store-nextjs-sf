@@ -89,9 +89,6 @@ export const priceSlice = createSlice({
     subtractPrice: (state: number, action: PayloadAction<number>) => {
       return Math.abs(state - action.payload);
     }
-  },
-  extraReducers: (builder) => {
-    builder.addCase(userSlice.actions.logout, () => 0);
   }
 });
 
@@ -129,9 +126,6 @@ export const cartSlice = createSlice({
         item.number -= 1;
       }
     }
-  },
-  extraReducers: (builder) => {
-    builder.addCase(userSlice.actions.logout, () => []);
   }
 });
 

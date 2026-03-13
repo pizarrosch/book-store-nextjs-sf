@@ -1,11 +1,23 @@
 import React from 'react';
+import {useDispatch} from 'react-redux';
 import CartItem from '@/components/Cart/CartItem';
 import Layout from '@/components/Layout/Layout';
 import {useAppSelector} from '@/pages/hooks';
+import {setShowLogin} from '@/reducer';
 import s from '../styles/cart.module.scss';
 
 export default function Cart() {
+  const dispatch = useDispatch();
   const totalPrice = useAppSelector((state) => state.price);
+  const userCredentials = useAppSelector((state) => state.userCredentials);
+
+  const handleCheckout = () => {
+    if (!userCredentials.isAuthenticated) {
+      dispatch(setShowLogin(true));
+    } else {
+      console.log('Proceed to checkout');
+    }
+  };
 
   return (
     <Layout>
@@ -18,7 +30,9 @@ export default function Cart() {
           <span className={s.totalLabel}>
             TOTAL PRICE: ${totalPrice.toFixed(2)}
           </span>
-          <button className={s.checkoutButton}>CHECKOUT</button>
+          <button className={s.checkoutButton} onClick={handleCheckout}>
+            CHECKOUT
+          </button>
         </div>
       </div>
     </Layout>

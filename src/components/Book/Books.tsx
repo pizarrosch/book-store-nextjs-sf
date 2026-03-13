@@ -1,4 +1,3 @@
-import {useRouter} from 'next/navigation';
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import Backdrop from '@/components/Backdrop/Backdrop';
@@ -6,7 +5,7 @@ import BookDetails from '@/components/Book/BookDetails';
 import CoverImage from '@/components/Book/CoverImage';
 import Pagination from '@/components/Pagination/Pagination';
 import {useAppSelector} from '@/pages/hooks';
-import {addBook, addPrice, addCartItem, TClicked, setShowLogin} from '@/reducer';
+import {addBook, addPrice, addCartItem, TClicked} from '@/reducer';
 import s from './Books.module.scss';
 
 type imageAddress = {
@@ -55,8 +54,6 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
   const userCredentials = useAppSelector((state) => state.userCredentials);
   const cart = useAppSelector((state) => state.cart);
 
-  const router = useRouter();
-
   const [books, setBooks] = useState<Array<bookData>>([]);
   const [localTotalPages, setLocalTotalPages] = useState<number>(0);
   const [error, setError] = useState<string | boolean>(false);
@@ -101,12 +98,6 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
   }, [category, page, userCredentials.isAuthenticated, userCredentials.token]);
 
   function onBuyClick(e: React.MouseEvent) {
-    // Check if user is authenticated
-    if (!userCredentials.isAuthenticated || !userCredentials.token) {
-      dispatch(setShowLogin(true));
-      return;
-    }
-
     const target = e.currentTarget as HTMLButtonElement;
     const bookId = target.dataset.id;
 
@@ -152,7 +143,11 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
               return (
                 <div className={s.book} data-index={book.id} key={id}>
                   <CoverImage {...book} />
-                  <BookDetails {...book} onClick={onBuyClick} buyIndex={buyIndex} />
+                  <BookDetails
+                    {...book}
+                    onClick={onBuyClick}
+                    buyIndex={buyIndex}
+                  />
                 </div>
               );
             })}

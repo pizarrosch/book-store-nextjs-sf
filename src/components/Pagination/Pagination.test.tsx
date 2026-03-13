@@ -1,5 +1,5 @@
-import React from 'react';
 import {render, fireEvent} from '@testing-library/react';
+import React from 'react';
 import Pagination from './Pagination';
 
 describe('Pagination Component', () => {
@@ -20,7 +20,7 @@ describe('Pagination Component', () => {
     const {getByText, getAllByRole} = render(
       <Pagination currentPage={1} totalPages={5} onPageChange={onPageChange} />
     );
-    
+
     // Previous and Next buttons are also buttons
     const buttons = getAllByRole('button');
     // Prev, 1, 2, 3, 4, 5, Next = 7 buttons
@@ -33,7 +33,7 @@ describe('Pagination Component', () => {
     const {getByText} = render(
       <Pagination currentPage={1} totalPages={5} onPageChange={onPageChange} />
     );
-    
+
     fireEvent.click(getByText('3'));
     expect(onPageChange).toHaveBeenCalledWith(3);
   });
@@ -42,7 +42,7 @@ describe('Pagination Component', () => {
     const {getByLabelText} = render(
       <Pagination currentPage={1} totalPages={5} onPageChange={onPageChange} />
     );
-    
+
     fireEvent.click(getByLabelText('Next page'));
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
@@ -51,7 +51,7 @@ describe('Pagination Component', () => {
     const {getByLabelText} = render(
       <Pagination currentPage={3} totalPages={5} onPageChange={onPageChange} />
     );
-    
+
     fireEvent.click(getByLabelText('Previous page'));
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
@@ -60,7 +60,7 @@ describe('Pagination Component', () => {
     const {getByLabelText} = render(
       <Pagination currentPage={1} totalPages={5} onPageChange={onPageChange} />
     );
-    
+
     expect(getByLabelText('Previous page')).toBeDisabled();
   });
 
@@ -68,7 +68,7 @@ describe('Pagination Component', () => {
     const {getByLabelText} = render(
       <Pagination currentPage={5} totalPages={5} onPageChange={onPageChange} />
     );
-    
+
     expect(getByLabelText('Next page')).toBeDisabled();
   });
 
@@ -76,7 +76,7 @@ describe('Pagination Component', () => {
     const {getByText} = render(
       <Pagination currentPage={5} totalPages={10} onPageChange={onPageChange} />
     );
-    
+
     expect(getByText('1')).toBeInTheDocument();
     expect(getByText('10')).toBeInTheDocument();
     const ellipses = document.querySelectorAll('span');

@@ -41,7 +41,7 @@ describe('Books API', () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       status: 200,
-      json: jest.fn().mockResolvedValue({docs: []}),
+      json: jest.fn().mockResolvedValue({docs: []})
     });
   });
 

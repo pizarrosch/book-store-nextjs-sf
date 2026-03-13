@@ -6,7 +6,10 @@ import s from './BookCoverImage.module.scss';
 
 export default function CoverImage(data: bookData) {
   const imageUrl = data.volumeInfo?.imageLinks?.thumbnail
-    ? data.volumeInfo.imageLinks.thumbnail.replace('http:', 'https:').replace('&edge=curl', '').replace('zoom=1', 'zoom=2')
+    ? data.volumeInfo.imageLinks.thumbnail
+        .replace('http:', 'https:')
+        .replace('&edge=curl', '')
+        .replace('zoom=1', 'zoom=2')
     : noCoverBook;
 
   return (
