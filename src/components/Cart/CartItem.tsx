@@ -72,7 +72,8 @@ export default function CartItem() {
         </div>
         <div className={s.itemSubitems}>
           <div className={s.itemAmountCounter} data-id={cartItem.id} key={id}>
-            <div
+            <button
+              className={s.counterBtn}
               onClick={() => {
                 if (cartItem.number <= 1) {
                   dispatch(removeCartItem(cartItem));
@@ -89,17 +90,18 @@ export default function CartItem() {
                 dispatch(subtractPrice(book.saleInfo.listPrice.amount));
               }}
             >
-              <Icon icon="minus" />
-            </div>
-            <span className={s.itemsAmount}>{cartItem.number}</span>
-            <div
+              <Icon icon="minus" iconSize={12} />
+            </button>
+            <span className={s.itemsAmount} key={cartItem.number}>{cartItem.number}</span>
+            <button
+              className={s.counterBtn}
               onClick={() => {
                 dispatch(increase(cartItem));
                 dispatch(addPrice(book.saleInfo.listPrice.amount));
               }}
             >
-              <Icon icon="plus" />
-            </div>
+              <Icon icon="plus" iconSize={12} />
+            </button>
           </div>
           <div className={s.price}>
             {book.saleInfo.listPrice

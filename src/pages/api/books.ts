@@ -76,7 +76,7 @@ interface FormattedBookResponse {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<FormattedBookResponse | {error: string}>
 ) {
   const {category, maxResults, page} = req.query;
 

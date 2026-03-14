@@ -4,13 +4,13 @@
   align-items: center;
   border-bottom: 1px solid var(--color-gray-200);
   padding-bottom: var(--space-6);
-  transition: background-color var(--transition-base);
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--transition-base), background-color var(--transition-base);
+  cursor: pointer;
 
   &:hover {
     background-color: var(--bg-hover);
-    padding: var(--space-4);
-    margin: calc(var(--space-4) * -1);
-    border-radius: var(--radius-md);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   }
 }
 
@@ -47,40 +47,37 @@
 }
 
 .itemAmountCounter {
-  display: flex;
-  justify-content: space-around;
+  display: inline-flex;
   align-items: center;
-  min-width: 120px;
-  height: 44px;
-  border: 2px solid var(--color-gray-300);
-  border-radius: var(--radius-md);
+  height: 40px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--color-gray-200);
   background-color: var(--bg-primary);
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 
-  .itemsAmount {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-gray-900);
-    min-width: 30px;
-    text-align: center;
-  }
-
-  button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: var(--space-2);
+  .counterBtn {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all var(--transition-fast);
-    border-radius: var(--radius-sm);
+    width: 40px;
+    height: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: var(--color-gray-600);
+    transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    flex-shrink: 0;
 
     &:hover {
       background-color: var(--color-gray-100);
+      color: var(--color-gray-900);
     }
 
     &:active {
-      transform: scale(0.9);
+      transform: scale(0.85);
+      background-color: var(--color-gray-200);
     }
 
     &:disabled {
@@ -89,11 +86,25 @@
     }
   }
 
-  .minus,
-  .plus {
-    width: 24px;
-    height: 24px;
+  .itemsAmount {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-900);
+    min-width: 32px;
+    text-align: center;
+    border-left: 1.5px solid var(--color-gray-200);
+    border-right: 1.5px solid var(--color-gray-200);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: countPop 0.15s ease;
   }
+}
+
+@keyframes countPop {
+  0%   { transform: scale(1.3); }
+  100% { transform: scale(1); }
 }
 
 .booksContainer {

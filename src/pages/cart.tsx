@@ -8,7 +8,11 @@ import s from '../styles/cart.module.scss';
 
 export default function Cart() {
   const dispatch = useDispatch();
-  const totalPrice = useAppSelector((state) => state.price);
+  const cart = useAppSelector((state) => state.cart);
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + (item.book?.saleInfo?.listPrice?.amount ?? 0) * item.number,
+    0
+  );
   const userCredentials = useAppSelector((state) => state.userCredentials);
 
   const handleCheckout = () => {
