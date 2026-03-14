@@ -9,7 +9,7 @@ import s from './Navigation.module.scss';
 
 export default function Navigation() {
   const cart = useAppSelector((state) => state.cart);
-  const userCredentials = useAppSelector((state) => state.userCredentials);
+  const userData = useAppSelector((state) => state.userCredentials);
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ export default function Navigation() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleUserClick = () => {
-    if (userCredentials.isAuthenticated) {
+    if (userData.isAuthenticated) {
       router.push('/profile');
     } else {
       dispatch(setShowLogin(true));
@@ -75,21 +75,27 @@ export default function Navigation() {
         </form>
 
         <div className={s.actions} role="toolbar" aria-label="Account actions">
-          {userCredentials.isAuthenticated ? (
+          {userData.isAuthenticated ? (
             <div
               className={s.userProfile}
               onClick={handleUserClick}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && handleUserClick()}
-              aria-label={`Profile: ${userCredentials.name}`}
+              aria-label={`Profile: ${userData.name}`}
             >
               <div className={s.userIconWrapper}>
-                <Icon icon="user" size={18} />
+                {userData.isAuthenticated && userData.profilePicture ? (
+                  <img
+                    src={userData.profilePicture}
+                    alt="Profile"
+                    className={s.userIconWrapper}
+                  />
+                ) : (
+                  <Icon icon="user" size={18} />
+                )}
               </div>
-              <span className={s.userName}>
-                {userCredentials.name.split(' ')[0]}
-              </span>
+              <span className={s.userName}>{userData.name.split(' ')[0]}</span>
             </div>
           ) : (
             <button
