@@ -5,7 +5,7 @@ import BookDetails from '@/components/Book/BookDetails';
 import CoverImage from '@/components/Book/CoverImage';
 import Pagination from '@/components/Pagination/Pagination';
 import {useAppSelector} from '@/pages/hooks';
-import {addBook, addPrice, addCartItem, TClicked} from '@/reducer';
+import {addBook, addCartItem, TClicked} from '@/reducer';
 import s from './Books.module.scss';
 
 type imageAddress = {
@@ -122,10 +122,6 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
       })
     );
 
-    // Add price if available
-    if (selectedBook.saleInfo.listPrice) {
-      dispatch(addPrice(selectedBook.saleInfo.listPrice.amount));
-    }
   }
 
   return (

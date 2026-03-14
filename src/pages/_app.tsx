@@ -19,7 +19,6 @@ import {
   bookSlice,
   categorySlice,
   cartSlice,
-  priceSlice,
   userSlice,
   clickedItemSlice
 } from '@/reducer';
@@ -29,7 +28,6 @@ export type AppDispatch = typeof store.dispatch;
 
 const reducer = combineReducers({
   books: bookSlice.reducer,
-  price: priceSlice.reducer,
   cart: cartSlice.reducer,
   category: categorySlice.reducer,
   userCredentials: userSlice.reducer,

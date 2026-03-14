@@ -5,12 +5,10 @@ import {useDispatch} from 'react-redux';
 import {bookData} from '@/components/Book/Books';
 import {useAppSelector} from '@/pages/hooks';
 import {
-  addPrice,
   decrease,
   increase,
   removeCartItem,
   removedFromCart,
-  subtractPrice,
   TCartItem
 } from '@/reducer';
 import unfilledStar from '../../../public/assets/Star.svg';
@@ -77,7 +75,6 @@ export default function CartItem() {
               onClick={() => {
                 if (cartItem.number <= 1) {
                   dispatch(removeCartItem(cartItem));
-                  dispatch(subtractPrice(book.saleInfo.listPrice.amount));
                   dispatch(
                     removedFromCart({
                       id: String(book.id),
@@ -87,7 +84,6 @@ export default function CartItem() {
                   return;
                 }
                 dispatch(decrease(cartItem));
-                dispatch(subtractPrice(book.saleInfo.listPrice.amount));
               }}
             >
               <Icon icon="minus" iconSize={12} />
@@ -97,7 +93,6 @@ export default function CartItem() {
               className={s.counterBtn}
               onClick={() => {
                 dispatch(increase(cartItem));
-                dispatch(addPrice(book.saleInfo.listPrice.amount));
               }}
             >
               <Icon icon="plus" iconSize={12} />

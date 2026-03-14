@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from '@/pages/hooks';
-import {removeCartItem, subtractPrice} from '@/reducer';
+import {removeCartItem} from '@/reducer';
 import {BookDetailsProps} from '@/types';
 
 export default function useRemoveFromCart() {
@@ -12,6 +12,5 @@ export default function useRemoveFromCart() {
     const quantity = itemInTheCart?.number || 0;
 
     dispatch(removeCartItem(itemToRemove[itemToRemove.length - 1]));
-    dispatch(subtractPrice(details.saleInfo.listPrice.amount * quantity));
   };
 }

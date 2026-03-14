@@ -121,19 +121,6 @@ export const bookSlice = createSlice({
   }
 });
 
-export const priceSlice = createSlice({
-  name: 'price',
-  initialState: 0,
-  reducers: {
-    addPrice: (state: number, action: PayloadAction<number>) => {
-      return state + action.payload;
-    },
-    subtractPrice: (state: number, action: PayloadAction<number>) => {
-      return Math.abs(state - action.payload);
-    }
-  }
-});
-
 export const cartSlice = createSlice({
   name: 'cart',
   initialState: [] as TCartItem[],
@@ -223,7 +210,6 @@ export const clickedItemSlice = createSlice({
 });
 
 export const {addBook} = bookSlice.actions;
-export const {addPrice, subtractPrice} = priceSlice.actions;
 export const {addCartItem, removeCartItem, increase, decrease} =
   cartSlice.actions;
 export const {changeCategory} = categorySlice.actions;
