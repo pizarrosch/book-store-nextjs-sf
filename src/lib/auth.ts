@@ -44,9 +44,9 @@ export function generateToken(user: {
   email: string;
   name: string;
 }): string {
-  // Create a token that expires in 1 hour
+  // Create a token that expires in 7 days
   return sign({id: user.id, email: user.email, name: user.name}, JWT_SECRET, {
-    expiresIn: '1h'
+    expiresIn: '7d'
   });
 }
 

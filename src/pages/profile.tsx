@@ -76,6 +76,14 @@ export default function Profile() {
         });
         const result = await res.json();
 
+        if (res.status === 401) {
+          // Token expired or invalid - log out
+          dispatch(logout());
+          router.push('/');
+          dispatch(setShowLogin(true));
+          return;
+        }
+
         if (result.error) {
           showToast(result.message || 'Failed to load profile', 'error');
         } else {
@@ -209,6 +217,13 @@ export default function Profile() {
 
       const result = await res.json();
 
+      if (res.status === 401) {
+        dispatch(logout());
+        router.push('/');
+        dispatch(setShowLogin(true));
+        return;
+      }
+
       if (result.error) {
         showToast(result.message, 'error');
       } else {
@@ -270,6 +285,13 @@ export default function Profile() {
 
       const result = await res.json();
 
+      if (res.status === 401) {
+        dispatch(logout());
+        router.push('/');
+        dispatch(setShowLogin(true));
+        return;
+      }
+
       if (result.error) {
         showToast(result.message, 'error');
       } else {
@@ -320,6 +342,13 @@ export default function Profile() {
 
         const result = await res.json();
 
+        if (res.status === 401) {
+          dispatch(logout());
+          router.push('/');
+          dispatch(setShowLogin(true));
+          return;
+        }
+
         if (result.error) {
           showToast(result.message || 'Failed to upload image', 'error');
         } else {
@@ -367,6 +396,13 @@ export default function Profile() {
       });
 
       const result = await res.json();
+
+      if (res.status === 401) {
+        dispatch(logout());
+        router.push('/');
+        dispatch(setShowLogin(true));
+        return;
+      }
 
       if (result.error) {
         if (result.message.includes('Current password')) {
