@@ -25,9 +25,9 @@ export default function CartItem() {
 
   return cart.map((cartItem: TCartItem, id: number) => {
     // Use book from cart item, or fallback to books array for backward compatibility
-    const book = cartItem.book || books.find(
-      (book: bookData) => String(book.id) === cartItem.id
-    );
+    const book =
+      cartItem.book ||
+      books.find((book: bookData) => String(book.id) === cartItem.id);
 
     if (!book) return null;
 
@@ -85,12 +85,7 @@ export default function CartItem() {
                   );
                   return;
                 }
-                dispatch(
-                  decrease({
-                    number: cartItem.number,
-                    id: String(book.id)
-                  })
-                );
+                dispatch(decrease(cartItem));
                 dispatch(subtractPrice(book.saleInfo.listPrice.amount));
               }}
             >
@@ -99,12 +94,7 @@ export default function CartItem() {
             <span className={s.itemsAmount}>{cartItem.number}</span>
             <div
               onClick={() => {
-                dispatch(
-                  increase({
-                    number: cartItem.number,
-                    id: String(book.id)
-                  })
-                );
+                dispatch(increase(cartItem));
                 dispatch(addPrice(book.saleInfo.listPrice.amount));
               }}
             >
@@ -116,7 +106,10 @@ export default function CartItem() {
               ? `$${(book.saleInfo.listPrice.amount * cartItem.number).toFixed(2)}`
               : 'out of stock'}
           </div>
-          <div className={s.trash}>
+          <div
+            className={s.trash}
+            onClick={() => dispatch(removeCartItem(cartItem))}
+          >
             <Icon icon="trash" />
           </div>
         </div>
