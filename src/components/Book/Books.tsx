@@ -117,7 +117,8 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
     dispatch(
       addCartItem({
         number: 1,
-        id: String(selectedBook.id)
+        id: String(selectedBook.id),
+        book: selectedBook
       })
     );
 

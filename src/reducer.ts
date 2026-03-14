@@ -4,6 +4,7 @@ import {bookData} from '@/components/Book/Books';
 export type TCartItem = {
   number: number;
   id: string;
+  book: bookData;
 };
 
 export type TCategory = {
@@ -140,7 +141,8 @@ export const cartSlice = createSlice({
     addCartItem: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
       state.push({
         number: action.payload.number,
-        id: action.payload.id
+        id: action.payload.id,
+        book: action.payload.book
       });
     },
     removeCartItem: (state: TCartItem[], action: PayloadAction<TCartItem>) => {

@@ -19,16 +19,17 @@ import s from './CartItem.module.scss';
 
 export default function CartItem() {
   const starsCount = [1, 2, 3, 4, 5];
-  const books = useAppSelector((state) => state.books);
   const cart = useAppSelector((state) => state.cart);
+  const books = useAppSelector((state) => state.books);
   const dispatch = useDispatch();
 
   return cart.map((cartItem: TCartItem, id: number) => {
-    const book = books.find(
+    // Use book from cart item, or fallback to books array for backward compatibility
+    const book = cartItem.book || books.find(
       (book: bookData) => String(book.id) === cartItem.id
     );
 
-    if (!book) return 'Not found';
+    if (!book) return null;
 
     return (
       <div className={s.item} key={cartItem.id}>
@@ -110,7 +111,7 @@ export default function CartItem() {
               <Icon icon="plus" />
             </div>
           </div>
-          <div>
+          <div className={s.price}>
             {book.saleInfo.listPrice
               ? `$${(book.saleInfo.listPrice.amount * cartItem.number).toFixed(2)}`
               : 'out of stock'}
