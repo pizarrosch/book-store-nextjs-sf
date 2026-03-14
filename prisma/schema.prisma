@@ -20,7 +20,7 @@ model User {
   name            String
   password        String
   bio             String?  @db.Text
-  profilePicture  String?  @db.Text
+  profilePicture  String?  @db.LongText
   phone           String?
   addressStreet   String?
   addressCity     String?

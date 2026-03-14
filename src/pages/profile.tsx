@@ -77,7 +77,7 @@ export default function Profile() {
         const result = await res.json();
 
         if (result.error) {
-          showToast(result.message, 'error');
+          showToast(result.message || 'Failed to load profile', 'error');
         } else {
           dispatch(updateProfile(result.data));
           setFormData({
@@ -88,7 +88,7 @@ export default function Profile() {
           });
         }
       } catch (error) {
-        showToast('Failed to load profile', 'error');
+        showToast('Failed to load profile. Please try logging out and back in.', 'error');
       } finally {
         setIsInitialLoading(false);
       }
@@ -101,7 +101,7 @@ export default function Profile() {
   useEffect(() => {
     if (toast.show) {
       const timer = setTimeout(() => {
-        setToast({...toast, show: false});
+        setToast((prev) => ({...prev, show: false}));
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -303,6 +303,7 @@ export default function Profile() {
 
     // Read and upload
     const reader = new FileReader();
+
     reader.onload = async (event) => {
       const base64 = event.target?.result as string;
       setUploadingImage(true);
@@ -320,7 +321,7 @@ export default function Profile() {
         const result = await res.json();
 
         if (result.error) {
-          showToast(result.message, 'error');
+          showToast(result.message || 'Failed to upload image', 'error');
         } else {
           dispatch(updateProfile({profilePicture: result.profilePicture}));
           showToast('Profile picture updated', 'success');
@@ -329,7 +330,14 @@ export default function Profile() {
         showToast('Failed to upload image', 'error');
       } finally {
         setUploadingImage(false);
+        // Reset file input so the same file can be selected again
+        e.target.value = '';
       }
+    };
+
+    reader.onerror = () => {
+      showToast('Failed to read image file', 'error');
+      setUploadingImage(false);
     };
 
     reader.readAsDataURL(file);
