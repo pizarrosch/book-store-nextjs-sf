@@ -11,29 +11,119 @@
   width: 100%;
 }
 
+// ── Base banner ──────────────────────────────────────────────────────────────
+
 .banner {
   position: relative;
   width: 100%;
   height: 450px;
   display: flex;
+  align-items: center;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-200) 100%);
+}
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform var(--transition-slow);
+// ── Themes ───────────────────────────────────────────────────────────────────
+
+.bannerHero {
+  background: linear-gradient(135deg, #1a1f5e 0%, #2d3494 50%, #1e3a5f 100%);
+}
+
+.bannerNew {
+  background: linear-gradient(135deg, #7c3a00 0%, #c4621a 50%, #8b2f00 100%);
+}
+
+.bannerSale {
+  background: linear-gradient(135deg, #0d3d2f 0%, #1a6b4a 50%, #0a3525 100%);
+}
+
+// ── Decorative large emoji ────────────────────────────────────────────────────
+
+.bannerDecoration {
+  position: absolute;
+  right: 8%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 180px;
+  line-height: 1;
+  opacity: 0.18;
+  user-select: none;
+  pointer-events: none;
+}
+
+// ── Content ───────────────────────────────────────────────────────────────────
+
+.bannerContent {
+  position: relative;
+  z-index: 1;
+  padding: 0 7%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.heading {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.sub {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 480px;
+}
+
+.cta {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #111;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+
+  &:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
   }
 
-  &:hover img {
-    transform: scale(1.05);
+  &:active {
+    transform: translateY(0);
   }
 }
+
+// ── Responsive ────────────────────────────────────────────────────────────────
 
 @media (max-width: 1024px) {
   .banner {
     height: 350px;
+  }
+
+  .heading {
+    font-size: 38px;
+  }
+
+  .bannerDecoration {
+    font-size: 130px;
   }
 }
 
@@ -44,14 +134,50 @@
   }
 
   .banner {
-    height: 250px;
+    height: 260px;
+  }
+
+  .heading {
+    font-size: 28px;
+  }
+
+  .sub {
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bannerDecoration {
+    font-size: 90px;
+    opacity: 0.12;
+  }
+
+  .cta {
+    padding: 10px 20px;
+    font-size: 13px;
   }
 }
 
 @media (max-width: 480px) {
   .banner {
-    height: 180px;
+    height: 200px;
+  }
+
+  .heading {
+    font-size: 22px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+  }
+
+  .sub {
+    display: none;
+  }
+
+  .bannerDecoration {
+    display: none;
   }
 }
-
-
