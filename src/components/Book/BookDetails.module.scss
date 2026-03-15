@@ -1,3 +1,10 @@
+@keyframes iconPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  70%  { transform: scale(0.88); }
+  100% { transform: scale(1); }
+}
+
 .bookInformation {
   display: flex;
   flex-direction: column;
@@ -109,6 +116,7 @@
     color: var(--color-gray-400);
     cursor: pointer;
     transition: all var(--transition-base);
+    outline: none;
 
     &:hover {
       border-color: var(--color-primary);
@@ -118,11 +126,11 @@
 
     &:focus {
       outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
     }
 
     &:active {
       transform: scale(0.96);
+      outline: none;
     }
   }
 
@@ -130,6 +138,15 @@
     border-color: var(--color-primary);
     color: var(--color-primary);
     background: #f0f4ff;
+    outline: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .pop {
+    animation: iconPop 0.35s ease-out forwards;
   }
 
   button {

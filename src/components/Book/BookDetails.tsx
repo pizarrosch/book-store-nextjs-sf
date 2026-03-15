@@ -1,6 +1,6 @@
 import {Button, ButtonProps, Icon} from '@blueprintjs/core';
 import Image from 'next/image';
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import useRemoveFromCart from '@/hooks/hooks';
 import {useAppSelector} from '@/pages/hooks';
@@ -18,10 +18,14 @@ export default function BookDetails(details: BookDetailsProps) {
   const watchlist = useAppSelector((state) => state.watchlist);
   const userData = useAppSelector((state) => state.userCredentials);
   const isItemAdded = cart.some((item) => item.id === String(details.id));
-  const isInWatchlist = watchlist.some((item) => item.id === String(details.id));
+  const isInWatchlist = watchlist.some(
+    (item) => item.id === String(details.id)
+  );
   const removeFromCart = useRemoveFromCart();
+  const [isPopping, setIsPopping] = useState(false);
 
   const handleWatchlist = async () => {
+    setIsPopping(true);
     const bookId = String(details.id);
     const bookData = {
       id: details.id,
@@ -109,9 +113,12 @@ export default function BookDetails(details: BookDetailsProps) {
           className={s.cartBtn}
         />
         <button
-          className={`${s.watchlistBtn} ${isInWatchlist ? s.watchlistActive : ''}`}
+          className={`${s.watchlistBtn} ${isInWatchlist ? s.watchlistActive : ''} ${isPopping ? s.pop : ''}`}
           onClick={handleWatchlist}
-          aria-label={isInWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}
+          onAnimationEnd={() => setIsPopping(false)}
+          aria-label={
+            isInWatchlist ? 'Remove from watchlist' : 'Add to watchlist'
+          }
           title={isInWatchlist ? 'Remove from watchlist' : 'Save for later'}
         >
           <Icon icon={isInWatchlist ? 'bookmark' : 'bookmark'} size={16} />
