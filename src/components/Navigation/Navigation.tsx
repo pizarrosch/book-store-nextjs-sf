@@ -19,9 +19,8 @@ export default function Navigation() {
 
   const navLinks = [
     {name: 'Books', href: '/'},
-    {name: 'Audiobooks', href: '/audiobooks'},
-    {name: 'Stationery & gifts', href: '/stationery'},
-    {name: 'Blog', href: '/blog'}
+    {name: 'Coupons', href: '/coupons'},
+    {name: 'Watchlist', href: '/watchlist'}
   ];
 
   const handleSearch = (e: React.FormEvent) => {

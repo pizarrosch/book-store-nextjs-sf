@@ -1,13 +1,15 @@
 import {Icon} from '@blueprintjs/core';
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
+import {useAppSelector} from '@/pages/hooks';
 import {
   setName,
   setEmail,
   setAuthenticated,
   setToken,
   setShowLogin,
-  setProfilePicture
+  setProfilePicture,
+  setWatchlist
 } from '@/reducer';
 import s from './Login.module.scss';
 
@@ -23,6 +25,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
+  const guestWatchlist = useAppSelector((state) => state.watchlist);
 
   // Handle escape key to close modal
   useEffect(() => {
@@ -89,6 +92,31 @@ function Login() {
           dispatch(setProfilePicture(data.profilePicture));
         }
         dispatch(setShowLogin(false));
+
+        // Sync guest watchlist to DB, or load the user's saved watchlist
+        const syncEndpoint = guestWatchlist.length > 0 ? '/api/watchlist/sync' : null;
+        if (syncEndpoint) {
+          const syncRes = await fetch(syncEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${data.token}`
+            },
+            body: JSON.stringify({bookIds: guestWatchlist.map((i) => i.id)})
+          });
+          if (syncRes.ok) {
+            const syncData = await syncRes.json();
+            dispatch(setWatchlist(syncData.items));
+          }
+        } else {
+          const wlRes = await fetch('/api/watchlist', {
+            headers: {Authorization: `Bearer ${data.token}`}
+          });
+          if (wlRes.ok) {
+            const wlData = await wlRes.json();
+            dispatch(setWatchlist(wlData.items));
+          }
+        }
       } else {
         setAuthError(data.message || 'Authentication failed');
       }

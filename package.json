@@ -15,7 +15,7 @@
     "update-books": "tsx prisma/update-books.ts"
   },
   "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/fetch-and-seed.ts"
   },
   "dependencies": {
     "@blueprintjs/core": "^5.19.0",

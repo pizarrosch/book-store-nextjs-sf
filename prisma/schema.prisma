@@ -15,34 +15,47 @@ datasource db {
 }
 
 model User {
-  id              String   @id @default(cuid())
-  email           String   @unique
+  id              String          @id @default(cuid())
+  email           String          @unique
   name            String
   password        String
-  bio             String?  @db.Text
-  profilePicture  String?  @db.LongText
+  bio             String?         @db.Text
+  profilePicture  String?         @db.LongText
   phone           String?
   addressStreet   String?
   addressCity     String?
   addressState    String?
   addressPostal   String?
   addressCountry  String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  watchlist       WatchlistItem[]
 }
 
 model Book {
-  id            String   @id
-  title         String
-  authors       String
-  description   String?
-  averageRating Float?
-  ratingsCount  Int?
-  thumbnailUrl  String?
-  price         Float?
-  category      String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id             String          @id
+  title          String
+  authors        String
+  description    String?
+  averageRating  Float?
+  ratingsCount   Int?
+  thumbnailUrl   String?
+  price          Float?
+  category       String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  watchlistItems WatchlistItem[]
 
   @@index([category])
+}
+
+model WatchlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  bookId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, bookId])
 }

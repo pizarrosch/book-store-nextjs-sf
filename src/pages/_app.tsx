@@ -20,7 +20,8 @@ import {
   categorySlice,
   cartSlice,
   userSlice,
-  clickedItemSlice
+  clickedItemSlice,
+  watchlistSlice
 } from '@/reducer';
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -31,7 +32,8 @@ const reducer = combineReducers({
   cart: cartSlice.reducer,
   category: categorySlice.reducer,
   userCredentials: userSlice.reducer,
-  clickedItem: clickedItemSlice.reducer
+  clickedItem: clickedItemSlice.reducer,
+  watchlist: watchlistSlice.reducer
 });
 
 const persistConfig = {

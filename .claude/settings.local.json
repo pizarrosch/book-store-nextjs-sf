@@ -17,7 +17,11 @@
       "Bash(kill:*)",
       "Bash(xargs cat:*)",
       "Bash(npx prisma:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(npx dotenv:*)",
+      "Bash(DATABASE_URL=\"mysql://root:root@localhost:3307/default\" npx prisma migrate dev --name add_watchlist 2>&1)",
+      "Bash(DATABASE_URL=\"mysql://root:root@localhost:3307/default\" npx prisma migrate reset --force 2>&1 && DATABASE_URL=\"mysql://root:root@localhost:3307/default\" npx prisma migrate dev --name add_watchlist 2>&1)",
+      "Bash(DATABASE_URL=\"mysql://root:root@localhost:3307/default\" npx tsx prisma/fetch-and-seed.ts 2>&1)"
     ]
   }
 }
