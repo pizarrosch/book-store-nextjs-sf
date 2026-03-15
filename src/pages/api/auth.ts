@@ -67,6 +67,7 @@ export default async function handler(
         error: false,
         name: user.name,
         email: user.email,
+        profilePicture: user.profilePicture ?? null,
         token
       });
     } catch (error) {

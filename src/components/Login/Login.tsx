@@ -6,7 +6,8 @@ import {
   setEmail,
   setAuthenticated,
   setToken,
-  setShowLogin
+  setShowLogin,
+  setProfilePicture
 } from '@/reducer';
 import s from './Login.module.scss';
 
@@ -84,6 +85,9 @@ function Login() {
         dispatch(setName(data.name));
         dispatch(setToken(data.token));
         dispatch(setAuthenticated(true));
+        if (data.profilePicture) {
+          dispatch(setProfilePicture(data.profilePicture));
+        }
         dispatch(setShowLogin(false));
       } else {
         setAuthError(data.message || 'Authentication failed');
