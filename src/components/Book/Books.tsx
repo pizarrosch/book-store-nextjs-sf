@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import Backdrop from '@/components/Backdrop/Backdrop';
@@ -121,7 +122,6 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
         book: selectedBook
       })
     );
-
   }
 
   return (
@@ -139,12 +139,14 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
               );
               return (
                 <div className={s.book} data-index={book.id} key={id}>
-                  <CoverImage {...book} />
-                  <BookDetails
-                    {...book}
-                    onClick={onBuyClick}
-                    buyIndex={buyIndex}
-                  />
+                  <Link href={`/books/${book.id}`}>
+                    <CoverImage {...book} />
+                    <BookDetails
+                      {...book}
+                      onClick={onBuyClick}
+                      buyIndex={buyIndex}
+                    />
+                  </Link>
                 </div>
               );
             })}
