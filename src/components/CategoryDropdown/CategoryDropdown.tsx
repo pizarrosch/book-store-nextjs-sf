@@ -125,9 +125,10 @@ function CategoryDropdown({chooseCategory}: TCategory) {
             {filteredCategories.length > 0 ? (
               filteredCategories.map((category) => {
                 const index = CATEGORIES.indexOf(category);
-                const isActive =
+                const isActive = Boolean(
                   (chosenCategory.id === index && chosenCategory.title) ||
-                  (category === 'Architecture' && !chosenCategory.title);
+                    (category === 'Architecture' && !chosenCategory.title)
+                );
 
                 return (
                   <li
