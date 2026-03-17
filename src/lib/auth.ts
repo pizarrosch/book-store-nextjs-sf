@@ -15,6 +15,16 @@ export type User = {
   name: string;
   email: string;
   password: string; // This will be hashed
+  profilePicture?: string | null;
+  bio?: string | null;
+  phone?: string | null;
+  addressStreet?: string | null;
+  addressCity?: string | null;
+  addressState?: string | null;
+  addressPostal?: string | null;
+  addressCountry?: string | null;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 // Function to hash a password
