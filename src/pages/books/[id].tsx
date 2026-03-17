@@ -1,7 +1,7 @@
 import {GetServerSideProps} from 'next';
 import BookItem from '@/components/Book/BookItem';
-import Layout from '@/components/Layout/Layout';
 import {bookData} from '@/components/Book/Books';
+import Layout from '@/components/Layout/Layout';
 import {prisma} from '@/lib/prisma';
 
 type BookPageProps = {

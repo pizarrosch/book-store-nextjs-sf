@@ -10,7 +10,8 @@ export default function Cart() {
   const dispatch = useDispatch();
   const cart = useAppSelector((state) => state.cart);
   const totalPrice = cart.reduce(
-    (sum, item) => sum + (item.book?.saleInfo?.listPrice?.amount ?? 0) * item.number,
+    (sum, item) =>
+      sum + (item.book?.saleInfo?.listPrice?.amount ?? 0) * item.number,
     0
   );
   const userCredentials = useAppSelector((state) => state.userCredentials);

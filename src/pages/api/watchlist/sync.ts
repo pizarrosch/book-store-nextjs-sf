@@ -1,8 +1,8 @@
 import {NextApiResponse} from 'next';
-import {isAuthenticated, NextApiRequestWithAuth} from '@/lib/auth';
-import {prisma} from '@/lib/prisma';
 import {bookData} from '@/components/Book/Books';
 import {Book} from '@/generated/prisma';
+import {isAuthenticated, NextApiRequestWithAuth} from '@/lib/auth';
+import {prisma} from '@/lib/prisma';
 
 function formatBook(book: Book): bookData {
   return {

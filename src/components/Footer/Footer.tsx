@@ -33,31 +33,31 @@ export default function Footer() {
             src={visa}
             alt="Visa"
             height={32}
-            style={{ width: 'auto', height: '32px', objectFit: 'contain' }}
+            style={{width: 'auto', height: '32px', objectFit: 'contain'}}
           />
           <Image
             src={mastercard}
             alt="Mastercard"
             height={32}
-            style={{ width: 'auto', height: '32px', objectFit: 'contain' }}
+            style={{width: 'auto', height: '32px', objectFit: 'contain'}}
           />
           <Image
             src={gpay}
             alt="Google Pay"
             height={32}
-            style={{ width: 'auto', height: '32px', objectFit: 'contain' }}
+            style={{width: 'auto', height: '32px', objectFit: 'contain'}}
           />
           <Image
             src={applepay}
             alt="Apple Pay"
             height={32}
-            style={{ width: 'auto', height: '32px', objectFit: 'contain' }}
+            style={{width: 'auto', height: '32px', objectFit: 'contain'}}
           />
           <Image
             src={paypal}
             alt="PayPal"
             height={32}
-            style={{ width: 'auto', height: '32px', objectFit: 'contain' }}
+            style={{width: 'auto', height: '32px', objectFit: 'contain'}}
           />
         </div>
       </div>

@@ -94,7 +94,8 @@ function Login() {
         dispatch(setShowLogin(false));
 
         // Sync guest watchlist to DB, or load the user's saved watchlist
-        const syncEndpoint = guestWatchlist.length > 0 ? '/api/watchlist/sync' : null;
+        const syncEndpoint =
+          guestWatchlist.length > 0 ? '/api/watchlist/sync' : null;
         if (syncEndpoint) {
           const syncRes = await fetch(syncEndpoint, {
             method: 'POST',

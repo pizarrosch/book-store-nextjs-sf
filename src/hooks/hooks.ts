@@ -8,8 +8,6 @@ export default function useRemoveFromCart() {
 
   return function removeFromCart(details: BookDetailsProps) {
     const itemToRemove = cart.filter((item) => item.id === String(details.id));
-    const itemInTheCart = cart.find((item) => item.id === String(details.id));
-    const quantity = itemInTheCart?.number || 0;
 
     dispatch(removeCartItem(itemToRemove[itemToRemove.length - 1]));
   };

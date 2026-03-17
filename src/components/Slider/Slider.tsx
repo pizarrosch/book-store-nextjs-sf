@@ -7,26 +7,26 @@ const slides = [
     className: s.bannerHero,
     eyebrow: 'Welcome to BookStore',
     heading: 'Discover Your Next\nGreat Read',
-    sub: 'Thousands of titles across every genre — from timeless classics to today\'s bestsellers.',
+    sub: "Thousands of titles across every genre — from timeless classics to today's bestsellers.",
     cta: 'Shop Now',
-    decoration: '📚',
+    decoration: '📚'
   },
   {
     className: s.bannerNew,
     eyebrow: 'Just Arrived',
     heading: 'New Arrivals\nThis Week',
     sub: 'Fresh picks curated by our editors. Be the first to explore the latest releases.',
-    cta: 'See What\'s New',
-    decoration: '✨',
+    cta: "See What's New",
+    decoration: '✨'
   },
   {
     className: s.bannerSale,
     eyebrow: 'Limited Time',
     heading: 'Up to 30% Off\nSelected Titles',
-    sub: 'Stock up on your reading list. Deals updated weekly — don\'t miss out.',
+    sub: "Stock up on your reading list. Deals updated weekly — don't miss out.",
     cta: 'View Deals',
-    decoration: '🏷️',
-  },
+    decoration: '🏷️'
+  }
 ];
 
 export default function Slider() {
@@ -41,7 +41,10 @@ export default function Slider() {
                 <span className={s.eyebrow}>{slide.eyebrow}</span>
                 <h2 className={s.heading}>
                   {slide.heading.split('\n').map((line, j) => (
-                    <React.Fragment key={j}>{line}{j === 0 && <br />}</React.Fragment>
+                    <React.Fragment key={j}>
+                      {line}
+                      {j === 0 && <br />}
+                    </React.Fragment>
                   ))}
                 </h2>
                 <p className={s.sub}>{slide.sub}</p>

@@ -36,7 +36,10 @@ export default function Coupons() {
 
         <div className={s.couponsGrid}>
           {COUPONS.map((coupon) => (
-            <div key={coupon.value} className={`${s.couponCard} ${s[coupon.color]}`}>
+            <div
+              key={coupon.value}
+              className={`${s.couponCard} ${s[coupon.color]}`}
+            >
               <div className={s.couponLeft}>
                 <div className={s.couponLabel}>Gift Coupon</div>
                 <div className={s.couponValue}>{coupon.label}</div>

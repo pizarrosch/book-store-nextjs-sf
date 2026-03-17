@@ -1,8 +1,8 @@
 import {NextApiResponse} from 'next';
-import {isAuthenticated, NextApiRequestWithAuth} from '@/lib/auth';
-import {prisma} from '@/lib/prisma';
 import {bookData} from '@/components/Book/Books';
 import {Book} from '@/generated/prisma';
+import {isAuthenticated, NextApiRequestWithAuth} from '@/lib/auth';
+import {prisma} from '@/lib/prisma';
 
 function formatBook(book: Book): bookData {
   return {
@@ -53,7 +53,9 @@ export default async function handler(
       return res.status(400).json({error: true, message: 'bookId is required'});
     }
 
-    const bookExists = await prisma.book.findUnique({where: {id: String(bookId)}});
+    const bookExists = await prisma.book.findUnique({
+      where: {id: String(bookId)}
+    });
     if (!bookExists) {
       return res.status(404).json({error: true, message: 'Book not found'});
     }

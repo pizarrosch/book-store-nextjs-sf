@@ -236,19 +236,28 @@ export const watchlistSlice = createSlice({
   name: 'watchlist',
   initialState: [] as TWatchlistItem[],
   reducers: {
-    addWatchlistItem: (state: TWatchlistItem[], action: PayloadAction<TWatchlistItem>) => {
+    addWatchlistItem: (
+      state: TWatchlistItem[],
+      action: PayloadAction<TWatchlistItem>
+    ) => {
       const exists = state.find((item) => item.id === action.payload.id);
       if (!exists) {
         state.push(action.payload);
       }
     },
-    removeWatchlistItem: (state: TWatchlistItem[], action: PayloadAction<string>) => {
+    removeWatchlistItem: (
+      state: TWatchlistItem[],
+      action: PayloadAction<string>
+    ) => {
       const index = state.findIndex((item) => item.id === action.payload);
       if (index !== -1) {
         state.splice(index, 1);
       }
     },
-    setWatchlist: (_state: TWatchlistItem[], action: PayloadAction<TWatchlistItem[]>) => {
+    setWatchlist: (
+      _state: TWatchlistItem[],
+      action: PayloadAction<TWatchlistItem[]>
+    ) => {
       return action.payload;
     }
   },
@@ -257,4 +266,5 @@ export const watchlistSlice = createSlice({
   }
 });
 
-export const {addWatchlistItem, removeWatchlistItem, setWatchlist} = watchlistSlice.actions;
+export const {addWatchlistItem, removeWatchlistItem, setWatchlist} =
+  watchlistSlice.actions;

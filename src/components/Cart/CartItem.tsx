@@ -88,7 +88,9 @@ export default function CartItem() {
             >
               <Icon icon="minus" iconSize={12} />
             </button>
-            <span className={s.itemsAmount} key={cartItem.number}>{cartItem.number}</span>
+            <span className={s.itemsAmount} key={cartItem.number}>
+              {cartItem.number}
+            </span>
             <button
               className={s.counterBtn}
               onClick={() => {

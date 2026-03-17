@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import {useEffect, useState, ChangeEvent} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
@@ -96,7 +95,10 @@ export default function Profile() {
           });
         }
       } catch (error) {
-        showToast('Failed to load profile. Please try logging out and back in.', 'error');
+        showToast(
+          'Failed to load profile. Please try logging out and back in.',
+          'error'
+        );
       } finally {
         setIsInitialLoading(false);
       }
@@ -498,7 +500,9 @@ export default function Profile() {
 
               <button
                 className={s.uploadButton}
-                onClick={() => document.getElementById('avatar-upload')?.click()}
+                onClick={() =>
+                  document.getElementById('avatar-upload')?.click()
+                }
                 disabled={uploadingImage}
               >
                 {uploadingImage ? 'Uploading...' : 'Change Photo'}

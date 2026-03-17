@@ -39,7 +39,7 @@ export type bookData = {
 type TPageInfo = {
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
-  setTotalPages: (total: number) => void;
+  setTotalPages: (_total: number) => void;
 };
 
 type TBookCategory = {
