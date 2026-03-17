@@ -68,6 +68,12 @@ export default function BookDetails(details: BookDetailsProps) {
     onClick(e as React.MouseEvent<HTMLButtonElement>);
   };
 
+  const handleRemoveClick: ButtonProps['onClick'] = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    removeFromCart(details);
+  };
+
   return (
     <div className={s.bookInformation}>
       <span className={s.author}>
@@ -109,7 +115,7 @@ export default function BookDetails(details: BookDetailsProps) {
       </span>
       <div className={s.buttonRow}>
         <Button
-          onClick={!isItemAdded ? handleClick : () => removeFromCart(details)}
+          onClick={!isItemAdded ? handleClick : handleRemoveClick}
           data-id={details.id}
           intent={!isItemAdded ? 'primary' : 'danger'}
           text={!isItemAdded ? 'Add to cart' : 'Remove from cart'}
