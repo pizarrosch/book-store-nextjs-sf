@@ -11,6 +11,7 @@ export type TUserCredentials = {
   error: boolean;
   name: string;
   email: string;
+  profilePicture?: string | null;
   token?: string;
 };
 
