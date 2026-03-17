@@ -24,7 +24,9 @@ export default function BookDetails(details: BookDetailsProps) {
   const removeFromCart = useRemoveFromCart();
   const [isPopping, setIsPopping] = useState(false);
 
-  const handleWatchlist = async () => {
+  const handleWatchlist = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     setIsPopping(true);
     const bookId = String(details.id);
     const bookData = {
@@ -61,6 +63,8 @@ export default function BookDetails(details: BookDetailsProps) {
   };
 
   const handleClick: ButtonProps['onClick'] = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
     onClick(e as React.MouseEvent<HTMLButtonElement>);
   };
 
