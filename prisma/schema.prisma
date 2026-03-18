@@ -36,7 +36,7 @@ model Book {
   id             String          @id
   title          String
   authors        String
-  description    String?
+  description    String?         @db.Text
   averageRating  Float?
   ratingsCount   Int?
   thumbnailUrl   String?
