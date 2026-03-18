@@ -10,7 +10,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "postinstall": "prisma generate",
-    "seed": "tsx prisma/seed.ts",
+    "seed": "tsx prisma/seed-google-books.ts",
     "fetch-seed": "tsx prisma/fetch-and-seed.ts",
     "update-books": "tsx prisma/update-books.ts"
   },

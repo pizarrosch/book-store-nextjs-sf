@@ -23,7 +23,8 @@
       "Bash(DATABASE_URL=\"mysql://root:root@localhost:3307/default\" npx tsx prisma/fetch-and-seed.ts 2>&1)",
       "Bash(npm run lint:*)",
       "Bash(npm run build:*)",
-      "Bash(npx eslint:*)"
+      "Bash(npx eslint:*)",
+      "Bash(ls:*)"
     ],
     "deny": [
       "Bash(npx prisma migrate reset:*)",
