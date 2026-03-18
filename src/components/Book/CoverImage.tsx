@@ -9,7 +9,7 @@ export default function CoverImage(data: bookData) {
     ? data.volumeInfo.imageLinks.thumbnail
         .replace('http:', 'https:')
         .replace('&edge=curl', '')
-        .replace('zoom=1', 'zoom=2')
+        .replace('zoom=1', 'zoom=5')
     : noCoverBook;
 
   return (
@@ -18,8 +18,8 @@ export default function CoverImage(data: bookData) {
         src={imageUrl}
         alt={data.volumeInfo?.title || 'Book cover'}
         className={s.bookCover}
-        width={300}
-        height={450}
+        width={200}
+        height={300}
         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         quality={90}
       />

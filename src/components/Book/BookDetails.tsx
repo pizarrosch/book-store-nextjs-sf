@@ -80,6 +80,11 @@ export default function BookDetails(details: BookDetailsProps) {
         {details.volumeInfo?.authors?.join(', ') || 'Unknown Author'}
       </span>
       <h2 className={s.title}>{details.volumeInfo?.title}</h2>
+      <span className={s.price}>
+        {details.saleInfo?.listPrice
+          ? '$' + details.saleInfo?.listPrice.amount
+          : 'out of stock'}
+      </span>
       <div
         className={s.ratingsWrapper}
         aria-label={`Rated ${details.volumeInfo?.averageRating || 0} out of 5 stars`}
@@ -104,35 +109,6 @@ export default function BookDetails(details: BookDetailsProps) {
             ? `${details.volumeInfo.ratingsCount} ${details.volumeInfo.ratingsCount === 1 ? 'review' : 'reviews'}`
             : 'No reviews yet'}
         </span>
-      </div>
-      <p className={s.bookDescription}>
-        {details.volumeInfo?.description || 'No description available'}
-      </p>
-      <span className={s.price}>
-        {details.saleInfo?.listPrice
-          ? '$' + details.saleInfo?.listPrice.amount
-          : 'out of stock'}
-      </span>
-      <div className={s.buttonRow}>
-        <Button
-          onClick={!isItemAdded ? handleClick : handleRemoveClick}
-          data-id={details.id}
-          intent={!isItemAdded ? 'primary' : 'danger'}
-          text={!isItemAdded ? 'Add to cart' : 'Remove from cart'}
-          large
-          className={s.cartBtn}
-        />
-        <button
-          className={`${s.watchlistBtn} ${isInWatchlist ? s.watchlistActive : ''} ${isPopping ? s.pop : ''}`}
-          onClick={handleWatchlist}
-          onAnimationEnd={() => setIsPopping(false)}
-          aria-label={
-            isInWatchlist ? 'Remove from watchlist' : 'Add to watchlist'
-          }
-          title={isInWatchlist ? 'Remove from watchlist' : 'Save for later'}
-        >
-          <Icon icon={isInWatchlist ? 'bookmark' : 'bookmark'} size={16} />
-        </button>
       </div>
     </div>
   );
