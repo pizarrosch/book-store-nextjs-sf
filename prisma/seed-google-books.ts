@@ -48,7 +48,8 @@ interface GoogleBooksVolume {
 
 async function fetchBooksFromGoogleBooks(
   subject: string,
-  maxResults: number = 20
+  maxResults: number = 20,
+  startIndex: number = 0
 ): Promise<GoogleBooksVolume[]> {
   const apiKey = process.env.GOOGLE_BOOKS_API_KEY;
   if (!apiKey) {
@@ -57,7 +58,7 @@ async function fetchBooksFromGoogleBooks(
 
   try {
     const response = await fetch(
-      `https://www.googleapis.com/books/v1/volumes?q=subject:${encodeURIComponent(subject)}&maxResults=${maxResults}&key=${apiKey}`
+      `https://www.googleapis.com/books/v1/volumes?q=subject:${encodeURIComponent(subject)}&maxResults=${maxResults}&startIndex=${startIndex}&key=${apiKey}`
     );
 
     if (!response.ok) {
@@ -93,17 +94,33 @@ async function seedDatabase() {
     console.log(`📚 Fetching books for category: ${category}...`);
 
     try {
-      // Fetch 25 books per category
-      const books = await fetchBooksFromGoogleBooks(subject, 25);
+      // Fetch books in batches to get more results (3 batches of 40 = 120 books per category)
+      const allBooks: GoogleBooksVolume[] = [];
+      const batchSize = 40; // Google Books API max per request
+      const numberOfBatches = 3; // Fetch 3 batches to get up to 120 books
 
-      if (books.length === 0) {
+      for (let batch = 0; batch < numberOfBatches; batch++) {
+        const startIndex = batch * batchSize;
+        const books = await fetchBooksFromGoogleBooks(subject, batchSize, startIndex);
+        allBooks.push(...books);
+
+        if (books.length < batchSize) {
+          // No more books available
+          break;
+        }
+
+        // Small delay between batches to avoid rate limiting
+        await new Promise((resolve) => setTimeout(resolve, 300));
+      }
+
+      if (allBooks.length === 0) {
         console.log(`  ⚠️  No books found for ${category}\n`);
         continue;
       }
 
       let addedCount = 0;
 
-      for (const volume of books) {
+      for (const volume of allBooks) {
         // Skip volumes without id or title
         if (!volume.id || !volume.volumeInfo?.title) continue;
 
