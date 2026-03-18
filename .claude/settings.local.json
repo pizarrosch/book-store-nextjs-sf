@@ -22,7 +22,8 @@
       "Bash(DATABASE_URL=\"mysql://root:root@localhost:3307/default\" npx prisma migrate dev --name add_watchlist 2>&1)",
       "Bash(DATABASE_URL=\"mysql://root:root@localhost:3307/default\" npx tsx prisma/fetch-and-seed.ts 2>&1)",
       "Bash(npm run lint:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npx eslint:*)"
     ],
     "deny": [
       "Bash(npx prisma migrate reset:*)",
