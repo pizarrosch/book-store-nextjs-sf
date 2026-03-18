@@ -145,7 +145,7 @@ async function seedDatabase() {
           thumbnailUrl = thumbnailUrl
             .replace('http:', 'https:')
             .replace('&edge=curl', '')
-            .replace('zoom=1', 'zoom=2');
+            .replace(/zoom=\d+/, 'zoom=3');
         }
 
         // Get price from saleInfo

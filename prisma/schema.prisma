@@ -40,6 +40,7 @@ model Book {
   averageRating  Float?
   ratingsCount   Int?
   thumbnailUrl   String?
+  customCoverUrl String?
   price          Float?
   category       String?
   createdAt      DateTime        @default(now())

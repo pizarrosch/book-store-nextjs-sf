@@ -37,6 +37,7 @@ interface FormattedBook {
     ratingsCount: number;
     imageLinks: {
       thumbnail: string | null;
+      customCover: string | null;
     };
   };
   saleInfo: {
@@ -54,6 +55,7 @@ interface DBBook {
   averageRating: number | null;
   ratingsCount: number | null;
   thumbnailUrl: string | null;
+  customCoverUrl: string | null;
   price: number | null;
   category: string | null;
   createdAt: Date;
@@ -275,7 +277,7 @@ async function transformAndSaveBooks(
       thumbnailUrl = thumbnailUrl
         .replace('http:', 'https:')
         .replace('&edge=curl', '')
-        .replace('zoom=1', 'zoom=2');
+        .replace(/zoom=\d+/, 'zoom=3');
     }
 
     // Get price from saleInfo
@@ -319,7 +321,8 @@ function formatBooksForResponse(books: DBBook[]): {items: FormattedBook[]} {
         averageRating: book.averageRating || 0,
         ratingsCount: book.ratingsCount || 0,
         imageLinks: {
-          thumbnail: book.thumbnailUrl
+          thumbnail: book.thumbnailUrl,
+          customCover: book.customCoverUrl
         }
       },
       saleInfo: {
