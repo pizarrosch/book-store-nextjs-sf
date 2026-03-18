@@ -1,7 +1,7 @@
 .coverWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
   background-color: var(--bg-primary);
   display: flex;
@@ -18,12 +18,12 @@
 
 @media (max-width: 768px) {
   .coverWrapper {
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 2 / 3;
   }
 }
 
 @media (max-width: 480px) {
   .coverWrapper {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 2 / 3;
   }
 }
