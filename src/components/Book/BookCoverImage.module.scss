@@ -1,29 +1,33 @@
 .coverWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 2 / 3;
-  overflow: hidden;
-  background-color: var(--bg-primary);
+  height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid var(--color-gray-100);
+  padding: var(--space-4) 0;
 }
 
 .bookCover {
   object-fit: contain !important;
-  transition: transform var(--transition-slow), filter var(--transition-base);
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25));
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  position: relative !important;
+  transition: transform var(--transition-slow);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
   .coverWrapper {
-    aspect-ratio: 2 / 3;
+    height: 350px;
   }
 }
 
 @media (max-width: 480px) {
   .coverWrapper {
-    aspect-ratio: 2 / 3;
+    height: 320px;
   }
 }

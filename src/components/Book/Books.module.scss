@@ -17,21 +17,24 @@
   .book {
     display: flex;
     flex-direction: column;
-    background-color: var(--bg-primary);
+    background-color: transparent;
     border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
+    overflow: visible;
     transition: all var(--transition-base);
     cursor: pointer;
     height: 100%;
 
     &:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-xl);
+      transform: translateY(-4px);
+
+      img {
+        transform: scale(1.03);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
     }
 
     &:active {
-      transform: translateY(-4px);
+      transform: translateY(-2px);
     }
   }
 }
