@@ -53,7 +53,7 @@ type TBookCategory = {
   category: string;
 } & TPageInfo;
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 10;
 
 function Books({category, page, setPage, setTotalPages}: TBookCategory) {
   const dispatch = useDispatch();

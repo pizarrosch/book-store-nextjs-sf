@@ -134,7 +134,7 @@ export default async function handler(
   }
 
   // Pagination parameters
-  const pageSize = Number(maxResults) || 6;
+  const pageSize = Number(maxResults) || 10;
   const currentPage = Number(page) || 1;
 
   if (isNaN(pageSize) || pageSize < 1 || pageSize > 40) {
