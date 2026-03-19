@@ -1,79 +1,11 @@
-import {Button, ButtonProps, Icon} from '@blueprintjs/core';
 import Image from 'next/image';
-import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
-import useRemoveFromCart from '@/hooks/hooks';
-import {useAppSelector} from '@/pages/hooks';
-import {addWatchlistItem, removeWatchlistItem} from '@/reducer';
+import React from 'react';
 import {BookDetailsProps} from '@/types';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
 import s from './BookDetails.module.scss';
 
 export default function BookDetails(details: BookDetailsProps) {
-  const {onClick} = details;
-  const dispatch = useDispatch();
-
-  const cart = useAppSelector((state) => state.cart);
-  const watchlist = useAppSelector((state) => state.watchlist);
-  const userData = useAppSelector((state) => state.userCredentials);
-  const isItemAdded = cart.some((item) => item.id === String(details.id));
-  const isInWatchlist = watchlist.some(
-    (item) => item.id === String(details.id)
-  );
-  const removeFromCart = useRemoveFromCart();
-  const [isPopping, setIsPopping] = useState(false);
-
-  const handleWatchlist = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-    setIsPopping(true);
-    const bookId = String(details.id);
-    const bookData = {
-      id: details.id,
-      volumeInfo: details.volumeInfo,
-      saleInfo: details.saleInfo
-    };
-
-    if (isInWatchlist) {
-      dispatch(removeWatchlistItem(bookId));
-      if (userData.isAuthenticated && userData.token) {
-        await fetch('/api/watchlist', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userData.token}`
-          },
-          body: JSON.stringify({bookId})
-        });
-      }
-    } else {
-      dispatch(addWatchlistItem({id: bookId, book: bookData}));
-      if (userData.isAuthenticated && userData.token) {
-        await fetch('/api/watchlist', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userData.token}`
-          },
-          body: JSON.stringify({bookId})
-        });
-      }
-    }
-  };
-
-  const handleClick: ButtonProps['onClick'] = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    onClick(e as React.MouseEvent<HTMLButtonElement>);
-  };
-
-  const handleRemoveClick: ButtonProps['onClick'] = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    removeFromCart(details);
-  };
-
   return (
     <div className={s.bookInformation}>
       <span className={s.author}>

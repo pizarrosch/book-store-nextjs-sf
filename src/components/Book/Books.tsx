@@ -1,5 +1,11 @@
 import Link from 'next/link';
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState
+} from 'react';
 import {useDispatch} from 'react-redux';
 import Backdrop from '@/components/Backdrop/Backdrop';
 import BookDetails from '@/components/Book/BookDetails';
@@ -11,6 +17,7 @@ import s from './Books.module.scss';
 
 type imageAddress = {
   thumbnail: string;
+  customCover?: string;
 };
 
 export type TListPrice = {
@@ -60,7 +67,7 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
   const [error, setError] = useState<string | boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  async function fetchBooks() {
+  const fetchBooks = useCallback(async () => {
     setIsLoading(true);
     try {
       const headers: Record<string, string> = {};
@@ -92,11 +99,17 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
     } finally {
       setIsLoading(false);
     }
-  }
+  }, [
+    category,
+    page,
+    userCredentials.isAuthenticated,
+    userCredentials.token,
+    setTotalPages
+  ]);
 
   useEffect(() => {
     fetchBooks();
-  }, [category, page, userCredentials.isAuthenticated, userCredentials.token]);
+  }, [fetchBooks]);
 
   function onBuyClick(e: React.MouseEvent) {
     const target = e.currentTarget as HTMLButtonElement;
