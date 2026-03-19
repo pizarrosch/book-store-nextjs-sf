@@ -10,7 +10,7 @@
 
 .booksGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 200px);
+  grid-template-columns: repeat(5, 1fr);
   gap: var(--space-6);
   width: 100%;
 
@@ -23,7 +23,7 @@
     transition: all var(--transition-base);
     cursor: pointer;
     height: 100%;
-    width: 200px;
+    max-width: 200px;
 
     &:hover {
       transform: translateY(-4px);
@@ -48,6 +48,7 @@
 
 @media (max-width: 1024px) {
   .booksGrid {
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--space-5);
   }
 }
@@ -59,14 +60,14 @@
   }
 
   .booksGrid {
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--space-4);
   }
 }
 
 @media (max-width: 480px) {
   .booksGrid {
-    grid-template-columns: repeat(auto-fill, 200px);
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-4);
-    justify-content: center;
   }
 }
