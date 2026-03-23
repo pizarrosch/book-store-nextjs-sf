@@ -7,6 +7,7 @@ import {
   addBook,
   addCartItem,
   addWatchlistItem,
+  removeCartItem,
   removeWatchlistItem
 } from '@/reducer';
 import unfilledStar from '../../../public/assets/Star.svg';
@@ -41,6 +42,14 @@ export default function BookItem({book}: BookItemProps) {
           book: book
         })
       );
+    }
+  };
+
+  // Handle remove from cart
+  const handleRemoveFromCart = () => {
+    const cartItem = cart.find((item) => item.id === String(book.id));
+    if (cartItem) {
+      dispatch(removeCartItem(cartItem));
     }
   };
 
@@ -157,11 +166,11 @@ export default function BookItem({book}: BookItemProps) {
           {/* Action Buttons */}
           <div className={s.actionButtons}>
             <button
-              onClick={handleAddToCart}
+              onClick={isInCart ? handleRemoveFromCart : handleAddToCart}
               className={`${s.addToCartBtn} ${isInCart ? s.addedToCart : ''}`}
-              disabled={!saleInfo?.listPrice || isInCart}
+              disabled={!saleInfo?.listPrice}
             >
-              {isInCart ? 'Added to Cart ✓' : 'Add to Cart'}
+              {isInCart ? 'Remove from Cart' : 'Add to Cart'}
             </button>
             <button
               onClick={handleToggleWatchlist}
