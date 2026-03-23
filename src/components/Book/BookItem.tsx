@@ -1,5 +1,6 @@
 import {Icon} from '@blueprintjs/core';
 import Image from 'next/image';
+import {useRouter} from 'next/router';
 import React, {useState} from 'react';
 import {bookData} from '@/components/Book/Books';
 import {useAppDispatch, useAppSelector} from '@/pages/hooks';
@@ -21,6 +22,7 @@ type BookItemProps = {
 
 export default function BookItem({book}: BookItemProps) {
   const {volumeInfo, saleInfo} = book;
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart);
   const watchlist = useAppSelector((state) => state.watchlist);
@@ -83,6 +85,10 @@ export default function BookItem({book}: BookItemProps) {
 
   return (
     <div className={s.container}>
+      <button className={s.backBtn} onClick={() => router.back()}>
+        <Icon icon="arrow-left" size={14} />
+        Back to results
+      </button>
       <div className={s.productGrid}>
         {/* Left Column - Image */}
         <div className={s.imageSection}>
