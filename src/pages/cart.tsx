@@ -1,3 +1,4 @@
+import {useRouter} from 'next/navigation';
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import CartItem from '@/components/Cart/CartItem';
@@ -7,6 +8,7 @@ import {setShowLogin} from '@/reducer';
 import s from '../styles/cart.module.scss';
 
 export default function Cart() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const cart = useAppSelector((state) => state.cart);
   const totalPrice = cart.reduce(
@@ -20,7 +22,7 @@ export default function Cart() {
     if (!userCredentials.isAuthenticated) {
       dispatch(setShowLogin(true));
     } else {
-      console.log('Proceed to checkout');
+      router.push('/checkout');
     }
   };
 

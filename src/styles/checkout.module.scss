@@ -1,0 +1,502 @@
+// Checkout Page Styles
+
+.pageContainer {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-4);
+  min-height: calc(100vh - var(--header-height) - 200px);
+}
+
+.pageTitle {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  margin: 0 0 var(--space-6) 0;
+  font-family: var(--font-primary);
+}
+
+// Step Indicator
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+.stepItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.stepNumber {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  border: 2px solid var(--color-gray-300);
+  color: var(--color-gray-400);
+  background: transparent;
+  transition: all var(--transition-base);
+
+  &.active {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  &.completed {
+    border-color: var(--color-success);
+    background-color: var(--color-success);
+    color: var(--color-white);
+  }
+}
+
+.stepLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-500);
+
+  &.active {
+    color: var(--color-gray-900);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  &.completed {
+    color: var(--color-success);
+  }
+}
+
+.stepDivider {
+  width: 40px;
+  height: 2px;
+  background: var(--color-gray-200);
+  transition: background var(--transition-base);
+
+  &.completed {
+    background: var(--color-success);
+  }
+}
+
+// Card
+.card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-8);
+  animation: fadeIn var(--transition-base);
+
+  @media (max-width: 480px) {
+    padding: var(--space-6);
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 2px solid var(--color-gray-100);
+}
+
+.cardTitle {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  margin: 0;
+}
+
+// Form Elements
+.formContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.fieldLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-700);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.formInput {
+  width: 100%;
+  height: 52px;
+  padding: 0 var(--space-4);
+  border: 2px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  color: var(--color-gray-900);
+  background-color: var(--bg-primary);
+  transition: all var(--transition-base);
+  font-family: var(--font-secondary);
+
+  &::placeholder {
+    color: var(--color-gray-300);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(76, 61, 178, 0.1);
+  }
+
+  &.invalid {
+    border-color: var(--color-secondary);
+
+    &:focus {
+      box-shadow: 0 0 0 4px rgba(255, 53, 58, 0.1);
+    }
+  }
+}
+
+.errorText {
+  color: var(--color-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  margin-top: var(--space-1);
+}
+
+// Address Grid
+.addressGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5);
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+// Payment
+.simulatedNotice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background-color: rgba(59, 130, 246, 0.08);
+  border: 1px solid var(--color-info);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-info);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-6);
+}
+
+.paymentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Review Step
+.reviewSection {
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--color-gray-100);
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
+.reviewSectionTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-3);
+}
+
+.reviewText {
+  font-size: var(--font-size-base);
+  color: var(--color-gray-900);
+  line-height: 1.6;
+}
+
+.orderItemRow {
+  display: flex;
+  align-items: center;
+  padding: var(--space-4) 0;
+  gap: var(--space-4);
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-gray-50);
+  }
+}
+
+.orderItemCover {
+  width: 48px;
+  height: 68px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.orderItemInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.orderItemTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.orderItemDetails {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+  margin-top: var(--space-1);
+}
+
+.orderItemPrice {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-900);
+  white-space: nowrap;
+}
+
+.orderTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-5);
+  margin-top: var(--space-3);
+  border-top: 2px solid var(--color-gray-200);
+}
+
+.orderTotalLabel {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  text-transform: uppercase;
+}
+
+.orderTotalAmount {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+// Confirmation Step
+.confirmationContainer {
+  text-align: center;
+  padding: var(--space-10) var(--space-6);
+}
+
+.successIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-6);
+
+  &::after {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 40px;
+    border: solid white;
+    border-width: 0 4px 4px 0;
+    transform: rotate(45deg) translate(-2px, -2px);
+  }
+}
+
+.confirmationTitle {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  margin: 0 0 var(--space-3) 0;
+}
+
+.orderNumber {
+  font-size: var(--font-size-lg);
+  color: var(--color-gray-500);
+  margin-bottom: var(--space-2);
+}
+
+.confirmationDetails {
+  font-size: var(--font-size-base);
+  color: var(--color-gray-500);
+  margin-bottom: var(--space-8);
+}
+
+// Buttons
+.navButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-8);
+  gap: var(--space-4);
+
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
+
+    button, a {
+      width: 100%;
+    }
+  }
+}
+
+.button {
+  height: 48px;
+  padding: 0 var(--space-6);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.primaryButton {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  min-width: 200px;
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+.secondaryButton {
+  background-color: transparent;
+  color: var(--color-gray-700);
+  border: 2px solid var(--color-gray-300);
+
+  &:hover:not(:disabled) {
+    background-color: var(--bg-hover);
+    border-color: var(--color-gray-400);
+  }
+}
+
+.placeOrderButton {
+  width: 100%;
+  height: 56px;
+  font-size: var(--font-size-base);
+  margin-top: var(--space-6);
+}
+
+// Toast
+.toast {
+  position: fixed;
+  top: var(--space-6);
+  right: var(--space-6);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  z-index: 1000;
+  animation: slideIn var(--transition-base);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 300px;
+
+  &.success {
+    background-color: var(--color-success);
+    color: white;
+  }
+
+  &.error {
+    background-color: var(--color-secondary);
+    color: white;
+  }
+
+  @media (max-width: 480px) {
+    left: var(--space-4);
+    right: var(--space-4);
+    min-width: auto;
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: var(--font-size-2xl);
+  }
+
+  .steps {
+    gap: var(--space-2);
+  }
+
+  .stepDivider {
+    width: 24px;
+  }
+
+  .stepLabel {
+    display: none;
+  }
+}

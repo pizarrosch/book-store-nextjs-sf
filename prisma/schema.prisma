@@ -30,6 +30,7 @@ model User {
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
   watchlist       WatchlistItem[]
+  orders          Order[]
 }
 
 model Book {
@@ -46,6 +47,7 @@ model Book {
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   watchlistItems WatchlistItem[]
+  orderItems     OrderItem[]
 
   @@index([category])
 }
@@ -59,4 +61,35 @@ model WatchlistItem {
   createdAt DateTime @default(now())
 
   @@unique([userId, bookId])
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status          String      @default("confirmed")
+  totalAmount     Float
+  shippingStreet  String
+  shippingCity    String
+  shippingState   String
+  shippingPostal  String
+  shippingCountry String
+  paymentLast4    String
+  items           OrderItem[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([userId])
+}
+
+model OrderItem {
+  id       String @id @default(cuid())
+  orderId  String
+  order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  bookId   String
+  book     Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  quantity Int
+  price    Float
+
+  @@index([orderId])
 }

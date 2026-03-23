@@ -155,6 +155,9 @@ export const cartSlice = createSlice({
       if (item) {
         item.number -= 1;
       }
+    },
+    clearCart: () => {
+      return [];
     }
   }
 });
@@ -206,11 +209,12 @@ export const clickedItemSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(userSlice.actions.logout, () => []);
+    builder.addCase(cartSlice.actions.clearCart, () => []);
   }
 });
 
 export const {addBook} = bookSlice.actions;
-export const {addCartItem, removeCartItem, increase, decrease} =
+export const {addCartItem, removeCartItem, increase, decrease, clearCart} =
   cartSlice.actions;
 export const {changeCategory} = categorySlice.actions;
 export const {
