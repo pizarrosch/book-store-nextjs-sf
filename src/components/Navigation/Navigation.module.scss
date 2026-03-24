@@ -96,6 +96,84 @@
       display: flex;
       align-items: center;
     }
+
+    .searchDropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      z-index: 200;
+      max-height: 360px;
+      overflow-y: auto;
+
+      .searchResultItem {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-3) var(--space-4);
+        cursor: pointer;
+        transition: background-color var(--transition-fast);
+
+        &:hover {
+          background-color: var(--bg-hover);
+        }
+
+        &:not(:last-child) {
+          border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .searchResultImage {
+          width: 36px;
+          height: 50px;
+          object-fit: cover;
+          border-radius: var(--radius-sm);
+          flex-shrink: 0;
+        }
+
+        .searchResultInfo {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          min-width: 0;
+          flex: 1;
+
+          .searchResultTitle {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-800);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .searchResultAuthor {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-500);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+
+        .searchResultPrice {
+          font-size: var(--font-size-sm);
+          font-weight: var(--font-weight-bold);
+          color: var(--color-primary);
+          flex-shrink: 0;
+        }
+      }
+
+      .searchMessage {
+        padding: var(--space-4);
+        text-align: center;
+        font-size: var(--font-size-sm);
+        color: var(--color-gray-500);
+      }
+    }
   }
 
   .actions {
@@ -252,6 +330,73 @@
         border-color: var(--color-primary);
         background-color: var(--bg-primary);
         box-shadow: 0 0 0 3px rgba(76, 61, 178, 0.1);
+      }
+    }
+
+    .searchDropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      z-index: 200;
+      max-height: 300px;
+      overflow-y: auto;
+
+      .searchResultItem {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-3) var(--space-4);
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--bg-hover);
+        }
+
+        &:not(:last-child) {
+          border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .searchResultImage {
+          width: 36px;
+          height: 50px;
+          object-fit: cover;
+          border-radius: var(--radius-sm);
+          flex-shrink: 0;
+        }
+
+        .searchResultInfo {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          min-width: 0;
+          flex: 1;
+
+          .searchResultTitle {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-800);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .searchResultAuthor {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-500);
+          }
+        }
+      }
+
+      .searchMessage {
+        padding: var(--space-4);
+        text-align: center;
+        font-size: var(--font-size-sm);
+        color: var(--color-gray-500);
       }
     }
   }

@@ -188,7 +188,11 @@ export default function BookItem({book}: BookItemProps) {
               <Icon
                 icon="heart"
                 size={22}
-                color={isInWatchlist ? 'var(--color-primary)' : 'var(--color-gray-400)'}
+                color={
+                  isInWatchlist
+                    ? 'var(--color-primary)'
+                    : 'var(--color-gray-400)'
+                }
                 className={isHeartAnimating ? s.heartAnimate : undefined}
               />
             </button>
