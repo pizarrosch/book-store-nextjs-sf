@@ -1,20 +1,27 @@
+import {useRouter} from 'next/navigation';
+import {useDispatch} from 'react-redux';
 import Layout from '@/components/Layout/Layout';
+import {useAppSelector} from '@/pages/hooks';
+import {addCoupon, setShowLogin} from '@/reducer';
 import s from '../styles/coupons.module.scss';
 
 const COUPONS = [
   {
+    id: 'coupon-20',
     value: 20,
     label: '20 €',
     description: 'A great starter gift for any book lover.',
     color: 'green'
   },
   {
+    id: 'coupon-50',
     value: 50,
     label: '50 €',
     description: 'Perfect for exploring new genres and titles.',
     color: 'blue'
   },
   {
+    id: 'coupon-100',
     value: 100,
     label: '100 €',
     description: 'The ultimate gift for a dedicated reader.',
@@ -23,6 +30,26 @@ const COUPONS = [
 ];
 
 export default function Coupons() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const userCredentials = useAppSelector((state) => state.userCredentials);
+
+  const handleAddCoupon = (coupon: (typeof COUPONS)[number]) => {
+    if (!userCredentials.isAuthenticated) {
+      dispatch(setShowLogin(true));
+      return;
+    }
+    dispatch(
+      addCoupon({
+        id: coupon.id,
+        value: coupon.value,
+        label: coupon.label,
+        quantity: 1
+      })
+    );
+    router.push('/cart');
+  };
+
   return (
     <Layout>
       <div className={s.pageContainer}>
@@ -51,15 +78,19 @@ export default function Coupons() {
               </div>
               <div className={s.couponRight}>
                 <div className={s.bookIcon}>📚</div>
-                <button className={s.addButton}>Add to Cart</button>
+                <button
+                  className={s.addButton}
+                  onClick={() => handleAddCoupon(coupon)}
+                >
+                  Add to Cart
+                </button>
               </div>
             </div>
           ))}
         </div>
 
         <p className={s.note}>
-          Coupon codes will be sent to your email after purchase. Discount
-          application at checkout coming soon.
+          Coupon codes will be sent to your email after purchase.
         </p>
       </div>
     </Layout>

@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import Layout from '@/components/Layout/Layout';
 import {useAppSelector} from '@/pages/hooks';
-import {clearCart, setShowLogin} from '@/reducer';
+import {clearCart, setShowLogin, TCouponItem} from '@/reducer';
 import s from '../styles/checkout.module.scss';
 
 type ShippingAddress = {
@@ -44,6 +44,7 @@ export default function Checkout() {
   const router = useRouter();
   const dispatch = useDispatch();
   const cart = useAppSelector((state) => state.cart);
+  const coupons = useAppSelector((state) => state.coupons);
   const userCredentials = useAppSelector((state) => state.userCredentials);
 
   const [step, setStep] = useState(1);
@@ -70,11 +71,16 @@ export default function Checkout() {
   });
   const orderPlacedRef = useRef(false);
 
-  const totalPrice = cart.reduce(
+  const booksTotal = cart.reduce(
     (sum, item) =>
       sum + (item.book?.saleInfo?.listPrice?.amount ?? 0) * item.number,
     0
   );
+  const couponsTotal = coupons.reduce(
+    (sum, coupon) => sum + coupon.value * coupon.quantity,
+    0
+  );
+  const totalPrice = booksTotal + couponsTotal;
 
   // Pre-fill shipping address from profile
   useEffect(() => {
@@ -91,10 +97,10 @@ export default function Checkout() {
       router.push('/');
       return;
     }
-    if (cart.length === 0 && !orderPlacedRef.current) {
+    if (cart.length === 0 && coupons.length === 0 && !orderPlacedRef.current) {
       router.push('/cart');
     }
-  }, [userCredentials.isAuthenticated, cart.length, dispatch, router]);
+  }, [userCredentials.isAuthenticated, cart.length, coupons.length, dispatch, router]);
 
   const showToast = (message: string, type: 'success' | 'error') => {
     setToast({show: true, message, type});
@@ -497,7 +503,9 @@ export default function Checkout() {
       </div>
 
       <div className={s.reviewSection}>
-        <h3 className={s.reviewSectionTitle}>Items ({cart.length})</h3>
+        <h3 className={s.reviewSectionTitle}>
+          Items ({cart.length + coupons.length})
+        </h3>
         {cart.map((item) => {
           const thumbnail =
             item.book?.volumeInfo?.imageLinks?.thumbnail ||
@@ -529,6 +537,21 @@ export default function Checkout() {
             </div>
           );
         })}
+        {coupons.map((coupon: TCouponItem) => (
+          <div key={coupon.id} className={s.orderItemRow}>
+            <div className={s.orderItemInfo}>
+              <div className={s.orderItemTitle}>
+                Gift Coupon — {coupon.label}
+              </div>
+              <div className={s.orderItemDetails}>
+                Qty: {coupon.quantity} x ${coupon.value.toFixed(2)}
+              </div>
+            </div>
+            <div className={s.orderItemPrice}>
+              ${(coupon.value * coupon.quantity).toFixed(2)}
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className={s.orderTotal}>

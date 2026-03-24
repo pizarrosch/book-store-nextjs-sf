@@ -81,6 +81,99 @@
   }
 }
 
+// Coupon items in cart
+.couponItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5);
+  background: linear-gradient(135deg, rgba(76, 61, 178, 0.06), rgba(76, 61, 178, 0.02));
+  border: 1px solid rgba(76, 61, 178, 0.15);
+  border-radius: var(--radius-md);
+  gap: var(--space-4);
+}
+
+.couponInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.couponBadge {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-primary);
+  background: rgba(76, 61, 178, 0.1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+}
+
+.couponLabel {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.couponActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.couponCounter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--bg-primary);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-1) var(--space-2);
+
+  .counterBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    color: var(--color-gray-600);
+
+    &:hover {
+      background: var(--bg-hover);
+    }
+  }
+}
+
+.couponQty {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  min-width: 20px;
+  text-align: center;
+}
+
+.couponPrice {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  min-width: 80px;
+  text-align: right;
+}
+
+.couponTrash {
+  cursor: pointer;
+  color: var(--color-gray-400);
+  transition: color var(--transition-base);
+
+  &:hover {
+    color: var(--color-secondary);
+  }
+}
+
 @media (max-width: 768px) {
   .title {
     font-size: var(--font-size-2xl);

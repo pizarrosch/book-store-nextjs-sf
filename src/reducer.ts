@@ -272,3 +272,58 @@ export const watchlistSlice = createSlice({
 
 export const {addWatchlistItem, removeWatchlistItem, setWatchlist} =
   watchlistSlice.actions;
+
+export type TCouponItem = {
+  id: string;
+  value: number;
+  label: string;
+  quantity: number;
+};
+
+export const couponSlice = createSlice({
+  name: 'coupons',
+  initialState: [] as TCouponItem[],
+  reducers: {
+    addCoupon: (state: TCouponItem[], action: PayloadAction<TCouponItem>) => {
+      const existing = state.find((item) => item.id === action.payload.id);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        state.push({...action.payload, quantity: 1});
+      }
+    },
+    removeCoupon: (state: TCouponItem[], action: PayloadAction<string>) => {
+      const index = state.findIndex((item) => item.id === action.payload);
+      if (index !== -1) {
+        state.splice(index, 1);
+      }
+    },
+    increaseCoupon: (state: TCouponItem[], action: PayloadAction<string>) => {
+      const item = state.find((item) => item.id === action.payload);
+      if (item) {
+        item.quantity += 1;
+      }
+    },
+    decreaseCoupon: (state: TCouponItem[], action: PayloadAction<string>) => {
+      const item = state.find((item) => item.id === action.payload);
+      if (item) {
+        if (item.quantity <= 1) {
+          const index = state.findIndex((i) => i.id === action.payload);
+          state.splice(index, 1);
+        } else {
+          item.quantity -= 1;
+        }
+      }
+    },
+    clearCoupons: () => {
+      return [];
+    }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(userSlice.actions.logout, () => []);
+    builder.addCase(cartSlice.actions.clearCart, () => []);
+  }
+});
+
+export const {addCoupon, removeCoupon, increaseCoupon, decreaseCoupon, clearCoupons} =
+  couponSlice.actions;
