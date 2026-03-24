@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE `OrderItem` ADD COLUMN `couponId` VARCHAR(191) NULL,
+    ADD COLUMN `type` VARCHAR(191) NOT NULL DEFAULT 'book',
+    MODIFY `bookId` VARCHAR(191) NULL;

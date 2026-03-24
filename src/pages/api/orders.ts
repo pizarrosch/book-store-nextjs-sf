@@ -60,6 +60,8 @@ export default async function handler(
         }
       }
 
+      const isCoupon = (id: string) => id.startsWith('coupon-');
+
       const totalAmount = items.reduce(
         (sum: number, item: {price: number; quantity: number}) =>
           sum + item.price * item.quantity,
@@ -79,11 +81,20 @@ export default async function handler(
             paymentLast4,
             items: {
               create: items.map(
-                (item: {bookId: string; quantity: number; price: number}) => ({
-                  bookId: String(item.bookId),
-                  quantity: item.quantity,
-                  price: item.price
-                })
+                (item: {bookId: string; quantity: number; price: number}) =>
+                  isCoupon(item.bookId)
+                    ? {
+                        couponId: item.bookId,
+                        quantity: item.quantity,
+                        price: item.price,
+                        type: 'coupon'
+                      }
+                    : {
+                        bookId: String(item.bookId),
+                        quantity: item.quantity,
+                        price: item.price,
+                        type: 'book'
+                      }
               )
             }
           },

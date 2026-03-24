@@ -70,6 +70,7 @@ export default function Checkout() {
     type: 'success' as 'success' | 'error'
   });
   const orderPlacedRef = useRef(false);
+  const finalTotalRef = useRef(0);
 
   const booksTotal = cart.reduce(
     (sum, item) =>
@@ -184,11 +185,18 @@ export default function Checkout() {
           Authorization: `Bearer ${userCredentials.token}`
         },
         body: JSON.stringify({
-          items: cart.map((item) => ({
-            bookId: String(item.id),
-            quantity: item.number,
-            price: item.book?.saleInfo?.listPrice?.amount ?? 0
-          })),
+          items: [
+            ...cart.map((item) => ({
+              bookId: String(item.id),
+              quantity: item.number,
+              price: item.book?.saleInfo?.listPrice?.amount ?? 0
+            })),
+            ...coupons.map((coupon) => ({
+              bookId: coupon.id,
+              quantity: coupon.quantity,
+              price: coupon.value
+            }))
+          ],
           shippingAddress,
           paymentLast4: paymentData.cardNumber.replace(/\s/g, '').slice(-4)
         })
@@ -208,6 +216,7 @@ export default function Checkout() {
       }
 
       orderPlacedRef.current = true;
+      finalTotalRef.current = totalPrice;
       setOrderResult(result.data);
       dispatch(clearCart());
       setStep(4);
@@ -589,7 +598,7 @@ export default function Checkout() {
         <h2 className={s.confirmationTitle}>Order Confirmed!</h2>
         <p className={s.orderNumber}>Order #{orderResult?.id}</p>
         <p className={s.confirmationDetails}>
-          Total: ${orderResult?.totalAmount.toFixed(2)} &middot;{' '}
+          Total: ${finalTotalRef.current.toFixed(2)} &middot;{' '}
           {orderResult?.createdAt
             ? new Date(orderResult.createdAt).toLocaleDateString('en-US', {
                 year: 'numeric',

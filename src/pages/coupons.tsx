@@ -1,4 +1,3 @@
-import {useRouter} from 'next/navigation';
 import {useDispatch} from 'react-redux';
 import Layout from '@/components/Layout/Layout';
 import {useAppSelector} from '@/pages/hooks';
@@ -31,7 +30,6 @@ const COUPONS = [
 
 export default function Coupons() {
   const dispatch = useDispatch();
-  const router = useRouter();
   const userCredentials = useAppSelector((state) => state.userCredentials);
 
   const handleAddCoupon = (coupon: (typeof COUPONS)[number]) => {
@@ -47,7 +45,6 @@ export default function Coupons() {
         quantity: 1
       })
     );
-    router.push('/cart');
   };
 
   return (

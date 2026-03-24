@@ -11,6 +11,7 @@ import {
   removeCoupon,
   setShowLogin
 } from '@/reducer';
+import cartItemStyles from '../components/Cart/CartItem.module.scss';
 import s from '../styles/cart.module.scss';
 
 export default function Cart() {
@@ -45,32 +46,41 @@ export default function Cart() {
         <div className={s.itemsContainer}>
           <CartItem />
           {coupons.map((coupon) => (
-            <div className={s.couponItem} key={coupon.id}>
-              <div className={s.couponInfo}>
-                <span className={s.couponBadge}>Gift Coupon</span>
-                <span className={s.couponLabel}>{coupon.label}</span>
+            <div className={cartItemStyles.item} key={coupon.id}>
+              <div className={cartItemStyles.booksContainer}>
+                <div className={s.couponIcon}>🎟️</div>
+                <div className={cartItemStyles.bookInformation}>
+                  <span className={cartItemStyles.title}>
+                    Gift Coupon — {coupon.label}
+                  </span>
+                  <span className={cartItemStyles.author}>
+                    Digital gift coupon
+                  </span>
+                </div>
               </div>
-              <div className={s.couponActions}>
-                <div className={s.couponCounter}>
+              <div className={cartItemStyles.itemSubitems}>
+                <div className={cartItemStyles.itemAmountCounter}>
                   <button
-                    className={s.counterBtn}
+                    className={cartItemStyles.counterBtn}
                     onClick={() => dispatch(decreaseCoupon(coupon.id))}
                   >
                     <Icon icon="minus" iconSize={12} />
                   </button>
-                  <span className={s.couponQty}>{coupon.quantity}</span>
+                  <span className={cartItemStyles.itemsAmount}>
+                    {coupon.quantity}
+                  </span>
                   <button
-                    className={s.counterBtn}
+                    className={cartItemStyles.counterBtn}
                     onClick={() => dispatch(increaseCoupon(coupon.id))}
                   >
                     <Icon icon="plus" iconSize={12} />
                   </button>
                 </div>
-                <div className={s.couponPrice}>
+                <div className={cartItemStyles.price}>
                   ${(coupon.value * coupon.quantity).toFixed(2)}
                 </div>
                 <div
-                  className={s.couponTrash}
+                  className={cartItemStyles.trash}
                   onClick={() => dispatch(removeCoupon(coupon.id))}
                 >
                   <Icon icon="trash" />

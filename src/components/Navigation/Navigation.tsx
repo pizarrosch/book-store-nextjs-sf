@@ -26,6 +26,9 @@ type SearchResult = {
 
 export default function Navigation() {
   const cart = useAppSelector((state) => state.cart);
+  const coupons = useAppSelector((state) => state.coupons);
+  const cartItemCount =
+    cart.length + coupons.reduce((sum, c) => sum + c.quantity, 0);
   const userData = useAppSelector((state) => state.userCredentials);
   const router = useRouter();
   const pathname = usePathname();
@@ -215,12 +218,12 @@ export default function Navigation() {
           <Link
             href="/cart"
             className={s.iconButton}
-            aria-label={`Shopping cart with ${cart.length} item${cart.length !== 1 ? 's' : ''}`}
+            aria-label={`Shopping cart with ${cartItemCount} item${cartItemCount !== 1 ? 's' : ''}`}
           >
             <Icon icon="shopping-cart" size={20} />
-            {cart.length > 0 && (
+            {cartItemCount > 0 && (
               <span className={s.badge} role="status">
-                {cart.length}
+                {cartItemCount}
               </span>
             )}
           </Link>
