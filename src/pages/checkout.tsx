@@ -101,7 +101,13 @@ export default function Checkout() {
     if (cart.length === 0 && coupons.length === 0 && !orderPlacedRef.current) {
       router.push('/cart');
     }
-  }, [userCredentials.isAuthenticated, cart.length, coupons.length, dispatch, router]);
+  }, [
+    userCredentials.isAuthenticated,
+    cart.length,
+    coupons.length,
+    dispatch,
+    router
+  ]);
 
   const showToast = (message: string, type: 'success' | 'error') => {
     setToast({show: true, message, type});

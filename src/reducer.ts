@@ -325,5 +325,10 @@ export const couponSlice = createSlice({
   }
 });
 
-export const {addCoupon, removeCoupon, increaseCoupon, decreaseCoupon, clearCoupons} =
-  couponSlice.actions;
+export const {
+  addCoupon,
+  removeCoupon,
+  increaseCoupon,
+  decreaseCoupon,
+  clearCoupons
+} = couponSlice.actions;
