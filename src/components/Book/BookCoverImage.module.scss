@@ -20,12 +20,26 @@
 
 @media (max-width: 768px) {
   .coverWrapper {
-    height: 280px;
+    width: 150px;
+    height: 225px;
+  }
+
+  .bookCover {
+    width: 150px !important;
+    height: 225px !important;
   }
 }
 
 @media (max-width: 480px) {
   .coverWrapper {
-    height: 260px;
+    width: 100%;
+    max-width: 140px;
+    height: 210px;
+  }
+
+  .bookCover {
+    width: 100% !important;
+    max-width: 140px !important;
+    height: 210px !important;
   }
 }

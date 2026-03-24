@@ -24,6 +24,8 @@
   }
 
   .filterSection {
+    flex-direction: column;
+    align-items: stretch;
     margin-top: var(--space-4);
   }
 }
