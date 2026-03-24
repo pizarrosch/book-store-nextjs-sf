@@ -4,6 +4,7 @@
   padding: var(--space-8) var(--space-6);
   background-color: var(--bg-primary);
   overflow-x: hidden;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     padding: var(--space-5) var(--space-4);
@@ -46,6 +47,8 @@
   gap: var(--space-8);
   align-items: start;
   width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 
   @media (max-width: 1023px) {
     grid-template-columns: 45% 1fr;
@@ -75,6 +78,8 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xl);
   transition: transform var(--transition-slow);
+  max-width: 100%;
+  height: auto;
 
   &:hover {
     transform: scale(1.02);
@@ -86,6 +91,8 @@
   flex-direction: column;
   gap: var(--space-5);
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
