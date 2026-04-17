@@ -48,7 +48,7 @@
   align-items: start;
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
+  overflow: visible;
 
   @media (max-width: 1023px) {
     grid-template-columns: 45% 1fr;
