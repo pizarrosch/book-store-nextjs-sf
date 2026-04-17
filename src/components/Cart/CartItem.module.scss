@@ -114,7 +114,8 @@
   flex-shrink: 0;
 
   .coverImage {
-    width: 100px;
+    width: 100px !important;
+    height: auto !important;
     box-shadow: var(--shadow-lg);
     border-radius: var(--radius-md);
     overflow: hidden;
