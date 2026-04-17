@@ -536,11 +536,11 @@ export default function Profile() {
             </div>
 
             <div className={s.formContent}>
-              {/* Name */}
-              <div className={s.fieldGroup}>
-                <label className={s.fieldLabel}>Full Name</label>
-                {isEditingInfo ? (
-                  <>
+              {isEditingInfo ? (
+                <div className={s.editingSection}>
+                  {/* Name */}
+                  <div className={s.fieldGroup}>
+                    <label className={s.fieldLabel}>Full Name</label>
                     <input
                       type="text"
                       className={`${s.formInput} ${errors.name ? s.invalid : ''}`}
@@ -553,23 +553,11 @@ export default function Profile() {
                     {errors.name && (
                       <span className={s.errorText}>{errors.name}</span>
                     )}
-                  </>
-                ) : (
-                  <div className={s.fieldValue}>{userData.name}</div>
-                )}
-              </div>
+                  </div>
 
-              {/* Email */}
-              <div className={s.fieldGroup}>
-                <label className={s.fieldLabel}>Email Address</label>
-                <div className={s.fieldValue}>{userData.email}</div>
-              </div>
-
-              {/* Bio */}
-              <div className={s.fieldGroup}>
-                <label className={s.fieldLabel}>Bio</label>
-                {isEditingInfo ? (
-                  <>
+                  {/* Bio */}
+                  <div className={s.fieldGroup}>
+                    <label className={s.fieldLabel}>Bio</label>
                     <textarea
                       className={`${s.formInput} ${s.formTextarea} ${errors.bio ? s.invalid : ''}`}
                       value={formData.bio}
@@ -593,55 +581,73 @@ export default function Profile() {
                     {errors.bio && (
                       <span className={s.errorText}>{errors.bio}</span>
                     )}
-                  </>
-                ) : (
-                  <div
-                    className={`${s.fieldValue} ${!userData.bio ? s.fieldValueMuted : ''}`}
-                  >
-                    {userData.bio || 'No bio added yet'}
                   </div>
-                )}
-              </div>
 
-              {/* Phone */}
-              <div className={s.fieldGroup}>
-                <label className={s.fieldLabel}>Phone Number</label>
-                {isEditingInfo ? (
-                  <input
-                    type="tel"
-                    className={s.formInput}
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData({...formData, phone: e.target.value})
-                    }
-                    placeholder="Enter your phone number"
-                  />
-                ) : (
-                  <div
-                    className={`${s.fieldValue} ${!userData.phone ? s.fieldValueMuted : ''}`}
-                  >
-                    {userData.phone || 'No phone number added'}
+                  {/* Phone */}
+                  <div className={s.fieldGroup}>
+                    <label className={s.fieldLabel}>Phone Number</label>
+                    <input
+                      type="tel"
+                      className={s.formInput}
+                      value={formData.phone}
+                      onChange={(e) =>
+                        setFormData({...formData, phone: e.target.value})
+                      }
+                      placeholder="Enter your phone number"
+                    />
                   </div>
-                )}
-              </div>
 
-              {isEditingInfo && (
-                <div className={s.buttonGroup}>
-                  <button
-                    className={`${s.button} ${s.primaryButton}`}
-                    onClick={handleSaveInfo}
-                    disabled={isLoading}
-                  >
-                    {isLoading ? 'Saving...' : 'Save Changes'}
-                  </button>
-                  <button
-                    className={`${s.button} ${s.secondaryButton}`}
-                    onClick={handleCancelInfo}
-                    disabled={isLoading}
-                  >
-                    Cancel
-                  </button>
+                  <div className={s.buttonGroup}>
+                    <button
+                      className={`${s.button} ${s.primaryButton}`}
+                      onClick={handleSaveInfo}
+                      disabled={isLoading}
+                    >
+                      {isLoading ? 'Saving...' : 'Save Changes'}
+                    </button>
+                    <button
+                      className={`${s.button} ${s.secondaryButton}`}
+                      onClick={handleCancelInfo}
+                      disabled={isLoading}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
+              ) : (
+                <>
+                  {/* Name */}
+                  <div className={s.fieldGroup}>
+                    <label className={s.fieldLabel}>Full Name</label>
+                    <div className={s.fieldValue}>{userData.name}</div>
+                  </div>
+
+                  {/* Email */}
+                  <div className={s.fieldGroup}>
+                    <label className={s.fieldLabel}>Email Address</label>
+                    <div className={s.fieldValue}>{userData.email}</div>
+                  </div>
+
+                  {/* Bio */}
+                  <div className={s.fieldGroup}>
+                    <label className={s.fieldLabel}>Bio</label>
+                    <div
+                      className={`${s.fieldValue} ${!userData.bio ? s.fieldValueMuted : ''}`}
+                    >
+                      {userData.bio || 'No bio added yet'}
+                    </div>
+                  </div>
+
+                  {/* Phone */}
+                  <div className={s.fieldGroup}>
+                    <label className={s.fieldLabel}>Phone Number</label>
+                    <div
+                      className={`${s.fieldValue} ${!userData.phone ? s.fieldValueMuted : ''}`}
+                    >
+                      {userData.phone || 'No phone number added'}
+                    </div>
+                  </div>
+                </>
               )}
             </div>
           </div>
@@ -662,7 +668,7 @@ export default function Profile() {
 
             <div className={s.formContent}>
               {isEditingAddress ? (
-                <>
+                <div className={s.editingSection}>
                   <div className={s.addressGrid}>
                     <div className={`${s.fieldGroup} ${s.fullWidth}`}>
                       <label className={s.fieldLabel}>Street Address</label>
@@ -821,7 +827,7 @@ export default function Profile() {
                       Cancel
                     </button>
                   </div>
-                </>
+                </div>
               ) : userData.shippingAddress ? (
                 <div className={s.addressGrid}>
                   <div className={`${s.fieldGroup} ${s.fullWidth}`}>
@@ -887,7 +893,7 @@ export default function Profile() {
 
             {showPasswordForm && (
               <div className={s.securityContent}>
-                <div className={s.formContent}>
+                <div className={`${s.formContent} ${s.editingSection}`}>
                   <div className={s.fieldGroup}>
                     <label className={s.fieldLabel}>Current Password</label>
                     <input

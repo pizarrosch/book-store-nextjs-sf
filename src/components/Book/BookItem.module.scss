@@ -79,7 +79,7 @@
   box-shadow: var(--shadow-xl);
   transition: transform var(--transition-slow);
   max-width: 100%;
-  height: auto;
+  height: 600px;
 
   &:hover {
     transform: scale(1.02);

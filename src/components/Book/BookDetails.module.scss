@@ -48,6 +48,11 @@
     .rating {
       display: flex;
       gap: 1px;
+
+      img {
+        transform: none !important;
+        box-shadow: none !important;
+      }
     }
 
     span {
