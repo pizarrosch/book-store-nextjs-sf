@@ -5,4 +5,6 @@ import {TClicked} from '@/reducer';
 export type BookDetailsProps = bookData & {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   buyIndex: TClicked | undefined;
+  isInWatchlist?: boolean;
+  onToggleWatchlist?: () => void;
 };

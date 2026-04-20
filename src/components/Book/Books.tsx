@@ -12,7 +12,13 @@ import BookDetails from '@/components/Book/BookDetails';
 import CoverImage from '@/components/Book/CoverImage';
 import Pagination from '@/components/Pagination/Pagination';
 import {useAppSelector} from '@/pages/hooks';
-import {addBook, addCartItem, TClicked} from '@/reducer';
+import {
+  addBook,
+  addCartItem,
+  addWatchlistItem,
+  removeWatchlistItem,
+  TClicked
+} from '@/reducer';
 import s from './Books.module.scss';
 
 type imageAddress = {
@@ -61,6 +67,7 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
   const buyButtonState = useAppSelector((state) => state.clickedItem);
   const userCredentials = useAppSelector((state) => state.userCredentials);
   const cart = useAppSelector((state) => state.cart);
+  const watchlist = useAppSelector((state) => state.watchlist);
 
   const [books, setBooks] = useState<Array<bookData>>([]);
   const [localTotalPages, setLocalTotalPages] = useState<number>(0);
@@ -137,6 +144,15 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
     );
   }
 
+  function handleToggleWatchlist(book: bookData) {
+    const isInWatchlist = watchlist.some((item) => item.id === String(book.id));
+    if (isInWatchlist) {
+      dispatch(removeWatchlistItem(String(book.id)));
+    } else {
+      dispatch(addWatchlistItem({id: String(book.id), book}));
+    }
+  }
+
   return (
     <div className={s.booksContainer}>
       {isLoading ? (
@@ -150,6 +166,9 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
               const buyIndex = buyButtonState.find(
                 (item: TClicked) => item.id === String(book.id)
               );
+              const isInWatchlist = watchlist.some(
+                (item) => item.id === String(book.id)
+              );
               return (
                 <div className={s.book} data-index={book.id} key={id}>
                   <Link href={`/books/${book.id}`}>
@@ -158,6 +177,8 @@ function Books({category, page, setPage, setTotalPages}: TBookCategory) {
                       {...book}
                       onClick={onBuyClick}
                       buyIndex={buyIndex}
+                      isInWatchlist={isInWatchlist}
+                      onToggleWatchlist={() => handleToggleWatchlist(book)}
                     />
                   </Link>
                 </div>

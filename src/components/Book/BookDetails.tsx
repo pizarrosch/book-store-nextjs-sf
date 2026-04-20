@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
+import WatchlistBookmark from '@/components/Book/WatchlistBookmark';
 import {BookDetailsProps} from '@/types';
 import unfilledStar from '../../../public/assets/Star.svg';
 import filledStar from '../../../public/assets/star-filled.svg';
@@ -12,11 +13,6 @@ export default function BookDetails(details: BookDetailsProps) {
         {details.volumeInfo?.authors?.join(', ') || 'Unknown Author'}
       </span>
       <h2 className={s.title}>{details.volumeInfo?.title}</h2>
-      <span className={s.price}>
-        {details.saleInfo?.listPrice
-          ? '$' + details.saleInfo?.listPrice.amount
-          : 'out of stock'}
-      </span>
       <div
         className={s.ratingsWrapper}
         aria-label={`Rated ${details.volumeInfo?.averageRating || 0} out of 5 stars`}
@@ -41,6 +37,21 @@ export default function BookDetails(details: BookDetailsProps) {
             ? `${details.volumeInfo.ratingsCount} ${details.volumeInfo.ratingsCount === 1 ? 'review' : 'reviews'}`
             : 'No reviews yet'}
         </span>
+      </div>
+      <div className={s.priceRow}>
+        <span className={s.price}>
+          {details.saleInfo?.listPrice
+            ? '$' + details.saleInfo?.listPrice.amount
+            : 'out of stock'}
+        </span>
+        {details.onToggleWatchlist && (
+          <WatchlistBookmark
+            isActive={!!details.isInWatchlist}
+            onToggle={details.onToggleWatchlist}
+            size={14}
+            variant="compact"
+          />
+        )}
       </div>
     </div>
   );

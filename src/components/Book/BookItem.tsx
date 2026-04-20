@@ -3,6 +3,7 @@ import Image from 'next/image';
 import {useRouter} from 'next/router';
 import React, {useState} from 'react';
 import {bookData} from '@/components/Book/Books';
+import WatchlistBookmark from '@/components/Book/WatchlistBookmark';
 import {useAppDispatch, useAppSelector} from '@/pages/hooks';
 import {
   addBook,
@@ -27,7 +28,6 @@ export default function BookItem({book}: BookItemProps) {
   const cart = useAppSelector((state) => state.cart);
   const watchlist = useAppSelector((state) => state.watchlist);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isHeartAnimating, setIsHeartAnimating] = useState(false);
 
   // Check if book is already in cart or watchlist
   const isInCart = cart.some((item) => item.id === String(book.id));
@@ -57,8 +57,6 @@ export default function BookItem({book}: BookItemProps) {
 
   // Handle toggle watchlist
   const handleToggleWatchlist = () => {
-    setIsHeartAnimating(true);
-    setTimeout(() => setIsHeartAnimating(false), 350);
     if (isInWatchlist) {
       dispatch(removeWatchlistItem(String(book.id)));
     } else {
@@ -178,24 +176,10 @@ export default function BookItem({book}: BookItemProps) {
             >
               {isInCart ? 'Remove from Cart' : 'Add to Cart'}
             </button>
-            <button
-              onClick={handleToggleWatchlist}
-              className={isInWatchlist ? s.bookmarkBtnActive : s.bookmarkBtn}
-              aria-label={
-                isInWatchlist ? 'Remove from watchlist' : 'Add to watchlist'
-              }
-            >
-              <Icon
-                icon="heart"
-                size={22}
-                color={
-                  isInWatchlist
-                    ? 'var(--color-primary)'
-                    : 'var(--color-gray-400)'
-                }
-                className={isHeartAnimating ? s.heartAnimate : undefined}
-              />
-            </button>
+            <WatchlistBookmark
+              isActive={isInWatchlist}
+              onToggle={handleToggleWatchlist}
+            />
           </div>
         </div>
       </div>
