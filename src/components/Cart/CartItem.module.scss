@@ -115,7 +115,10 @@
 
   .coverImage {
     width: 100px !important;
+    min-width: 100px;
     height: 140px !important;
+    min-height: 140px;
+    max-height: 140px;
     object-fit: cover;
     box-shadow: var(--shadow-lg);
     border-radius: var(--radius-md);
