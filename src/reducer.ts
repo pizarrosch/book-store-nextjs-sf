@@ -273,6 +273,33 @@ export const watchlistSlice = createSlice({
 export const {addWatchlistItem, removeWatchlistItem, setWatchlist} =
   watchlistSlice.actions;
 
+export type TReview = {
+  id: string;
+  bookId: string;
+  text: string;
+  sentiment: 'positive' | 'negative';
+  author: string;
+  createdAt: string;
+};
+
+export const reviewsSlice = createSlice({
+  name: 'reviews',
+  initialState: [] as TReview[],
+  reducers: {
+    addReview: (state: TReview[], action: PayloadAction<TReview>) => {
+      state.push(action.payload);
+    },
+    removeReview: (state: TReview[], action: PayloadAction<string>) => {
+      const index = state.findIndex((item) => item.id === action.payload);
+      if (index !== -1) {
+        state.splice(index, 1);
+      }
+    }
+  }
+});
+
+export const {addReview, removeReview} = reviewsSlice.actions;
+
 export type TCouponItem = {
   id: string;
   value: number;

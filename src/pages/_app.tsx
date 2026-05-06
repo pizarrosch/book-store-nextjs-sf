@@ -22,7 +22,8 @@ import {
   userSlice,
   clickedItemSlice,
   watchlistSlice,
-  couponSlice
+  couponSlice,
+  reviewsSlice
 } from '@/reducer';
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -35,7 +36,8 @@ const reducer = combineReducers({
   userCredentials: userSlice.reducer,
   clickedItem: clickedItemSlice.reducer,
   watchlist: watchlistSlice.reducer,
-  coupons: couponSlice.reducer
+  coupons: couponSlice.reducer,
+  reviews: reviewsSlice.reducer
 });
 
 const persistConfig = {

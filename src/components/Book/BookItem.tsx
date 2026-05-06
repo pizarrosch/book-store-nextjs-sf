@@ -7,9 +7,13 @@ import {useAppDispatch, useAppSelector} from '@/pages/hooks';
 import {
   addBook,
   addCartItem,
+  addReview,
   addWatchlistItem,
   removeCartItem,
-  removeWatchlistItem
+  removeReview,
+  removeWatchlistItem,
+  setShowLogin,
+  TReview
 } from '@/reducer';
 import unfilledStar from '../../../public/assets/Star.svg';
 import noCoverBook from '../../../public/assets/no-cover.jpg';
@@ -28,6 +32,13 @@ export default function BookItem({book}: BookItemProps) {
   const watchlist = useAppSelector((state) => state.watchlist);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHeartAnimating, setIsHeartAnimating] = useState(false);
+  const [reviewText, setReviewText] = useState('');
+  const [reviewSentiment, setReviewSentiment] = useState<'positive' | 'negative' | null>(null);
+
+  const allReviews = useAppSelector((state) => state.reviews);
+  const bookReviews = allReviews.filter((r: TReview) => r.bookId === String(book.id));
+  const userName = useAppSelector((state) => state.userCredentials.name);
+  const isAuthenticated = useAppSelector((state) => state.userCredentials.isAuthenticated);
 
   // Check if book is already in cart or watchlist
   const isInCart = cart.some((item) => item.id === String(book.id));
@@ -69,6 +80,22 @@ export default function BookItem({book}: BookItemProps) {
         })
       );
     }
+  };
+
+  const handleSubmitReview = () => {
+    if (!reviewText.trim() || !reviewSentiment) return;
+    dispatch(
+      addReview({
+        id: Date.now().toString(),
+        bookId: String(book.id),
+        text: reviewText.trim(),
+        sentiment: reviewSentiment,
+        author: userName || 'Anonymous',
+        createdAt: new Date().toISOString()
+      })
+    );
+    setReviewText('');
+    setReviewSentiment(null);
   };
 
   // Get the image URL with priority: custom cover > Google thumbnail > fallback
@@ -198,6 +225,148 @@ export default function BookItem({book}: BookItemProps) {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Reviews Section */}
+      <div className={s.reviewsSection}>
+        <h2 className={s.reviewsHeading}>
+          Community Reviews
+          {bookReviews.length > 0 && (
+            <span className={s.reviewsBadge}>{bookReviews.length}</span>
+          )}
+        </h2>
+
+        {/* Sentiment summary bar */}
+        {bookReviews.length > 0 && (() => {
+          const positiveCount = bookReviews.filter((r: TReview) => r.sentiment === 'positive').length;
+          const negativeCount = bookReviews.length - positiveCount;
+          const positivePercent = Math.round((positiveCount / bookReviews.length) * 100);
+          return (
+            <div className={s.summaryBar}>
+              <div className={s.summaryBarTrack}>
+                {positivePercent > 0 && (
+                  <div
+                    className={s.summaryBarPositive}
+                    style={{width: `${positivePercent}%`}}
+                  />
+                )}
+                {positivePercent < 100 && (
+                  <div
+                    className={s.summaryBarNegative}
+                    style={{width: `${100 - positivePercent}%`}}
+                  />
+                )}
+              </div>
+              <div className={s.summaryBarLabels}>
+                <span className={s.summaryLabelPositive}>👍 {positiveCount} positive</span>
+                <span className={s.summaryLabelNegative}>{negativeCount} negative 👎</span>
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* Write a review */}
+        {isAuthenticated ? (
+          <div className={s.reviewForm}>
+            <textarea
+              className={s.reviewTextarea}
+              placeholder="Share your thoughts about this book..."
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              rows={3}
+              maxLength={1000}
+            />
+            <div className={s.reviewFormFooter}>
+              <div className={s.sentimentToggle}>
+                <button
+                  className={`${s.sentimentBtn} ${reviewSentiment === 'positive' ? s.sentimentPositiveActive : ''}`}
+                  onClick={() => setReviewSentiment(reviewSentiment === 'positive' ? null : 'positive')}
+                  type="button"
+                  aria-pressed={reviewSentiment === 'positive'}
+                >
+                  👍 Positive
+                </button>
+                <button
+                  className={`${s.sentimentBtn} ${reviewSentiment === 'negative' ? s.sentimentNegativeActive : ''}`}
+                  onClick={() => setReviewSentiment(reviewSentiment === 'negative' ? null : 'negative')}
+                  type="button"
+                  aria-pressed={reviewSentiment === 'negative'}
+                >
+                  👎 Negative
+                </button>
+              </div>
+              <button
+                className={s.submitReviewBtn}
+                onClick={handleSubmitReview}
+                disabled={!reviewText.trim() || !reviewSentiment}
+              >
+                Post Review
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className={s.reviewGuestPrompt}>
+            <p>
+              Want to share your thoughts?{' '}
+              <button
+                className={s.reviewGuestLink}
+                onClick={() => dispatch(setShowLogin(true))}
+              >
+                Sign in
+              </button>{' '}
+              or{' '}
+              <button
+                className={s.reviewGuestLink}
+                onClick={() => dispatch(setShowLogin(true))}
+              >
+                create an account
+              </button>{' '}
+              to write a review.
+            </p>
+          </div>
+        )}
+
+        {/* Review list */}
+        {bookReviews.length === 0 ? (
+          <p className={s.noReviews}>No reviews yet. Be the first to share your thoughts!</p>
+        ) : (
+          <div className={s.reviewList}>
+            {[...bookReviews].reverse().map((review: TReview) => (
+              <div
+                key={review.id}
+                className={`${s.reviewCard} ${review.sentiment === 'positive' ? s.reviewPositive : s.reviewNegative}`}
+              >
+                <div className={s.reviewHeader}>
+                  <div className={s.reviewMeta}>
+                    <span className={s.reviewAuthor}>{review.author}</span>
+                    <span className={s.reviewDate}>
+                      {new Date(review.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      })}
+                    </span>
+                  </div>
+                  <div className={s.reviewActions}>
+                    <span className={`${s.sentimentLabel} ${review.sentiment === 'positive' ? s.sentimentLabelPositive : s.sentimentLabelNegative}`}>
+                      {review.sentiment === 'positive' ? '👍 Positive' : '👎 Negative'}
+                    </span>
+                    {(review.author === (userName || 'Anonymous')) && (
+                      <button
+                        className={s.deleteReviewBtn}
+                        onClick={() => dispatch(removeReview(review.id))}
+                        aria-label="Delete review"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <p className={s.reviewText}>{review.text}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
