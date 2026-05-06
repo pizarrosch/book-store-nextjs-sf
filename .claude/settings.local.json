@@ -25,7 +25,8 @@
       "Bash(npm run build:*)",
       "Bash(npx eslint:*)",
       "Bash(ls:*)",
-      "Bash(npx prettier:*)"
+      "Bash(npx prettier:*)",
+      "Bash(git *)"
     ],
     "deny": [
       "Bash(npx prisma migrate reset:*)",
