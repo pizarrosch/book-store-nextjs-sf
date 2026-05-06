@@ -351,46 +351,71 @@
   font-weight: var(--font-weight-semibold);
 }
 
-.summaryBar {
+.summaryBars {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
   margin-bottom: var(--space-6);
 }
 
+.summaryRow {
+  display: grid;
+  grid-template-columns: 72px 1fr 24px;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.summaryRowLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  text-align: right;
+}
+
+.summaryLabelPositive {
+  color: #155724;
+}
+
+.summaryLabelNeutral {
+  color: #3d5a80;
+}
+
+.summaryLabelNegative {
+  color: #721c24;
+}
+
 .summaryBarTrack {
-  display: flex;
   height: 10px;
   border-radius: 999px;
-  overflow: hidden;
   background-color: var(--color-gray-200);
+  overflow: hidden;
 }
 
 .summaryBarPositive {
+  height: 100%;
+  border-radius: 999px;
   background-color: #28a745;
   transition: width 0.4s ease;
 }
 
+.summaryBarNeutral {
+  height: 100%;
+  border-radius: 999px;
+  background-color: #5b8dee;
+  transition: width 0.4s ease;
+}
+
 .summaryBarNegative {
+  height: 100%;
+  border-radius: 999px;
   background-color: #dc3545;
   transition: width 0.4s ease;
 }
 
-.summaryBarLabels {
-  display: flex;
-  justify-content: space-between;
-}
-
-.summaryLabelPositive {
+.summaryRowCount {
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: #155724;
-}
-
-.summaryLabelNegative {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: #721c24;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-600);
+  text-align: left;
 }
 
 .reviewForm {
@@ -479,6 +504,18 @@
     background-color: #c3e6cb;
     border-color: #28a745;
     color: #155724;
+  }
+}
+
+.sentimentNeutralActive {
+  background-color: #dce8fc;
+  border-color: #5b8dee;
+  color: #3d5a80;
+
+  &:hover {
+    background-color: #c9d9f9;
+    border-color: #5b8dee;
+    color: #3d5a80;
   }
 }
 
@@ -641,6 +678,11 @@
   border-color: #f5c6cb;
 }
 
+.reviewNeutral {
+  background-color: #f0f4ff;
+  border-color: #c9d9f9;
+}
+
 .reviewHeader {
   display: flex;
   align-items: center;
@@ -683,6 +725,11 @@
 .sentimentLabelPositive {
   background-color: #c3e6cb;
   color: #155724;
+}
+
+.sentimentLabelNeutral {
+  background-color: #c9d9f9;
+  color: #3d5a80;
 }
 
 .sentimentLabelNegative {

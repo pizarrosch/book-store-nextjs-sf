@@ -277,7 +277,7 @@ export type TReview = {
   id: string;
   bookId: string;
   text: string;
-  sentiment: 'positive' | 'negative';
+  sentiment: 'positive' | 'negative' | 'neutral';
   author: string;
   createdAt: string;
   upvotes: string[];

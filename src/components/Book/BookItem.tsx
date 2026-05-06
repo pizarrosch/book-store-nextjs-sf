@@ -34,8 +34,8 @@ export default function BookItem({book}: BookItemProps) {
   const watchlist = useAppSelector((state) => state.watchlist);
   const [isExpanded, setIsExpanded] = useState(false);
   const [reviewText, setReviewText] = useState('');
-  const [reviewSentiment, setReviewSentiment] = useState<'positive' | 'negative' | null>(null);
-  const [reviewFilter, setReviewFilter] = useState<'all' | 'positive' | 'negative'>('all');
+  const [reviewSentiment, setReviewSentiment] = useState<'positive' | 'negative' | 'neutral' | null>(null);
+  const [reviewFilter, setReviewFilter] = useState<'all' | 'positive' | 'negative' | 'neutral'>('all');
 
   const allReviews = useAppSelector((state) => state.reviews);
   const bookReviews = allReviews.filter((r: TReview) => r.bookId === String(book.id));
@@ -226,31 +226,43 @@ export default function BookItem({book}: BookItemProps) {
           )}
         </h2>
 
-        {/* Sentiment summary bar */}
+        {/* Sentiment summary bars */}
         {bookReviews.length > 0 && (() => {
-          const positiveCount = bookReviews.filter((r: TReview) => r.sentiment === 'positive').length;
-          const negativeCount = bookReviews.length - positiveCount;
-          const positivePercent = Math.round((positiveCount / bookReviews.length) * 100);
+          const counts = {
+            positive: bookReviews.filter((r: TReview) => r.sentiment === 'positive').length,
+            neutral: bookReviews.filter((r: TReview) => r.sentiment === 'neutral').length,
+            negative: bookReviews.filter((r: TReview) => r.sentiment === 'negative').length,
+          };
+          const sorted = (['positive', 'neutral', 'negative'] as const)
+            .slice()
+            .sort((a, b) => counts[b] - counts[a]);
+          const max = Math.max(...Object.values(counts), 1);
+          const barClass: Record<string, string> = {
+            positive: s.summaryBarPositive,
+            neutral: s.summaryBarNeutral,
+            negative: s.summaryBarNegative,
+          };
+          const labelClass: Record<string, string> = {
+            positive: s.summaryLabelPositive,
+            neutral: s.summaryLabelNeutral,
+            negative: s.summaryLabelNegative,
+          };
           return (
-            <div className={s.summaryBar}>
-              <div className={s.summaryBarTrack}>
-                {positivePercent > 0 && (
-                  <div
-                    className={s.summaryBarPositive}
-                    style={{width: `${positivePercent}%`}}
-                  />
-                )}
-                {positivePercent < 100 && (
-                  <div
-                    className={s.summaryBarNegative}
-                    style={{width: `${100 - positivePercent}%`}}
-                  />
-                )}
-              </div>
-              <div className={s.summaryBarLabels}>
-                <span className={s.summaryLabelPositive}>👍 {positiveCount} positive</span>
-                <span className={s.summaryLabelNegative}>{negativeCount} negative 👎</span>
-              </div>
+            <div className={s.summaryBars}>
+              {sorted.map((sentiment) => (
+                <div key={sentiment} className={s.summaryRow}>
+                  <span className={`${s.summaryRowLabel} ${labelClass[sentiment]}`}>
+                    {sentiment.charAt(0).toUpperCase() + sentiment.slice(1)}
+                  </span>
+                  <div className={s.summaryBarTrack}>
+                    <div
+                      className={barClass[sentiment]}
+                      style={{width: `${Math.round((counts[sentiment] / max) * 100)}%`}}
+                    />
+                  </div>
+                  <span className={s.summaryRowCount}>{counts[sentiment]}</span>
+                </div>
+              ))}
             </div>
           );
         })()}
@@ -274,7 +286,15 @@ export default function BookItem({book}: BookItemProps) {
                   type="button"
                   aria-pressed={reviewSentiment === 'positive'}
                 >
-                  👍 Positive
+                  Positive
+                </button>
+                <button
+                  className={`${s.sentimentBtn} ${reviewSentiment === 'neutral' ? s.sentimentNeutralActive : ''}`}
+                  onClick={() => setReviewSentiment(reviewSentiment === 'neutral' ? null : 'neutral')}
+                  type="button"
+                  aria-pressed={reviewSentiment === 'neutral'}
+                >
+                  Neutral
                 </button>
                 <button
                   className={`${s.sentimentBtn} ${reviewSentiment === 'negative' ? s.sentimentNegativeActive : ''}`}
@@ -282,7 +302,7 @@ export default function BookItem({book}: BookItemProps) {
                   type="button"
                   aria-pressed={reviewSentiment === 'negative'}
                 >
-                  👎 Negative
+                  Negative
                 </button>
               </div>
               <button
@@ -319,15 +339,14 @@ export default function BookItem({book}: BookItemProps) {
         {/* Filter tabs */}
         {bookReviews.length > 0 && (
           <div className={s.filterTabs}>
-            {(['all', 'positive', 'negative'] as const).map((f) => (
+            {(['all', 'positive', 'neutral', 'negative'] as const).map((f) => (
               <button
                 key={f}
                 className={`${s.filterTab} ${reviewFilter === f ? s.filterTabActive : ''}`}
                 onClick={() => setReviewFilter(f)}
               >
                 {f === 'all' && `All (${bookReviews.length})`}
-                {f === 'positive' && `👍 Positive (${bookReviews.filter((r: TReview) => r.sentiment === 'positive').length})`}
-                {f === 'negative' && `👎 Negative (${bookReviews.filter((r: TReview) => r.sentiment === 'negative').length})`}
+                {f !== 'all' && `${f.charAt(0).toUpperCase() + f.slice(1)} (${bookReviews.filter((r: TReview) => r.sentiment === f).length})`}
               </button>
             ))}
           </div>
@@ -347,7 +366,7 @@ export default function BookItem({book}: BookItemProps) {
             {filtered.map((review: TReview) => (
               <div
                 key={review.id}
-                className={`${s.reviewCard} ${review.sentiment === 'positive' ? s.reviewPositive : s.reviewNegative}`}
+                className={`${s.reviewCard} ${review.sentiment === 'positive' ? s.reviewPositive : review.sentiment === 'negative' ? s.reviewNegative : s.reviewNeutral}`}
               >
                 <div className={s.reviewHeader}>
                   <div className={s.reviewMeta}>
@@ -361,8 +380,8 @@ export default function BookItem({book}: BookItemProps) {
                     </span>
                   </div>
                   <div className={s.reviewActions}>
-                    <span className={`${s.sentimentLabel} ${review.sentiment === 'positive' ? s.sentimentLabelPositive : s.sentimentLabelNegative}`}>
-                      {review.sentiment === 'positive' ? '👍 Positive' : '👎 Negative'}
+                    <span className={`${s.sentimentLabel} ${review.sentiment === 'positive' ? s.sentimentLabelPositive : review.sentiment === 'negative' ? s.sentimentLabelNegative : s.sentimentLabelNeutral}`}>
+                      {review.sentiment.charAt(0).toUpperCase() + review.sentiment.slice(1)}
                     </span>
                     {(review.author === (userName || 'Anonymous')) && (
                       <button
