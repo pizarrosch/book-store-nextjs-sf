@@ -14,7 +14,8 @@ import {
   removeReview,
   removeWatchlistItem,
   setShowLogin,
-  TReview
+  TReview,
+  voteReview
 } from '@/reducer';
 import unfilledStar from '../../../public/assets/Star.svg';
 import noCoverBook from '../../../public/assets/no-cover.jpg';
@@ -34,11 +35,14 @@ export default function BookItem({book}: BookItemProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [reviewText, setReviewText] = useState('');
   const [reviewSentiment, setReviewSentiment] = useState<'positive' | 'negative' | null>(null);
+  const [reviewFilter, setReviewFilter] = useState<'all' | 'positive' | 'negative'>('all');
 
   const allReviews = useAppSelector((state) => state.reviews);
   const bookReviews = allReviews.filter((r: TReview) => r.bookId === String(book.id));
   const userName = useAppSelector((state) => state.userCredentials.name);
+  const userId = useAppSelector((state) => state.userCredentials.id);
   const isAuthenticated = useAppSelector((state) => state.userCredentials.isAuthenticated);
+  const voterId = userId || userName || null;
 
   // Check if book is already in cart or watchlist
   const isInCart = cart.some((item) => item.id === String(book.id));
@@ -89,7 +93,9 @@ export default function BookItem({book}: BookItemProps) {
         text: reviewText.trim(),
         sentiment: reviewSentiment,
         author: userName || 'Anonymous',
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        upvotes: [],
+        downvotes: []
       })
     );
     setReviewText('');
@@ -310,12 +316,35 @@ export default function BookItem({book}: BookItemProps) {
           </div>
         )}
 
+        {/* Filter tabs */}
+        {bookReviews.length > 0 && (
+          <div className={s.filterTabs}>
+            {(['all', 'positive', 'negative'] as const).map((f) => (
+              <button
+                key={f}
+                className={`${s.filterTab} ${reviewFilter === f ? s.filterTabActive : ''}`}
+                onClick={() => setReviewFilter(f)}
+              >
+                {f === 'all' && `All (${bookReviews.length})`}
+                {f === 'positive' && `👍 Positive (${bookReviews.filter((r: TReview) => r.sentiment === 'positive').length})`}
+                {f === 'negative' && `👎 Negative (${bookReviews.filter((r: TReview) => r.sentiment === 'negative').length})`}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Review list */}
         {bookReviews.length === 0 ? (
           <p className={s.noReviews}>No reviews yet. Be the first to share your thoughts!</p>
-        ) : (
+        ) : (() => {
+          const filtered = [...bookReviews]
+            .reverse()
+            .filter((r: TReview) => reviewFilter === 'all' || r.sentiment === reviewFilter);
+          return filtered.length === 0 ? (
+            <p className={s.noReviews}>No {reviewFilter} reviews yet.</p>
+          ) : (
           <div className={s.reviewList}>
-            {[...bookReviews].reverse().map((review: TReview) => (
+            {filtered.map((review: TReview) => (
               <div
                 key={review.id}
                 className={`${s.reviewCard} ${review.sentiment === 'positive' ? s.reviewPositive : s.reviewNegative}`}
@@ -347,10 +376,41 @@ export default function BookItem({book}: BookItemProps) {
                   </div>
                 </div>
                 <p className={s.reviewText}>{review.text}</p>
+                <div className={s.reviewFooter}>
+                  <div className={s.voteButtons}>
+                    <button
+                      className={`${s.voteBtn} ${voterId && (review.upvotes ?? []).includes(voterId) ? s.voteBtnUpActive : ''}`}
+                      onClick={() => {
+                        if (!isAuthenticated) dispatch(setShowLogin(true));
+                        else if (voterId) dispatch(voteReview({reviewId: review.id, voterId, type: 'up'}));
+                      }}
+                      aria-label="Upvote review"
+                    >
+                      👍
+                      {(review.upvotes ?? []).length > 0 && (
+                        <span className={s.voteCount}>{(review.upvotes ?? []).length}</span>
+                      )}
+                    </button>
+                    <button
+                      className={`${s.voteBtn} ${voterId && (review.downvotes ?? []).includes(voterId) ? s.voteBtnDownActive : ''}`}
+                      onClick={() => {
+                        if (!isAuthenticated) dispatch(setShowLogin(true));
+                        else if (voterId) dispatch(voteReview({reviewId: review.id, voterId, type: 'down'}));
+                      }}
+                      aria-label="Downvote review"
+                    >
+                      👎
+                      {(review.downvotes ?? []).length > 0 && (
+                        <span className={s.voteCount}>{(review.downvotes ?? []).length}</span>
+                      )}
+                    </button>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
-        )}
+          );
+        })()}
       </div>
     </div>
   );

@@ -525,6 +525,51 @@
   }
 }
 
+.filterTabs {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.filterTab {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-600);
+  cursor: pointer;
+  transition: all var(--transition-base);
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.filterTabActive {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+
+  &:hover {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    color: var(--color-white);
+  }
+}
+
 .reviewGuestPrompt {
   padding: var(--space-4) var(--space-5);
   background-color: var(--color-gray-50);
@@ -669,6 +714,72 @@
   &:focus {
     outline: none;
   }
+}
+
+.reviewFooter {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.voteButtons {
+  display: inline-flex;
+  gap: var(--space-2);
+}
+
+.voteBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 4px var(--space-2);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  color: var(--color-gray-500);
+
+  &:hover {
+    border-color: var(--color-gray-400);
+    background-color: var(--color-gray-100);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.voteBtnUpActive {
+  border-color: #28a745;
+  background-color: #d4edda;
+
+  &:hover {
+    background-color: #c3e6cb;
+    border-color: #28a745;
+  }
+}
+
+.voteBtnDownActive {
+  border-color: #dc3545;
+  background-color: #f8d7da;
+
+  &:hover {
+    background-color: #f5c6cb;
+    border-color: #dc3545;
+  }
+}
+
+.voteCount {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-600);
+  line-height: 1;
 }
 
 .reviewText {

@@ -280,6 +280,8 @@ export type TReview = {
   sentiment: 'positive' | 'negative';
   author: string;
   createdAt: string;
+  upvotes: string[];
+  downvotes: string[];
 };
 
 export const reviewsSlice = createSlice({
@@ -294,11 +296,31 @@ export const reviewsSlice = createSlice({
       if (index !== -1) {
         state.splice(index, 1);
       }
+    },
+    voteReview: (
+      state: TReview[],
+      action: PayloadAction<{reviewId: string; voterId: string; type: 'up' | 'down'}>
+    ) => {
+      const review = state.find((r) => r.id === action.payload.reviewId);
+      if (!review) return;
+      if (!review.upvotes) review.upvotes = [];
+      if (!review.downvotes) review.downvotes = [];
+      const {voterId, type} = action.payload;
+      const opposite = type === 'up' ? review.downvotes : review.upvotes;
+      const current = type === 'up' ? review.upvotes : review.downvotes;
+      const oppositeIdx = opposite.indexOf(voterId);
+      if (oppositeIdx !== -1) opposite.splice(oppositeIdx, 1);
+      const idx = current.indexOf(voterId);
+      if (idx === -1) {
+        current.push(voterId);
+      } else {
+        current.splice(idx, 1);
+      }
     }
   }
 });
 
-export const {addReview, removeReview} = reviewsSlice.actions;
+export const {addReview, removeReview, voteReview} = reviewsSlice.actions;
 
 export type TCouponItem = {
   id: string;
