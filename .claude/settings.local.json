@@ -26,7 +26,8 @@
       "Bash(npx eslint:*)",
       "Bash(ls:*)",
       "Bash(npx prettier:*)",
-      "Bash(git *)"
+      "Bash(git *)",
+      "Bash(npx next *)"
     ],
     "deny": [
       "Bash(npx prisma migrate reset:*)",

@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { bookData } from "@/components/Book/Books";
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {bookData} from '@/components/Book/Books';
 
 export type TCartItem = {
   number: number;
@@ -35,21 +35,21 @@ type TUserCredentials = {
 };
 
 const userCredentialsInitialState = {
-  email: "",
-  name: "",
+  email: '',
+  name: '',
   isAuthenticated: false,
   token: null,
   showLogin: false,
   id: null,
-  bio: "",
+  bio: '',
   profilePicture: null,
-  phone: "",
+  phone: '',
   shippingAddress: null,
-  createdAt: null,
+  createdAt: null
 };
 
 export const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState: userCredentialsInitialState as TUserCredentials,
   reducers: {
     setEmail: (state: TUserCredentials, action: PayloadAction<string>) => {
@@ -60,13 +60,13 @@ export const userSlice = createSlice({
     },
     setAuthenticated: (
       state: TUserCredentials,
-      action: PayloadAction<boolean>,
+      action: PayloadAction<boolean>
     ) => {
       state.isAuthenticated = action.payload;
     },
     setToken: (
       state: TUserCredentials,
-      action: PayloadAction<string | null>,
+      action: PayloadAction<string | null>
     ) => {
       state.token = action.payload;
     },
@@ -75,13 +75,13 @@ export const userSlice = createSlice({
     },
     updateProfile: (
       state: TUserCredentials,
-      action: PayloadAction<Partial<TUserCredentials>>,
+      action: PayloadAction<Partial<TUserCredentials>>
     ) => {
       Object.assign(state, action.payload);
     },
     setProfilePicture: (
       state: TUserCredentials,
-      action: PayloadAction<string>,
+      action: PayloadAction<string>
     ) => {
       state.profilePicture = action.payload;
     },
@@ -89,52 +89,52 @@ export const userSlice = createSlice({
       state.bio = action.payload;
     },
     logout: (state: TUserCredentials) => {
-      state.email = "";
-      state.name = "";
+      state.email = '';
+      state.name = '';
       state.isAuthenticated = false;
       state.token = null;
       state.id = null;
-      state.bio = "";
+      state.bio = '';
       state.profilePicture = null;
-      state.phone = "";
+      state.phone = '';
       state.shippingAddress = null;
       state.createdAt = null;
-    },
-  },
+    }
+  }
 });
 
 export type TClicked = {
   id: string;
-  isClicked: "buy now" | "unavailable" | "in the cart";
+  isClicked: 'buy now' | 'unavailable' | 'in the cart';
 };
 
 export const bookSlice = createSlice({
-  name: "books",
+  name: 'books',
   initialState: [] as bookData[],
   reducers: {
     addBook: (state: bookData[], action: PayloadAction<bookData>) => {
       state.push(action.payload);
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(userSlice.actions.logout, () => []);
-  },
+  }
 });
 
 export const cartSlice = createSlice({
-  name: "cart",
+  name: 'cart',
   initialState: [] as TCartItem[],
   reducers: {
     addCartItem: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
       state.push({
         number: action.payload.number,
         id: action.payload.id,
-        book: action.payload.book,
+        book: action.payload.book
       });
     },
     removeCartItem: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
       const itemIndex = state.findIndex(
-        (item: TCartItem) => item.id === action.payload.id,
+        (item: TCartItem) => item.id === action.payload.id
       );
       if (itemIndex !== -1) {
         state.splice(itemIndex, 1);
@@ -142,7 +142,7 @@ export const cartSlice = createSlice({
     },
     increase: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
       const item = state.find(
-        (item: TCartItem) => item.id === action.payload.id,
+        (item: TCartItem) => item.id === action.payload.id
       );
       if (item) {
         item.number += 1;
@@ -150,7 +150,7 @@ export const cartSlice = createSlice({
     },
     decrease: (state: TCartItem[], action: PayloadAction<TCartItem>) => {
       const item = state.find(
-        (item: TCartItem) => item.id === action.payload.id,
+        (item: TCartItem) => item.id === action.payload.id
       );
       if (item) {
         item.number -= 1;
@@ -158,65 +158,65 @@ export const cartSlice = createSlice({
     },
     clearCart: () => {
       return [];
-    },
-  },
+    }
+  }
 });
 
 export const categorySlice = createSlice({
-  name: "category",
+  name: 'category',
   initialState: {} as TCategory,
   reducers: {
     changeCategory: (state: TCategory, action: PayloadAction<TCategory>) => {
       return {
         id: action.payload.id,
-        title: action.payload.title,
+        title: action.payload.title
       };
-    },
-  },
+    }
+  }
 });
 
 export const clickedItemSlice = createSlice({
-  name: "clickedItem",
+  name: 'clickedItem',
   initialState: [] as TClicked[],
   reducers: {
     isUnavailable: (state: TClicked[], action: PayloadAction<TClicked>) => {
       state.push({
         id: action.payload.id,
-        isClicked: action.payload.isClicked,
+        isClicked: action.payload.isClicked
       });
     },
     addedToCart: (state: TClicked[], action: PayloadAction<TClicked>) => {
       state.push({
         id: action.payload.id,
-        isClicked: action.payload.isClicked,
+        isClicked: action.payload.isClicked
       });
     },
     removedFromCart: (state: TClicked[], action: PayloadAction<TClicked>) => {
       state.push({
         id: action.payload.id,
-        isClicked: action.payload.isClicked,
+        isClicked: action.payload.isClicked
       });
 
       const itemIndex = state.findIndex(
         (chosenItem) =>
           chosenItem.id === action.payload.id &&
-          chosenItem.isClicked !== "buy now",
+          chosenItem.isClicked !== 'buy now'
       );
       if (itemIndex !== -1) {
         state.splice(itemIndex, 1);
       }
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(userSlice.actions.logout, () => []);
     builder.addCase(cartSlice.actions.clearCart, () => []);
-  },
+  }
 });
 
-export const { addBook } = bookSlice.actions;
-export const { addCartItem, removeCartItem, increase, decrease, clearCart } =
+export const {addBook} = bookSlice.actions;
+export const {addCartItem, removeCartItem, increase, decrease, clearCart} =
   cartSlice.actions;
-export const { changeCategory } = categorySlice.actions;
+export const {changeCategory} = categorySlice.actions;
 export const {
   setEmail,
   setName,
@@ -226,9 +226,9 @@ export const {
   updateProfile,
   setProfilePicture,
   setBio,
-  logout,
+  logout
 } = userSlice.actions;
-export const { isUnavailable, addedToCart, removedFromCart } =
+export const {isUnavailable, addedToCart, removedFromCart} =
   clickedItemSlice.actions;
 
 export type TWatchlistItem = {
@@ -237,12 +237,12 @@ export type TWatchlistItem = {
 };
 
 export const watchlistSlice = createSlice({
-  name: "watchlist",
+  name: 'watchlist',
   initialState: [] as TWatchlistItem[],
   reducers: {
     addWatchlistItem: (
       state: TWatchlistItem[],
-      action: PayloadAction<TWatchlistItem>,
+      action: PayloadAction<TWatchlistItem>
     ) => {
       const exists = state.find((item) => item.id === action.payload.id);
       if (!exists) {
@@ -251,7 +251,7 @@ export const watchlistSlice = createSlice({
     },
     removeWatchlistItem: (
       state: TWatchlistItem[],
-      action: PayloadAction<string>,
+      action: PayloadAction<string>
     ) => {
       const index = state.findIndex((item) => item.id === action.payload);
       if (index !== -1) {
@@ -260,17 +260,17 @@ export const watchlistSlice = createSlice({
     },
     setWatchlist: (
       _state: TWatchlistItem[],
-      action: PayloadAction<TWatchlistItem[]>,
+      action: PayloadAction<TWatchlistItem[]>
     ) => {
       return action.payload;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(userSlice.actions.logout, () => []);
-  },
+  }
 });
 
-export const { addWatchlistItem, removeWatchlistItem, setWatchlist } =
+export const {addWatchlistItem, removeWatchlistItem, setWatchlist} =
   watchlistSlice.actions;
 
 export type TReview = {
@@ -279,20 +279,20 @@ export type TReview = {
   authorId: string;
   author: string;
   text: string;
-  sentiment: "positive" | "negative" | "neutral";
+  sentiment: 'positive' | 'negative' | 'neutral';
   createdAt: string;
   upvotes: number;
   downvotes: number;
-  userVote: "up" | "down" | null;
+  userVote: 'up' | 'down' | null;
 };
 
 export const reviewsSlice = createSlice({
-  name: "reviews",
+  name: 'reviews',
   initialState: [] as TReview[],
   reducers: {
     setBookReviews: (
       state: TReview[],
-      action: PayloadAction<{ bookId: string; reviews: TReview[] }>,
+      action: PayloadAction<{bookId: string; reviews: TReview[]}>
     ) => {
       const filtered = state.filter((r) => r.bookId !== action.payload.bookId);
       return [...filtered, ...action.payload.reviews];
@@ -312,19 +312,19 @@ export const reviewsSlice = createSlice({
         reviewId: string;
         upvotes: number;
         downvotes: number;
-        userVote: "up" | "down" | null;
-      }>,
+        userVote: 'up' | 'down' | null;
+      }>
     ) => {
       const review = state.find((r) => r.id === action.payload.reviewId);
       if (!review) return;
       review.upvotes = action.payload.upvotes;
       review.downvotes = action.payload.downvotes;
       review.userVote = action.payload.userVote;
-    },
-  },
+    }
+  }
 });
 
-export const { setBookReviews, addReview, removeReview, updateReviewVote } =
+export const {setBookReviews, addReview, removeReview, updateReviewVote} =
   reviewsSlice.actions;
 
 export type TCouponItem = {
@@ -335,7 +335,7 @@ export type TCouponItem = {
 };
 
 export const couponSlice = createSlice({
-  name: "coupons",
+  name: 'coupons',
   initialState: [] as TCouponItem[],
   reducers: {
     addCoupon: (state: TCouponItem[], action: PayloadAction<TCouponItem>) => {
@@ -343,7 +343,7 @@ export const couponSlice = createSlice({
       if (existing) {
         existing.quantity += 1;
       } else {
-        state.push({ ...action.payload, quantity: 1 });
+        state.push({...action.payload, quantity: 1});
       }
     },
     removeCoupon: (state: TCouponItem[], action: PayloadAction<string>) => {
@@ -371,12 +371,12 @@ export const couponSlice = createSlice({
     },
     clearCoupons: () => {
       return [];
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(userSlice.actions.logout, () => []);
     builder.addCase(cartSlice.actions.clearCart, () => []);
-  },
+  }
 });
 
 export const {
@@ -384,5 +384,5 @@ export const {
   removeCoupon,
   increaseCoupon,
   decreaseCoupon,
-  clearCoupons,
+  clearCoupons
 } = couponSlice.actions;
