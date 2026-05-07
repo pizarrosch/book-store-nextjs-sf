@@ -75,12 +75,10 @@ export default async function handler(
     };
 
     if (!bookId || !text?.trim() || !sentiment) {
-      return res
-        .status(400)
-        .json({
-          error: true,
-          message: 'bookId, text and sentiment are required'
-        });
+      return res.status(400).json({
+        error: true,
+        message: 'bookId, text and sentiment are required'
+      });
     }
 
     if (!['positive', 'negative', 'neutral'].includes(sentiment)) {
