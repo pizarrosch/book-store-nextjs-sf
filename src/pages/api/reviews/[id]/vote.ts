@@ -19,7 +19,9 @@ export default async function handler(
   const userId = req.user!.id;
 
   if (!['up', 'down'].includes(type)) {
-    return res.status(400).json({error: true, message: 'type must be "up" or "down"'});
+    return res
+      .status(400)
+      .json({error: true, message: 'type must be "up" or "down"'});
   }
 
   const review = await prisma.review.findUnique({where: {id: reviewId}});
@@ -33,7 +35,9 @@ export default async function handler(
 
   if (existing?.type === type) {
     // Same vote — remove it (toggle off)
-    await prisma.reviewVote.delete({where: {reviewId_userId: {reviewId, userId}}});
+    await prisma.reviewVote.delete({
+      where: {reviewId_userId: {reviewId, userId}}
+    });
   } else {
     // New vote or switching direction — upsert
     await prisma.reviewVote.upsert({
@@ -45,8 +49,10 @@ export default async function handler(
 
   const votes = await prisma.reviewVote.findMany({where: {reviewId}});
   const userVote =
-    (votes.find((v) => v.userId === userId)?.type as 'up' | 'down' | undefined) ??
-    null;
+    (votes.find((v) => v.userId === userId)?.type as
+      | 'up'
+      | 'down'
+      | undefined) ?? null;
 
   return res.status(200).json({
     upvotes: votes.filter((v) => v.type === 'up').length,

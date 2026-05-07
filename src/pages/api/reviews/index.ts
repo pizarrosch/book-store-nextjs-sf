@@ -18,10 +18,10 @@ function formatReview(
   const upvotes = review.votes.filter((v) => v.type === 'up').length;
   const downvotes = review.votes.filter((v) => v.type === 'down').length;
   const userVote = requestUserId
-    ? (review.votes.find((v) => v.userId === requestUserId)?.type as
+    ? ((review.votes.find((v) => v.userId === requestUserId)?.type as
         | 'up'
         | 'down'
-        | undefined) ?? null
+        | undefined) ?? null)
     : null;
 
   return {
@@ -75,7 +75,12 @@ export default async function handler(
     };
 
     if (!bookId || !text?.trim() || !sentiment) {
-      return res.status(400).json({error: true, message: 'bookId, text and sentiment are required'});
+      return res
+        .status(400)
+        .json({
+          error: true,
+          message: 'bookId, text and sentiment are required'
+        });
     }
 
     if (!['positive', 'negative', 'neutral'].includes(sentiment)) {
@@ -89,7 +94,9 @@ export default async function handler(
       where: {userId_bookId: {userId, bookId}}
     });
     if (existing) {
-      return res.status(409).json({error: true, message: 'You have already reviewed this book'});
+      return res
+        .status(409)
+        .json({error: true, message: 'You have already reviewed this book'});
     }
 
     const review = await prisma.review.create({
