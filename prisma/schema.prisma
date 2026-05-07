@@ -31,6 +31,37 @@ model User {
   updatedAt       DateTime        @updatedAt
   watchlist       WatchlistItem[]
   orders          Order[]
+  reviews         Review[]
+  reviewVotes     ReviewVote[]
+}
+
+model Review {
+  id        String       @id @default(cuid())
+  bookId    String
+  userId    String
+  author    String
+  text      String       @db.Text
+  sentiment String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  votes     ReviewVote[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@unique([userId, bookId])
+  @@index([bookId])
+}
+
+model ReviewVote {
+  id        String   @id @default(cuid())
+  reviewId  String
+  userId    String
+  type      String
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([reviewId, userId])
+  @@index([reviewId])
 }
 
 model Book {

@@ -43,7 +43,8 @@ const reducer = combineReducers({
 const persistConfig = {
   key: 'root',
   version: 1,
-  storage
+  storage,
+  blacklist: ['reviews']
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
